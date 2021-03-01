@@ -3,7 +3,7 @@ import random
 
 def board(dim):
 
-    gameboard = np.zeros(shape=(dim,dim))
+    gameboard = np.zeros(shape=(dim,dim), dtype=object)
 
     return gameboard
 
@@ -17,8 +17,8 @@ def minePlacer(n, board):
         tupleY = random.randint(0, boardLen-1)
 
         if (board[tupleX,tupleY] == 0):
-            # 9 represents a mine 
-            board[tupleX,tupleY] = 9
+            # M represents a mine 
+            board[tupleX,tupleY] = 'M'
         else:
 
             while(board[tupleX,tupleY] != 0):
@@ -27,7 +27,7 @@ def minePlacer(n, board):
                 tupleY = random.randint(0, boardLen-1)
 
                 if (board[tupleX,tupleY] == 0):
-                    # 9 represents a mine 
-                    board[tupleX,tupleY] = 9
+                    # M represents a mine 
+                    board[tupleX,tupleY] = 'M'
 
     return board

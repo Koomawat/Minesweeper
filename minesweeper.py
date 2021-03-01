@@ -2,6 +2,7 @@ from createboard import *
 import numpy as np
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
+from termcolor import colored
 
 def main():
 
@@ -17,15 +18,25 @@ def main():
 
     minesweeper = minePlacer(mines, minesweeper)
 
-    plt.imshow(minesweeper)
+    #plt.imshow(minesweeper)
     #plt.pcolor(minesweeper, edgecolors ='k', linewidths=1)
     #plt.xticks(np.arange(0.5, len(minesweeper), 1), color = 'white')
     #plt.yticks(np.arange(0.5, len(minesweeper), 1), color = 'white')
     #plt.grid(linestyle='-', linewidth='1', color ='white')
-    plt.show()
+    #plt.show()
 
     #print()
-    #print(minesweeper)
+    for i in range(len(minesweeper)):
+        row = ""
+        for j in range(len(minesweeper)):
+            current = str(minesweeper[i,j])
+            if (current) == 'M':
+                row += "  " + colored((current),'red')
+            else:
+                row += "  " + current
+        print(row)
+
+
 
 if __name__ == "__main__":
     main()
