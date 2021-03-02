@@ -2,40 +2,49 @@ from createboard import *
 import numpy as np
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
-from termcolor import colored
+from more_termcolor.colors import brightred, brightgreen, brightyellow, brightblue, brightmagenta, brightcyan
 
 def main():
 
     boardDimension = int(input("Enter the dimension of the board: "))
 
-    #mines = int(input("Enter the number of mines: "))
+    if boardDimension <= 5:
+        print("Board too small")
+        exit()
 
     minesweeper = board(boardDimension)
-    #minesweeper[0,5] = 1
-   
 
     mines = int(input("Enter the number of mines: "))
 
     minesweeper = minePlacer(mines, minesweeper)
 
-    #plt.imshow(minesweeper)
-    #plt.pcolor(minesweeper, edgecolors ='k', linewidths=1)
-    #plt.xticks(np.arange(0.5, len(minesweeper), 1), color = 'white')
-    #plt.yticks(np.arange(0.5, len(minesweeper), 1), color = 'white')
-    #plt.grid(linestyle='-', linewidth='1', color ='white')
-    #plt.show()
+    minesweeper = hintsCalculator(minesweeper)
 
-    #print()
     for i in range(len(minesweeper)):
         row = ""
         for j in range(len(minesweeper)):
             current = str(minesweeper[i,j])
             if (current) == 'M':
-                row += "  " + colored((current),'red')
+                row += brightred(current) + "  "
+            elif (current) == '1':
+                row += brightblue(current) + "  "
+            elif (current) == '2':
+                row += brightgreen(current) + "  "
+            elif (current) == '3':
+                row += brightcyan(current) + "  "
+            elif (current) == '4':
+                row += brightmagenta(current) + "  "
+            elif (current) == '5':
+                row += brightyellow(current) + "  "
+            elif (current) == '6':
+                row += brightyellow(current) + "  "
+            elif (current) == '7':
+                row += brightyellow(current) + "  "
+            elif (current) == '8':
+                row += brightyellow(current) + "  "
             else:
-                row += "  " + current
+                row += current + "  "
         print(row)
-
 
 
 if __name__ == "__main__":
