@@ -201,16 +201,18 @@ def board(dim):
 
 def minePlacer(n, board):
 
-    boardLen = len(board)
+    boardCopy = board
+
+    boardLen = len(boardCopy)
 
     for i in range(n):
         
         tupleX = random.randint(0, boardLen-1)
         tupleY = random.randint(0, boardLen-1)
 
-        if (board[tupleX,tupleY] == 0):
+        if (boardCopy[tupleX,tupleY] == 0):
             # M represents a mine 
-            board[tupleX,tupleY] = 'M'
+            boardCopy[tupleX,tupleY] = 'M'
         else:
 
             placed = False
@@ -220,14 +222,16 @@ def minePlacer(n, board):
                 tupleX = random.randint(0, boardLen-1)
                 tupleY = random.randint(0, boardLen-1)
 
-                if (board[tupleX,tupleY] == 0):
+                if (boardCopy[tupleX,tupleY] == 0):
                     # M represents a mine 
-                    board[tupleX,tupleY] = 'M'
+                    boardCopy[tupleX,tupleY] = 'M'
                     placed = True
 
-    return board
+    return boardCopy
 
 def hintsCalculator(board):
+
+    boardCopy = board
 
     boardLen = len(board)
 
@@ -235,48 +239,48 @@ def hintsCalculator(board):
 
         for j in range(boardLen):
             
-            if(board[i,j] == 0):
+            if(boardCopy[i,j] == 0):
 
                 tempHint = 0
 
                 if i == 0 and j == 0:
 
-                    tempHint = topLeft(i,j, board)
+                    tempHint = topLeft(i,j, boardCopy)
 
                 elif i == boardLen-1 and j == 0:
 
-                    tempHint = botLeft(i,j, board)
+                    tempHint = botLeft(i,j, boardCopy)
 
                 elif i == 0 and j == boardLen-1:
 
-                    tempHint = topRight(i,j, board)
+                    tempHint = topRight(i,j, boardCopy)
 
                 elif i == boardLen-1 and j == boardLen-1:
 
-                    tempHint = botRight(i,j, board)
+                    tempHint = botRight(i,j, boardCopy)
 
                 elif i == 0 and j != 0 and j != boardLen-1:
 
-                    tempHint = topEdge(i,j, board)
+                    tempHint = topEdge(i,j, boardCopy)
 
                 elif i != 0 and i != boardLen-1 and j == 0:
 
-                    tempHint = leftEdge(i,j, board)
+                    tempHint = leftEdge(i,j, boardCopy)
 
                 elif i != 0 and i != boardLen-1 and j == boardLen-1:
 
-                    tempHint = rightEdge(i,j, board)
+                    tempHint = rightEdge(i,j, boardCopy)
 
                 elif i == boardLen-1 and j != 0 and j != boardLen-1:
 
-                    tempHint = botEdge(i,j, board)
+                    tempHint = botEdge(i,j, boardCopy)
 
                 else:   
-                    tempHint = middle(i,j, board)
+                    tempHint = middle(i,j, boardCopy)
 
 
-                board[i,j] = tempHint
+                boardCopy[i,j] = tempHint
                 
 
 
-    return board
+    return boardCopy

@@ -1,29 +1,13 @@
 from createboard import *
-import numpy as np
-import matplotlib.cm as cm
-import matplotlib.pyplot as plt
+from agent import *
 from more_termcolor.colors import brightred, brightgreen, brightyellow, brightblue, brightmagenta, brightcyan
 
-def main():
+def printBoard(board):
 
-    boardDimension = int(input("Enter the dimension of the board: "))
-
-    if boardDimension <= 5:
-        print("Board too small")
-        exit()
-
-    minesweeper = board(boardDimension)
-
-    mines = int(input("Enter the number of mines: "))
-
-    minesweeper = minePlacer(mines, minesweeper)
-
-    minesweeper = hintsCalculator(minesweeper)
-
-    for i in range(len(minesweeper)):
+    for i in range(len(board)):
         row = ""
-        for j in range(len(minesweeper)):
-            current = str(minesweeper[i,j])
+        for j in range(len(board)):
+            current = str(board[i,j])
             if (current) == 'M':
                 row += brightred(current) + "  "
             elif (current) == '1':
@@ -46,6 +30,32 @@ def main():
                 row += current + "  "
         print(row)
 
+    return 
+
+
+def main():
+
+    boardDimension = int(input("Enter the dimension of the board: "))
+
+    if boardDimension <= 5:
+        print("Board too small")
+        exit()
+
+    initial = board(boardDimension)
+
+    mines = int(input("Enter the number of mines: "))
+
+    minesweeper = minePlacer(mines, initial)
+
+    minesweeperHints = hintsCalculator(minesweeper)
+
+    printBoard(minesweeperHints)
+
+    result = search(minesweeperHints, boardDimension)
+
+    print()
+
+    printBoard(result)
 
 if __name__ == "__main__":
     main()
