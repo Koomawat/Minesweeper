@@ -1,6 +1,8 @@
 import numpy as np
 import random
 
+# The following functions help determine the amount of bombs surrounding the selected cell based on where it is on the board
+
 def topLeft(i,j, board):
 
     tempHint = 0
@@ -192,13 +194,14 @@ def middle(i,j, board):
 
     return tempHint
 
-
+# Create the board with its specified parameters
 def board(dim):
 
     gameboard = np.zeros(shape=(dim,dim), dtype=object)
 
     return gameboard
 
+# Place the mines randomly throughout the board
 def minePlacer(n, board):
 
     boardCopy = board
@@ -229,6 +232,7 @@ def minePlacer(n, board):
 
     return boardCopy
 
+# Calculate the hints for all the cells of the board
 def hintsCalculator(board):
 
     boardCopy = board

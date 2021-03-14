@@ -2,6 +2,7 @@ from createboard import *
 from agent import *
 from more_termcolor.colors import brightred, brightgreen, brightyellow, brightblue, brightmagenta, brightcyan
 
+# Print out the board with the specified colors
 def printBoard(board):
 
     for i in range(len(board)):
