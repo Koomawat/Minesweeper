@@ -1,5 +1,8 @@
 from createboard import *
 
+from mineRevealer import *
+
+
 def safeCheck(boardLen, board):
 
     moreSafe = False
@@ -428,6 +431,7 @@ def middle(i,j, board, minesweeper, boardLen, visitedSet):
 
     return board, moreSafe
 
+
 def exposeSafe(i,j, result, minesweeper, dim, visitedSet):
 
     boardCopy = result
@@ -460,7 +464,7 @@ def exposeSafe(i,j, result, minesweeper, dim, visitedSet):
 
     elif i != 0 and i != boardLen-1 and j == 0:
 
-        boarboardCopy, moreSafedCopy = leftEdge(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = leftEdge(i,j, boardCopy, minesweeper, boardLen, visitedSet)
 
     elif i != 0 and i != boardLen-1 and j == boardLen-1:
 
@@ -520,6 +524,6 @@ def search(minesweeper, dim):
                         #print((i, j))
                         result, moreSafe = exposeSafe(i,j, result, minesweeper, dim, visitedSet)
                         
-
+                        result = mineSweep(result, dim)
 
     return result
