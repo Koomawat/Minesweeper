@@ -2,7 +2,6 @@ from createboard import *
 from agent import *
 from more_termcolor.colors import brightred, brightgreen, brightyellow, brightblue, brightmagenta, brightcyan
 
-# Print out the board with the specified colors
 def printBoard(board):
 
     for i in range(len(board)):
@@ -52,11 +51,19 @@ def main():
 
     printBoard(minesweeperHints)
 
-    result = search(minesweeperHints, boardDimension)
+    result, mineHits = search(minesweeperHints, boardDimension)
 
     print()
 
     printBoard(result)
+
+    print()
+
+    #M,m = mineScan(result, boardDimension)
+
+    percent = (mines-mineHits) / mines
+
+    print("Found", percent, "percent of mines without hitting a mine")
 
 if __name__ == "__main__":
     main()

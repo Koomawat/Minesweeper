@@ -1,6 +1,35 @@
 from createboard import *
-
 from mineRevealer import *
+from safeHiddenRevealer import *
+import random
+
+def hiddenScan(board, dim):
+
+    hidden = False
+
+    hiddenList = []
+
+    for i in range(dim):
+        for j in range(dim):
+            if board[i,j] == '-':
+                hiddenList.append((i,j))
+                hidden = True
+
+    return hidden, hiddenList
+
+def mineScan(board, dim):
+
+    bigM = 0
+    smallM = 0
+
+    for i in range(dim):
+        for j in range(dim):
+            if board[i,j] == 'M':
+                bigM += 1
+            if board[i,j] == 'm':
+                smallM += 1
+
+    return bigM, smallM
 
 
 def safeCheck(boardLen, board):
@@ -480,7 +509,6 @@ def exposeSafe(i,j, result, minesweeper, dim, visitedSet):
     return boardCopy, moreSafe
 
 
-
 def search(minesweeper, dim):
 
     result = board(dim)
@@ -490,40 +518,59 @@ def search(minesweeper, dim):
             result[i,j] = '-'
 
 
-    hiddenCells = dim * dim
+    hiddenCells = True
 
     x = random.randint(0,dim-1)
     y = random.randint(0,dim-1)
 
+    mineHits = 0
+
     #print(x, y)
 
-    #while (hiddenCells != 0):
+    while (hiddenCells is True):
 
-    hint = minesweeper[x,y]
+        hint = minesweeper[x,y]
 
-    result[x,y] = minesweeper[x,y]
+        result[x,y] = minesweeper[x,y]
 
-    if hint == 0:
+        if result[x,y] == 'M':
+            mineHits += 1
 
-        safe = True
+        if hint == 0:
 
-        surroundingMines = hint
+            moreSafe = True
 
-        moreSafe = True
+            visitedSet = set()
 
-        visitedSet = set()
-
-        #result, moreSafe = exposeSafe(x,y, result, minesweeper, dim, visitedSet)
-
-        while(moreSafe == True):
+            while(moreSafe == True):
+                
+                for i in range(dim):
+                    for j in range(dim):
+                        if result[i,j] == 0 and ((i,j) not in visitedSet):
+                            visitedSet.add((i,j))
+                            #print((i, j))
+                            result, moreSafe = exposeSafe(i,j, result, minesweeper, dim, visitedSet)
+                            
+            result = mineSweep(result, dim)
             
-            for i in range(dim):
-                for j in range(dim):
-                    if result[i,j] == 0 and ((i,j) not in visitedSet):
-                        visitedSet.add((i,j))
-                        #print((i, j))
-                        result, moreSafe = exposeSafe(i,j, result, minesweeper, dim, visitedSet)
-                        
-                        result = mineSweep(result, dim)
+            result = safeSweep(result, minesweeper, dim)
 
-    return result
+        elif hint == 1 or hint == 2 or hint == 3 or hint == 4 or hint == 5 or hint == 6 or hint == 7 or hint == 8:
+
+            result = mineSweep(result, dim)
+
+            result = safeSweep(result, minesweeper, dim)
+
+
+
+        hiddenCells, hidden = hiddenScan(result, dim)
+
+
+        if hiddenCells == True:
+
+            randomCell = random.choice(hidden)
+
+            x = randomCell[0]
+            y = randomCell[1]
+
+    return result, mineHits
