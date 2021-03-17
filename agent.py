@@ -2,6 +2,37 @@ from createboard import *
 from mineRevealer import *
 from safeHiddenRevealer import *
 import random
+from more_termcolor.colors import brightred, brightgreen, brightyellow, brightblue, brightmagenta, brightcyan
+
+def printBoard(board):
+
+    for i in range(len(board)):
+        row = ""
+        for j in range(len(board)):
+            current = str(board[i,j])
+            if (current) == 'M':
+                row += brightred(current) + "  "
+            elif (current) == '1':
+                row += brightblue(current) + "  "
+            elif (current) == '2':
+                row += brightgreen(current) + "  "
+            elif (current) == '3':
+                row += brightcyan(current) + "  "
+            elif (current) == '4':
+                row += brightmagenta(current) + "  "
+            elif (current) == '5':
+                row += brightyellow(current) + "  "
+            elif (current) == '6':
+                row += brightyellow(current) + "  "
+            elif (current) == '7':
+                row += brightyellow(current) + "  "
+            elif (current) == '8':
+                row += brightyellow(current) + "  "
+            else:
+                row += current + "  "
+        print(row)
+
+    return 
 
 def hiddenScan(board, dim):
 
@@ -527,6 +558,8 @@ def search(minesweeper, dim):
 
     #print(x, y)
 
+    visitedSet = set()
+
     while (hiddenCells is True):
 
         hint = minesweeper[x,y]
@@ -540,7 +573,7 @@ def search(minesweeper, dim):
 
             moreSafe = True
 
-            visitedSet = set()
+            
 
             while(moreSafe == True):
                 
@@ -572,5 +605,8 @@ def search(minesweeper, dim):
 
             x = randomCell[0]
             y = randomCell[1]
+
+        print()
+        printBoard(result)
 
     return result, mineHits
