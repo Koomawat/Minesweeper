@@ -212,157 +212,155 @@ def safeCheck(boardLen, board):
 
     return moreSafe
 
+
 def constraintsCheck(boardLen, board):
 
     constraints = {(i,j) :
     [] for i in range(boardLen)
             for j in range(boardLen)
-                if not board[i,j] == '-' or board[i,j] == '0'}
+                if (board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8))}
 
-    moreSafe = False
+    for i,j in constraints.keys():
+        
+        if i == 0 and j == 0:
 
-    for i in range(boardLen):
-        for j in range(boardLen):
-
-            if i == 0 and j == 0:
-
-                if board[i+1,j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i+1,j+1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i+1,j+1))
                     
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i+1,j] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i+1,j))
 
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i, j+1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i,j+1))
 
-            elif i == boardLen-1 and j == 0:
+        elif i == boardLen-1 and j == 0:
 
-                if board[i-1,j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i-1,j+1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i-1,j+1))
 
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i-1,j] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i-1,j))
 
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i, j+1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+               constraints[(i,j)].append((i,j+1))
 
-            elif i == 0 and j == boardLen-1:
+        elif i == 0 and j == boardLen-1:
 
-                if board[i+1,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i+1,j-1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i+1,j-1))
 
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i+1,j] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i+1,j))
 
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i,j-1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i,j-1))
 
-            elif i == boardLen-1 and j == boardLen-1:
+        elif i == boardLen-1 and j == boardLen-1:
 
-                if board[i-1,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i-1,j-1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i-1,j-1))
 
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i-1,j] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i-1,j))
 
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i,j-1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i,j-1))
 
-            elif i == 0 and j != 0 and j != boardLen-1:
+        elif i == 0 and j != 0 and j != boardLen-1:
 
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i,j-1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i,j-1))
 
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i, j+1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i,j+1))
 
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i+1,j] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i+1,j))
 
-                if board[i+1,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i+1,j-1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i+1,j-1))
 
-                if board[i+1,j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i+1,j+1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i+1,j+1))
 
-            elif i != 0 and i != boardLen-1 and j == 0:
+        elif i != 0 and i != boardLen-1 and j == 0:
 
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i, j+1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i,j+1))
 
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i+1,j] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i+1,j))
 
-                if board[i+1,j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i+1,j+1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i+1,j+1))
 
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i-1,j] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i-1,j))
 
-                if board[i-1,j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i-1,j+1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i-1,j+1))
 
-            elif i != 0 and i != boardLen-1 and j == boardLen-1:
+        elif i != 0 and i != boardLen-1 and j == boardLen-1:
 
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i,j-1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i,j-1))
 
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i+1,j] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i+1,j))
 
-                if board[i+1,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i+1,j-1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i+1,j-1))
 
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i-1,j] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i-1,j))
 
-                if board[i-1,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i-1,j-1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i-1,j-1))
 
-            elif i == boardLen-1 and j != 0 and j != boardLen-1:
+        elif i == boardLen-1 and j != 0 and j != boardLen-1:
 
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i-1,j] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i-1,j))
 
-                if board[i-1,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i-1,j-1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i-1,j-1))
 
-                if board[i-1,j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i-1,j+1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i-1,j+1))
 
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i,j-1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i,j-1))
 
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i, j+1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i,j+1))
 
-            else:   
+        else:   
                 
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i-1,j] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i-1,j))
 
-                if board[i-1,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i-1,j-1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i-1,j-1))
 
-                if board[i-1,j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i-1,j+1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i-1,j+1))
 
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i+1,j] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i+1,j))
 
-                if board[i+1,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i+1,j-1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i+1,j-1))
 
-                if board[i+1,j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i+1,j+1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i+1,j+1))
 
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+            if board[i,j-1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i,j-1))
 
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-    return moreSafe
+            if board[i, j+1] == '-' and board[i,j] == (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8):
+                constraints[(i,j)].append((i,j+1))
+    
+    return constraints
 
 
 
@@ -743,11 +741,11 @@ def searchh(minesweeper, dim):
                             #print((i, j))
                             result, moreSafe = exposeSafe(i,j, result, minesweeper, dim, visitedSet)
                             
-        for i in range(dim):
-            for j in range(dim):
+        
+        consDict = constraintsCheck(dim, result)
 
-                return
-
+        print(consDict)
+        print()
 
         #hiddenCells, hidden = hiddenScan(result, dim)
 
