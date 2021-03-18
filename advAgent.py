@@ -4,7 +4,7 @@ from safeHiddenRevealer import *
 import random
 from more_termcolor.colors import brightred, brightgreen, brightyellow, brightblue, brightmagenta, brightcyan
 
-def printBoardd(board):
+def printAdvBoard(board):
 
     for i in range(len(board)):
         row = ""
@@ -693,7 +693,7 @@ def exposeSafe(i,j, result, minesweeper, dim, visitedSet):
     return boardCopy, moreSafe
 
 
-def searchh(minesweeper, dim):
+def advSearch(minesweeper, dim):
 
     result = board(dim)
 
@@ -759,6 +759,6 @@ def searchh(minesweeper, dim):
 
 
         
-        printBoardd(result)
+        printAdvBoard(result)
 
     return result, mineHits
