@@ -84,7 +84,7 @@ def topLeft(i,j, board, answers, hint):
     if board[i, j+1] != 'M' and board[i, j+1] != '-':
         safeCount += 1
 
-    if ((8 - hint) - safeCount) == hiddenCount:
+    if ((3 - hint) - safeCount) == hiddenCount:
         
         hiddenTuplesLen = len(hiddenTuples)
 
@@ -129,7 +129,7 @@ def topRight(i,j, board, answers, hint):
     if board[i,j-1] != 'M' and board[i,j-1] != '-':
         safeCount += 1
 
-    if ((8 - hint) - safeCount) == hiddenCount:
+    if ((3 - hint) - safeCount) == hiddenCount:
         
         hiddenTuplesLen = len(hiddenTuples)
 
@@ -174,7 +174,7 @@ def botLeft(i,j, board, answers, hint):
     if board[i, j+1] != 'M' and board[i, j+1] != '-':
         safeCount += 1
 
-    if ((8 - hint) - safeCount) == hiddenCount:
+    if ((3 - hint) - safeCount) == hiddenCount:
         
         hiddenTuplesLen = len(hiddenTuples)
 
@@ -219,7 +219,7 @@ def botRight(i,j, board, answers, hint):
     if board[i,j-1] != 'M' and board[i,j-1] != '-':
         safeCount += 1
 
-    if ((8 - hint) - safeCount) == hiddenCount:
+    if ((3 - hint) - safeCount) == hiddenCount:
         
         hiddenTuplesLen = len(hiddenTuples)
 
@@ -282,7 +282,7 @@ def topEdge(i,j, board, answers, hint):
     if board[i+1,j+1] != 'M' and board[i+1,j+1] != '-':
         safeCount += 1
 
-    if ((8 - hint) - safeCount) == hiddenCount:
+    if ((5 - hint) - safeCount) == hiddenCount:
         
         hiddenTuplesLen = len(hiddenTuples)
 
@@ -345,7 +345,7 @@ def leftEdge(i,j, board, answers, hint):
     if board[i-1,j+1] != 'M' and board[i-1,j+1] != '-':
         safeCount += 1
 
-    if ((8 - hint) - safeCount) == hiddenCount:
+    if ((5 - hint) - safeCount) == hiddenCount:
         
         hiddenTuplesLen = len(hiddenTuples)
 
@@ -408,7 +408,7 @@ def rightEdge(i,j, board, answers, hint):
     if board[i-1,j-1] != 'M' and board[i-1,j-1] != '-':
         safeCount += 1
 
-    if ((8 - hint) - safeCount) == hiddenCount:
+    if ((5 - hint) - safeCount) == hiddenCount:
         
         hiddenTuplesLen = len(hiddenTuples)
 
@@ -471,7 +471,7 @@ def botEdge(i,j, board, answers, hint):
     if board[i, j+1] != 'M' and board[i, j+1] != '-':
         safeCount += 1
 
-    if ((8 - hint) - safeCount) == hiddenCount:
+    if ((5 - hint) - safeCount) == hiddenCount:
         
         hiddenTuplesLen = len(hiddenTuples)
 
