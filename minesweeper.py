@@ -30,6 +30,7 @@ def main():
     #M,m = mineScan(result, boardDimension)
 
     percent = (mines-mineHits) / mines
+    percent *= 100
 
     print("Found", percent, "percent of mines without hitting a mine")
 

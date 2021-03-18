@@ -588,9 +588,7 @@ def search(minesweeper, dim):
                             #print((i, j))
                             result, moreSafe = exposeSafe(i,j, result, minesweeper, dim, visitedSet)
 
-            printBoard(result)
-
-            print()
+            
 
 
         for i in range(dim):
@@ -612,7 +610,9 @@ def search(minesweeper, dim):
 
                                     #print((i, j))
                                     result, moreSafe = exposeSafe(i,j, result, minesweeper, dim, visitedSet)
- 
+
+                
+            
         
         hiddenCells, hidden = hiddenScan(result, dim)
 
