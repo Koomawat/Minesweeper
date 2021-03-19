@@ -88,14 +88,15 @@ def safeCheck(boardLen, board):
         for j in range(boardLen):
             a, b = i, j # reset to next iteration of i, j
             for x, y in surroundingCoords:
+                if (abs(x)==1 and abs(y)==1):
+                    continue
+
                 a += x
                 b += y
 
-                if (a >= 0) and (a < boardLen) and (b >= 0) and (b < boardLen) and (str(board[a,b]) == '-') and (board[i,j] == 0):
-                    if x==0 or y==0 or (abs(x)==1 and abs(y)==1):
-                        continue
-                    else:
-                        moreSafe = True
+                if (0 <= a < boardLen) and (0 <= b < boardLen) and (str(board[a,b]) == '-') and (str(board[i,j]) == '0'):
+                    moreSafe = True
+                    break
 
     return moreSafe
 
@@ -386,39 +387,80 @@ def middle(i,j, board, minesweeper, boardLen):
 def exposeSafe(i,j, result, minesweeper, boardLen):
 
     boardCopy = result
+
     moreSafe = True
 
-    # Check if agent is at the top of the board
-    if i == 0:
-        if j == 0: # top left corner
-            boardCopy, moreSafe = topLeft(i,j, boardCopy, minesweeper, boardLen)
-        elif j == boardLen-1: # top right corner
-            boardCopy, moreSafe = topRight(i,j, boardCopy, minesweeper, boardLen)
-        elif j != 0 and j != boardLen-1: # top, but not in the corner
-            boardCopy, moreSafe = topEdge(i,j, boardCopy, minesweeper, boardLen)
+    if i == 0 and j == 0:
 
-    # Check if agent is at the bottom of the board
-    elif i == boardLen-1:
-        if j == 0: # bottom left corner
-            boardCopy, moreSafe = botLeft(i,j, boardCopy, minesweeper, boardLen)
-        elif j == boardLen-1: # bottom right corner
-            boardCopy, moreSafe = botRight(i,j, boardCopy, minesweeper, boardLen)
-        elif j != 0 and j != boardLen-1: # bottom, but not in the corner
-            boardCopy, moreSafe = botEdge(i,j, boardCopy, minesweeper, boardLen)
+        boardCopy, moreSafe = topLeft(i,j, boardCopy, minesweeper, boardLen)
 
-    # Check if agent is on left/right border of the board
-    elif i != 0 and i != boardLen-1: 
-        if j == 0: # at the left border
-            boardCopy, moreSafe = leftEdge(i,j, boardCopy, minesweeper, boardLen)
-        elif j == boardLen-1: # at the right border
-            boardCopy, moreSafe = rightEdge(i,j, boardCopy, minesweeper, boardLen)
+    elif i == boardLen-1 and j == 0:
 
+        boardCopy, moreSafe = botLeft(i,j, boardCopy, minesweeper, boardLen)
 
-    # The agent is not on the border
+    elif i == 0 and j == boardLen-1:
+
+        boardCopy, moreSafe = topRight(i,j, boardCopy, minesweeper, boardLen)
+
+    elif i == boardLen-1 and j == boardLen-1:
+
+        boardCopy, moreSafe = botRight(i,j, boardCopy, minesweeper, boardLen)
+
+    elif i == 0 and j != 0 and j != boardLen-1:
+
+        boardCopy, moreSafe = topEdge(i,j, boardCopy, minesweeper, boardLen)
+
+    elif i != 0 and i != boardLen-1 and j == 0:
+
+        boardCopy, moreSafe = leftEdge(i,j, boardCopy, minesweeper, boardLen)
+
+    elif i != 0 and i != boardLen-1 and j == boardLen-1:
+
+        boardCopy, moreSafe = rightEdge(i,j, boardCopy, minesweeper, boardLen)
+
+    elif i == boardLen-1 and j != 0 and j != boardLen-1:
+
+        boardCopy, moreSafe = botEdge(i,j, boardCopy, minesweeper, boardLen)
+
     else:   
         boardCopy, moreSafe = middle(i,j, boardCopy, minesweeper, boardLen)
 
     return boardCopy, moreSafe
+
+    # boardCopy = result
+    # moreSafe = True
+
+    # # Check if agent is at the top of the board
+    # if i == 0:
+    #     if j == 0: # top left corner
+    #         boardCopy, moreSafe = topLeft(i,j, boardCopy, minesweeper, boardLen)
+    #     elif j == boardLen-1: # top right corner
+    #         boardCopy, moreSafe = topRight(i,j, boardCopy, minesweeper, boardLen)
+    #     elif j != 0 and j != boardLen-1: # top, but not in the corner
+    #         boardCopy, moreSafe = topEdge(i,j, boardCopy, minesweeper, boardLen)
+
+    # # Check if agent is at the bottom of the board
+    # elif i == boardLen-1:
+    #     if j == 0: # bottom left corner
+    #         boardCopy, moreSafe = botLeft(i,j, boardCopy, minesweeper, boardLen)
+    #     elif j == boardLen-1: # bottom right corner
+    #         boardCopy, moreSafe = botRight(i,j, boardCopy, minesweeper, boardLen)
+    #     elif j != 0 and j != boardLen-1: # bottom, but not in the corner
+    #         boardCopy, moreSafe = botEdge(i,j, boardCopy, minesweeper, boardLen)
+
+    # # Check if agent is on left/right border of the board
+    # elif i != 0 and i != boardLen-1: 
+    #     if j == 0: # at the left border
+    #         boardCopy, moreSafe = leftEdge(i,j, boardCopy, minesweeper, boardLen)
+    #     elif j == boardLen-1: # at the right border
+    #         boardCopy, moreSafe = rightEdge(i,j, boardCopy, minesweeper, boardLen)
+
+
+    # # The agent is not on the border
+    # else:   
+    #     boardCopy, moreSafe = middle(i,j, boardCopy, minesweeper, boardLen)
+
+    # return boardCopy, moreSafe
 
 
 def search(minesweeper, dim):
@@ -432,20 +474,37 @@ def search(minesweeper, dim):
     mineHitList = []
 
     hiddenCells = True
-    while (hiddenCells is True):
+    rowUnrevealCheck = False
+    while (hiddenCells):
+        resultList = result.tolist()
+
         x = random.randint(0,dim-1)
         y = random.randint(0,dim-1)
-        #print(x, y)
+
+        if rowUnrevealCheck:
+            for a in range(dim):
+                if '-' in resultList[a]:
+                    x = a
+                    y = resultList[a].index('-')
+        print(y, x)
+        
+        hint = minesweeper[x,y]
 
         # Avoid clicking already-exploded mine again
         if (x,y) in mineHitList:
             # print('Agent already knows that there is a mine at ', 'x: ' + str(y), 'y: ' + str(x), '... SKIP')
             continue
+
+
+        # Avoid going through revealed cells
+        # print('result[x,y]: ' + str(result[x,y]))
         if result[x,y] != '-':
+            rowUnrevealCheck = True
+            # print(hint)
+            # print('Skipping revealed cell')
             continue
 
 
-        hint = result[x,y] = minesweeper[x,y]
         print("Clicked on cell - ", 'x: ' + str(y), 'y: ' + str(x), 'hint: ' + str(hint))
 
 
@@ -454,41 +513,64 @@ def search(minesweeper, dim):
             print("******CLICKED A MINE******")
             result[x,y] = 'm'
             mineHitList.append((x,y))
-            print('Agent knowledge updated!')
+            print('Agent knowledge updated!\n')
             continue
 
-        # Expand neighboring/adjacent safe cells once a safe cell is clicked
-        if hint == 0: 
-            print("Safe cell 0 clicked, expanding adjacent 0 cells.")
-            moreSafe = True
+        result[x,y] = hint
 
-            while(moreSafe == True):
+        # Expand neighboring/adjacent safe cells once a safe cell is clicked
+        if str(hint) == '0': 
+
+            print("Safe cell 0 clicked, expanding adjacent 0 cells.")
+            
+            moreSafe = True
+            # result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
+
+            while moreSafe:
                 for i in range(dim):
                     for j in range(dim):
-                        if result[i,j] == 0:
-                            #print((i, j))
-                            result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
+                        if moreSafe == True:
+                            if result[i,j] == 0:
+                                print((i, j))
+                                result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
+                                printBoard(result)
 
-            printBoard(result)
-            print()
+
+        printBoard(result)
+        print()
 
 
         for i in range(dim):
+            # print('i: ' + str(i))
             for j in range(dim):
+                # print('j: ' + str(j))
 
                 result = mineSweep(result, dim)
 
+                # print('After minesweep: ')
+                # printBoard(result)
+                # print()
+
                 result = safeSweep(result, minesweeper, dim)
+                # print('After safesweep: ')
+                # printBoard(result)
+                # print()
+
 
                 if result[i,j] == 0:
 
                     result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
-
-                    while(moreSafe == True):
+                    
+                    while moreSafe:
                         for i in range(dim):
                             for j in range(dim):
-                                if result[i,j] == 0:
-                                    result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
+                                if (moreSafe == True):
+                                    if result[i,j] == 0:
+                                        result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
+        
+        print('After mine/safe sweeper')
+        printBoard(result)
+        print()
             
         
         hiddenCells, hidden = hiddenScan(result, dim)
@@ -500,8 +582,8 @@ def search(minesweeper, dim):
             y = randomCell[1]
 
 
-        printBoard(result)
-        print()
+    printBoard(result)
+    print()
 
     print()
     print("Agent hit mines at: ", mineHitList)

@@ -16,27 +16,30 @@ def main():
 
     minesweeper = minePlacer(mines, initial)
 
+    # printBoard(minesweeper)
+
     minesweeperHints = hintsCalculator(minesweeper)
 
     printBoard(minesweeperHints)
-    # printAdvBoard(minesweeperHints)
+    # # printAdvBoard(minesweeperHints)
 
     result, mineHits = search(minesweeperHints, boardDimension)
-    # result, mineHits = advSearch(minesweeperHints, boardDimension)
+    # # result, mineHits = advSearch(minesweeperHints, boardDimension)
 
-    # print()
+    print('result: ')
+    printBoard(result)
+    # # printAdvBoard(result)
 
-    # # printBoard(result)
-    # printAdvBoard(result)
+    print()
 
-    # print()
-
-    # #M,m = mineScan(result, boardDimension)
+    # M,m = mineScan(result, boardDimension)
 
     # percent = (mines-mineHits) / mines
     # percent *= 100
 
     # print("Found", percent, "percent of mines without hitting a mine")
+
+    print('End of program.')
 
 if __name__ == "__main__":
     main()
