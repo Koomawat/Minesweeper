@@ -34,8 +34,9 @@ def printAdvBoard(board):
 
     return 
 
+
 def hiddenScan(board, dim):
-    
+
     hidden = False
 
     hiddenList = []
@@ -735,14 +736,35 @@ def advSearch(minesweeper, dim):
                             result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
                             
         
+        
+
+        copyboard = result
+
+        for i in range(dim):
+            for j in range(dim):
+
+                result = mineSweep(result, dim)
+
+                result = safeSweep(result, minesweeper, dim)
+
+                if result[i,j] == 0:
+
+                    result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
+
+                    while(moreSafe == True):
+                
+                        for i in range(dim):
+                            for j in range(dim):
+                                if result[i,j] == 0:
+
+                                    #print((i, j))
+                                    result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
+                                    
+
         consDict = constraintsCheck(dim, result)
 
         print(consDict)
         print()
-
-        copyboard = result
-
-
 
         #hiddenCells, hidden = hiddenScan(result, dim)
 
