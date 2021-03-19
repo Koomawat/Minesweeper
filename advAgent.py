@@ -363,24 +363,23 @@ def constraintsCheck(boardLen, board):
     return constraints
 
 
-
-def topLeft(i,j, board, minesweeper, boardLen, visitedSet):
+def topLeft(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
 
     # South East
     board[i+1,j+1] = minesweeper[i+1,j+1]
-    if board[i+1,j+1] == 0 and (i+1,j+1) not in visitedSet:
+    if board[i+1,j+1] == 0:
         moreSafe = True
             
     # South
     board[i+1,j] = minesweeper[i+1,j]
-    if board[i+1,j] == 0 and (i+1,j) not in visitedSet:
+    if board[i+1,j] == 0:
         moreSafe = True
 
     # East
     board[i, j+1] = minesweeper[i, j+1]
-    if board[i, j+1] == 0 and (i,j+1) not in visitedSet:
+    if board[i, j+1] == 0:
         moreSafe = True
 
     moreSafe = safeCheck(boardLen, board)
@@ -388,23 +387,23 @@ def topLeft(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
 
 
-def topRight(i,j, board, minesweeper, boardLen, visitedSet):
+def topRight(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
 
     # South West 
     board[i+1,j-1] = minesweeper[i+1,j-1]
-    if board[i+1,j-1] == 0 and (i+1,j-1) not in visitedSet:
+    if board[i+1,j-1] == 0:
         moreSafe = True
 
     # South
     board[i+1, j] = minesweeper[i+1, j]
-    if board[i+1,j] == 0 and (i+1,j) not in visitedSet:
+    if board[i+1,j] == 0:
         moreSafe = True
 
     # West
     board[i,j-1] = minesweeper[i,j-1]
-    if board[i,j-1] == 0 and (i,j-1) not in visitedSet:
+    if board[i,j-1] == 0:
         moreSafe = True
 
     moreSafe = safeCheck(boardLen, board)
@@ -412,23 +411,23 @@ def topRight(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
 
 
-def botLeft(i,j, board, minesweeper, boardLen, visitedSet):
+def botLeft(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
 
     # North East
     board[i-1,j+1] = minesweeper[i-1,j+1]
-    if board[i-1,j+1] == 0 and (i-1,j+1) not in visitedSet:
+    if board[i-1,j+1] == 0:
         moreSafe = True
 
     # North
     board[i-1,j] = minesweeper[i-1,j]
-    if board[i-1,j] == 0 and (i-1,j) not in visitedSet:
+    if board[i-1,j] == 0:
         moreSafe = True
 
     # East
     board[i, j+1] = minesweeper[i, j+1]
-    if board[i, j+1] == 0 and (i,j+1) not in visitedSet:
+    if board[i, j+1] == 0:
         moreSafe = True
 
     moreSafe = safeCheck(boardLen, board)
@@ -436,23 +435,23 @@ def botLeft(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
 
 
-def botRight(i,j, board, minesweeper, boardLen, visitedSet):
+def botRight(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
 
     # North West 
     board[i-1,j-1] = minesweeper[i-1,j-1]
-    if board[i-1,j-1] == 0 and (i-1,j-1) not in visitedSet:
+    if board[i-1,j-1] == 0:
         moreSafe = True
 
     # North
     board[i-1, j] = minesweeper[i-1, j]
-    if board[i-1,j] == 0 and (i-1,j) not in visitedSet:
+    if board[i-1,j] == 0:
         moreSafe = True
 
     # West
     board[i,j-1] = minesweeper[i,j-1]
-    if board[i,j-1] == 0 and (i,j-1) not in visitedSet:
+    if board[i,j-1] == 0:
         moreSafe = True
 
     moreSafe = safeCheck(boardLen, board)
@@ -460,33 +459,33 @@ def botRight(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
 
 
-def topEdge(i,j, board, minesweeper, boardLen, visitedSet):
+def topEdge(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
 
     # West
     board[i,j-1] = minesweeper[i,j-1]
-    if board[i,j-1] == 0 and (i,j-1) not in visitedSet:
+    if board[i,j-1] == 0:
         moreSafe = True
 
     # East
     board[i, j+1] = minesweeper[i, j+1]
-    if board[i, j+1] == 0 and (i,j+1) not in visitedSet:
+    if board[i, j+1] == 0:
         moreSafe = True
 
     # South
     board[i+1, j] = minesweeper[i+1, j]
-    if board[i+1,j] == 0 and (i+1,j) not in visitedSet:
+    if board[i+1,j] == 0:
         moreSafe = True
 
     # South West 
     board[i+1,j-1] = minesweeper[i+1,j-1]
-    if board[i+1,j-1] == 0 and (i+1,j-1) not in visitedSet:
+    if board[i+1,j-1] == 0:
         moreSafe = True
 
     # South East
     board[i+1,j+1] = minesweeper[i+1,j+1]
-    if board[i+1,j+1] == 0 and (i+1,j+1) not in visitedSet:
+    if board[i+1,j+1] == 0:
         moreSafe = True
 
     moreSafe = safeCheck(boardLen, board)
@@ -494,33 +493,33 @@ def topEdge(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
     
 
-def leftEdge(i,j, board, minesweeper, boardLen, visitedSet):
+def leftEdge(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
 
     # East
     board[i, j+1] = minesweeper[i, j+1]
-    if board[i, j+1] == 0 and (i,j+1) not in visitedSet:
+    if board[i, j+1] == 0:
         moreSafe = True
 
     # South
     board[i+1, j] = minesweeper[i+1, j]
-    if board[i+1,j] == 0 and (i+1,j) not in visitedSet:
+    if board[i+1,j] == 0:
         moreSafe = True
 
     # South East
     board[i+1,j+1] = minesweeper[i+1,j+1]
-    if board[i+1,j+1] == 0 and (i+1,j+1) not in visitedSet:
+    if board[i+1,j+1] == 0:
         moreSafe = True
 
     # North
     board[i-1, j] = minesweeper[i-1, j]
-    if board[i-1,j] == 0 and (i-1,j) not in visitedSet:
+    if board[i-1,j] == 0:
         moreSafe = True
 
     # North East
     board[i-1,j+1] = minesweeper[i-1,j+1]
-    if board[i-1,j+1] == 0 and (i-1,j+1) not in visitedSet:
+    if board[i-1,j+1] == 0:
         moreSafe = True
 
     moreSafe = safeCheck(boardLen, board)
@@ -528,33 +527,33 @@ def leftEdge(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
 
 
-def rightEdge(i,j, board, minesweeper, boardLen, visitedSet):
+def rightEdge(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
 
     # West
     board[i,j-1] = minesweeper[i,j-1]
-    if board[i,j-1] == 0 and (i,j-1) not in visitedSet:
+    if board[i,j-1] == 0:
         moreSafe = True
 
     # South
     board[i+1, j] = minesweeper[i+1, j]
-    if board[i+1,j] == 0 and (i+1,j) not in visitedSet:
+    if board[i+1,j] == 0:
         moreSafe = True
 
     # South West 
     board[i+1,j-1] = minesweeper[i+1,j-1]
-    if board[i+1,j-1] == 0 and (i+1,j-1) not in visitedSet:
+    if board[i+1,j-1] == 0:
         moreSafe = True
 
     # North
     board[i-1, j] = minesweeper[i-1, j]
-    if board[i-1,j] == 0 and (i-1,j) not in visitedSet:
+    if board[i-1,j] == 0:
         moreSafe = True
 
     # North West 
     board[i-1,j-1] = minesweeper[i-1,j-1]
-    if board[i-1,j-1] == 0 and (i-1,j-1) not in visitedSet:
+    if board[i-1,j-1] == 0:
         moreSafe = True
 
     moreSafe = safeCheck(boardLen, board)
@@ -562,33 +561,33 @@ def rightEdge(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
 
 
-def botEdge(i,j, board, minesweeper, boardLen, visitedSet):
+def botEdge(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
 
     # North
     board[i-1, j] = minesweeper[i-1, j]
-    if board[i-1,j] == 0 and (i-1,j) not in visitedSet:
+    if board[i-1,j] == 0:
         moreSafe = True
 
     # North West 
     board[i-1,j-1] = minesweeper[i-1,j-1]
-    if board[i-1,j-1] == 0 and (i-1,j-1) not in visitedSet:
+    if board[i-1,j-1] == 0:
         moreSafe = True
     
     # North East
     board[i-1,j+1] = minesweeper[i-1,j+1]
-    if board[i-1,j+1] == 0 and (i-1,j+1) not in visitedSet:
+    if board[i-1,j+1] == 0:
         moreSafe = True
 
     # West
     board[i,j-1] = minesweeper[i,j-1]
-    if board[i,j-1] == 0 and (i,j-1) not in visitedSet:
+    if board[i,j-1] == 0:
         moreSafe = True
 
     # East
     board[i, j+1] = minesweeper[i, j+1]
-    if board[i, j+1] == 0 and (i,j+1) not in visitedSet:
+    if board[i, j+1] == 0:
         moreSafe = True
 
     moreSafe = safeCheck(boardLen, board)
@@ -596,48 +595,48 @@ def botEdge(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
 
 
-def middle(i,j, board, minesweeper, boardLen, visitedSet):
+def middle(i,j, board, minesweeper, boardLen):
     
     moreSafe = False
 
     # North
     board[i-1, j] = minesweeper[i-1, j]
-    if board[i-1,j] == 0 and (i-1,j) not in visitedSet:
+    if board[i-1,j] == 0:
         moreSafe = True
 
     # North West 
     board[i-1,j-1] = minesweeper[i-1,j-1]
-    if board[i-1,j-1] == 0 and (i-1,j-1) not in visitedSet:
+    if board[i-1,j-1] == 0:
         moreSafe = True
 
     # North East
     board[i-1,j+1] = minesweeper[i-1,j+1]
-    if board[i-1,j+1] == 0 and (i-1,j+1) not in visitedSet:
+    if board[i-1,j+1] == 0:
         moreSafe = True
 
     # South
     board[i+1, j] = minesweeper[i+1, j]
-    if board[i+1,j] == 0 and (i+1,j) not in visitedSet:
+    if board[i+1,j] == 0:
         moreSafe = True
 
     # South West 
     board[i+1,j-1] = minesweeper[i+1,j-1]
-    if board[i+1,j-1] == 0 and (i+1,j-1) not in visitedSet:
+    if board[i+1,j-1] == 0:
         moreSafe = True
 
     # South East
     board[i+1,j+1] = minesweeper[i+1,j+1]
-    if board[i+1,j+1] == 0 and (i+1,j+1) not in visitedSet:
+    if board[i+1,j+1] == 0:
         moreSafe = True
 
     # West
     board[i,j-1] = minesweeper[i,j-1]
-    if board[i,j-1] == 0 and (i,j-1) not in visitedSet:
+    if board[i,j-1] == 0:
         moreSafe = True
 
     # East
     board[i, j+1] = minesweeper[i, j+1]
-    if board[i, j+1] == 0 and (i,j+1) not in visitedSet:
+    if board[i, j+1] == 0:
         moreSafe = True
 
     moreSafe = safeCheck(boardLen, board)
@@ -645,7 +644,7 @@ def middle(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
 
 
-def exposeSafe(i,j, result, minesweeper, dim, visitedSet):
+def exposeSafe(i,j, result, minesweeper, dim):
 
     boardCopy = result
 
@@ -657,38 +656,38 @@ def exposeSafe(i,j, result, minesweeper, dim, visitedSet):
 
     if i == 0 and j == 0:
 
-        boardCopy, moreSafe = topLeft(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = topLeft(i,j, boardCopy, minesweeper, boardLen)
 
     elif i == boardLen-1 and j == 0:
 
-        boardCopy, moreSafe = botLeft(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = botLeft(i,j, boardCopy, minesweeper, boardLen)
 
     elif i == 0 and j == boardLen-1:
 
-        boardCopy, moreSafe = topRight(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = topRight(i,j, boardCopy, minesweeper, boardLen)
 
     elif i == boardLen-1 and j == boardLen-1:
 
-        boardCopy, moreSafe = botRight(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = botRight(i,j, boardCopy, minesweeper, boardLen)
 
     elif i == 0 and j != 0 and j != boardLen-1:
 
-        boardCopy, moreSafe = topEdge(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = topEdge(i,j, boardCopy, minesweeper, boardLen)
 
     elif i != 0 and i != boardLen-1 and j == 0:
 
-        boardCopy, moreSafe = leftEdge(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = leftEdge(i,j, boardCopy, minesweeper, boardLen)
 
     elif i != 0 and i != boardLen-1 and j == boardLen-1:
 
-        boardCopy, moreSafe = rightEdge(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = rightEdge(i,j, boardCopy, minesweeper, boardLen)
 
     elif i == boardLen-1 and j != 0 and j != boardLen-1:
 
-        boardCopy, moreSafe = botEdge(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = botEdge(i,j, boardCopy, minesweeper, boardLen)
 
     else:   
-        boardCopy, moreSafe = middle(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = middle(i,j, boardCopy, minesweeper, boardLen)
 
     return boardCopy, moreSafe
 
@@ -711,8 +710,6 @@ def advSearch(minesweeper, dim):
 
     #print(x, y)
 
-    visitedSet = set()
-
     #while (hiddenCells is True):
     if 1 == 1:
 
@@ -730,22 +727,23 @@ def advSearch(minesweeper, dim):
 
             moreSafe = True
 
-            
-
             while(moreSafe == True):
                 
                 for i in range(dim):
                     for j in range(dim):
-                        if result[i,j] == 0 and ((i,j) not in visitedSet):
-                            visitedSet.add((i,j))
+                        if result[i,j] == 0:
                             #print((i, j))
-                            result, moreSafe = exposeSafe(i,j, result, minesweeper, dim, visitedSet)
+                            result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
                             
         
         consDict = constraintsCheck(dim, result)
 
         print(consDict)
         print()
+
+        copyboard = result
+
+
 
         #hiddenCells, hidden = hiddenScan(result, dim)
 
