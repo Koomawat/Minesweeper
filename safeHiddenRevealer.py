@@ -1,5 +1,5 @@
 # If for a cell, the total number of safe neighbours - the number of revealed safe neighbours = the # of hidden neighbours, then every hidden is safe
-def safeSweep(board, minesweeper, dim):
+def safeSweep(board, minesweeper, boardLen):
 
     boardCopy = board
 
