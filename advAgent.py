@@ -212,7 +212,6 @@ def safeCheck(boardLen, board):
 
     return moreSafe
 
-
 def constraintsCheck(boardLen, board):
 
     constraints = {(i,j) :
@@ -691,11 +690,16 @@ def exposeSafe(i,j, result, minesweeper, dim):
 
     return boardCopy, moreSafe
 
+def guessCheck(boardCopy, constraints):
+
+    return
+
 
 def advSearch(minesweeper, dim):
 
     result = board(dim)
 
+    # fill in cells as unknown
     for i in range(dim):
         for j in range(dim):
             result[i,j] = '-'
@@ -735,9 +739,6 @@ def advSearch(minesweeper, dim):
                             #print((i, j))
                             result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
                             
-        
-        
-
         copyboard = result
 
         for i in range(dim):
