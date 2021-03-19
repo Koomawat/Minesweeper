@@ -744,7 +744,7 @@ def advSearch(minesweeper, dim):
         
         consDict = constraintsCheck(dim, result)
 
-        print(consDict)
+        # print(consDict)
         print()
 
         #hiddenCells, hidden = hiddenScan(result, dim)

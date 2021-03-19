@@ -6,9 +6,18 @@ from more_termcolor.colors import brightred, brightgreen, brightyellow, brightbl
 
 def printBoard(board):
 
-    for i in range(len(board)):
+    n = len(board)
+    print(" "*(len(str(n))+1), end='')
+    for i in range(n):
+        if i >= 10:
+            i = i-(10*(int(i/10)))
+        print(str(i) + "  ", end='')
+    print()
+
+    for i in range(n):
         row = ""
-        for j in range(len(board)):
+        print(str(i).zfill(len(str(n))) + "|", end='')
+        for j in range(n):
             current = str(board[i,j])
             if (current) == 'M':
                 row += brightred(current) + "  "
