@@ -561,7 +561,7 @@ def search(minesweeper, dim):
 
     #print(x, y)
 
-
+    mineHitList = []
     while (hiddenCells is True):
 
 
@@ -572,7 +572,7 @@ def search(minesweeper, dim):
 
         result[x,y] = minesweeper[x,y]
         
-        mineHitList = []
+        
 
         if result[x,y] == 'M':
             mineHits += 1
