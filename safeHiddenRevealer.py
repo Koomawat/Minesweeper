@@ -1,3 +1,4 @@
+# If for a cell, the total number of safe neighbours - the number of revealed safe neighbours = the # of hidden neighbours, then every hidden is safe
 def safeSweep(board, minesweeper, dim):
 
     boardCopy = board
@@ -48,7 +49,6 @@ def safeSweep(board, minesweeper, dim):
                     boardCopy = middle(i,j, boardCopy, minesweeper, numberHint)
 
     return boardCopy
-
 
 def topLeft(i,j, board, answers, hint):
 
