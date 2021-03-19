@@ -34,9 +34,8 @@ def printAdvBoard(board):
 
     return 
 
-
 def hiddenScan(board, dim):
-
+    
     hidden = False
 
     hiddenList = []
