@@ -1,6 +1,8 @@
 import numpy as np
 import random
 
+
+# The following functions search nearby neighbours based on the location of the selected cell to create the clue/hint #
 def topLeft(i,j, board):
 
     tempHint = 0

@@ -1,4 +1,5 @@
-def mineSweep(board, boardLen):
+# If for a given cell, the total number of mines - the number of revealed mines = the number of hidden neighbours, then every hidden neighbour is a mine
+def mineSweep(board, dim):
 
     boardCopy = board
 

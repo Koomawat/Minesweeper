@@ -45,6 +45,7 @@ def printBoard(board):
 
     return
 
+
 def hiddenScan(board, dim):
 
     hidden = False
@@ -59,7 +60,7 @@ def hiddenScan(board, dim):
 
     return hidden, hiddenList
 
-#?
+
 def mineScan(board, dim):
 
     bigM = 0
