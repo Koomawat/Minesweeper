@@ -1,5 +1,6 @@
 from createboard import *
 from agent import *
+from advAgent import *
 
 def main():
 
@@ -17,13 +18,16 @@ def main():
 
     minesweeperHints = hintsCalculator(minesweeper)
 
-    printBoard(minesweeperHints)
+    # printBoard(minesweeperHints)
+    printAdvBoard(minesweeperHints)
 
-    result, mineHits = search(minesweeperHints, boardDimension)
+    # result, mineHits = search(minesweeperHints, boardDimension)
+    result, mineHits = advSearch(minesweeperHints, boardDimension)
 
     print()
 
-    #printBoard(result)
+    # printBoard(result)
+    printAdvBoard(result)
 
     print()
 
