@@ -220,7 +220,7 @@ def safeCheck(boardLen, board):
     return moreSafe
 
 
-def topLeft(i,j, board, minesweeper, boardLen, visitedSet):
+def topLeft(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
 
@@ -244,7 +244,7 @@ def topLeft(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
 
 
-def topRight(i,j, board, minesweeper, boardLen, visitedSet):
+def topRight(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
 
@@ -268,7 +268,7 @@ def topRight(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
 
 
-def botLeft(i,j, board, minesweeper, boardLen, visitedSet):
+def botLeft(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
 
@@ -292,7 +292,7 @@ def botLeft(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
 
 
-def botRight(i,j, board, minesweeper, boardLen, visitedSet):
+def botRight(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
 
@@ -316,7 +316,7 @@ def botRight(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
 
 
-def topEdge(i,j, board, minesweeper, boardLen, visitedSet):
+def topEdge(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
 
@@ -350,7 +350,7 @@ def topEdge(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
     
 
-def leftEdge(i,j, board, minesweeper, boardLen, visitedSet):
+def leftEdge(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
 
@@ -384,7 +384,7 @@ def leftEdge(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
 
 
-def rightEdge(i,j, board, minesweeper, boardLen, visitedSet):
+def rightEdge(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
 
@@ -418,7 +418,7 @@ def rightEdge(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
 
 
-def botEdge(i,j, board, minesweeper, boardLen, visitedSet):
+def botEdge(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
 
@@ -452,7 +452,7 @@ def botEdge(i,j, board, minesweeper, boardLen, visitedSet):
     return board, moreSafe
 
 
-def middle(i,j, board, minesweeper, boardLen, visitedSet):
+def middle(i,j, board, minesweeper, boardLen):
     
     moreSafe = False
 
@@ -504,47 +504,45 @@ def middle(i,j, board, minesweeper, boardLen, visitedSet):
 def exposeSafe(i,j, result, minesweeper, dim, visitedSet):
 
     boardCopy = result
-
-    compare = minesweeper
-
+    
     boardLen = dim
 
     moreSafe = True
 
     if i == 0 and j == 0:
 
-        boardCopy, moreSafe = topLeft(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = topLeft(i,j, boardCopy, minesweeper, boardLen)
 
     elif i == boardLen-1 and j == 0:
 
-        boardCopy, moreSafe = botLeft(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = botLeft(i,j, boardCopy, minesweeper, boardLen)
 
     elif i == 0 and j == boardLen-1:
 
-        boardCopy, moreSafe = topRight(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = topRight(i,j, boardCopy, minesweeper, boardLen)
 
     elif i == boardLen-1 and j == boardLen-1:
 
-        boardCopy, moreSafe = botRight(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = botRight(i,j, boardCopy, minesweeper, boardLen)
 
     elif i == 0 and j != 0 and j != boardLen-1:
 
-        boardCopy, moreSafe = topEdge(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = topEdge(i,j, boardCopy, minesweeper, boardLen)
 
     elif i != 0 and i != boardLen-1 and j == 0:
 
-        boardCopy, moreSafe = leftEdge(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = leftEdge(i,j, boardCopy, minesweeper, boardLen)
 
     elif i != 0 and i != boardLen-1 and j == boardLen-1:
 
-        boardCopy, moreSafe = rightEdge(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = rightEdge(i,j, boardCopy, minesweeper, boardLen)
 
     elif i == boardLen-1 and j != 0 and j != boardLen-1:
 
-        boardCopy, moreSafe = botEdge(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = botEdge(i,j, boardCopy, minesweeper, boardLen)
 
     else:   
-        boardCopy, moreSafe = middle(i,j, boardCopy, minesweeper, boardLen, visitedSet)
+        boardCopy, moreSafe = middle(i,j, boardCopy, minesweeper, boardLen)
 
     return boardCopy, moreSafe
 
