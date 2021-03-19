@@ -6,18 +6,9 @@ from more_termcolor.colors import brightred, brightgreen, brightyellow, brightbl
 
 def printBoard(board):
 
-    n = len(board)
-    print(" "*(len(str(n))+1), end='')
-    for i in range(n):
-        if i >= 10:
-            i = i-(10*(int(i/10)))
-        print(str(i) + "  ", end='')
-    print()
-
-    for i in range(n):
+    for i in range(len(board)):
         row = ""
-        print(str(i).zfill(len(str(n))) + "|", end='')
-        for j in range(n):
+        for j in range(len(board)):
             current = str(board[i,j])
             if (current) == 'M':
                 row += brightred(current) + "  "
@@ -43,6 +34,7 @@ def printBoard(board):
 
     return 
 
+
 def hiddenScan(board, dim):
 
     hidden = False
@@ -56,6 +48,7 @@ def hiddenScan(board, dim):
                 hidden = True
 
     return hidden, hiddenList
+
 
 def mineScan(board, dim):
 
@@ -501,10 +494,12 @@ def middle(i,j, board, minesweeper, boardLen):
     return board, moreSafe
 
 
-def exposeSafe(i,j, result, minesweeper, dim, visitedSet):
+def exposeSafe(i,j, result, minesweeper, dim):
 
     boardCopy = result
-    
+
+    compare = minesweeper
+
     boardLen = dim
 
     moreSafe = True
@@ -563,9 +558,9 @@ def search(minesweeper, dim):
 
     mineHits = 0
 
+
     #print(x, y)
 
-    visitedSet = set()
 
     while (hiddenCells is True):
 
@@ -577,10 +572,12 @@ def search(minesweeper, dim):
 
         result[x,y] = minesweeper[x,y]
         
+        mineHitList = []
 
         if result[x,y] == 'M':
             mineHits += 1
-        
+            mineHitList.append((x,y))
+
 
         if hint == 0: 
 
@@ -593,9 +590,10 @@ def search(minesweeper, dim):
                         if result[i,j] == 0:
 
                             #print((i, j))
-                            result, moreSafe = exposeSafe(i,j, result, minesweeper, dim, visitedSet)
+                            result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
 
-            
+            printBoard(result)
+            print()
 
 
         for i in range(dim):
@@ -607,7 +605,7 @@ def search(minesweeper, dim):
 
                 if result[i,j] == 0:
 
-                    result, moreSafe = exposeSafe(i,j, result, minesweeper, dim, visitedSet)
+                    result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
 
                     while(moreSafe == True):
                 
@@ -616,9 +614,7 @@ def search(minesweeper, dim):
                                 if result[i,j] == 0:
 
                                     #print((i, j))
-                                    result, moreSafe = exposeSafe(i,j, result, minesweeper, dim, visitedSet)
-
-                
+                                    result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
             
         
         hiddenCells, hidden = hiddenScan(result, dim)
@@ -633,5 +629,7 @@ def search(minesweeper, dim):
 
         printBoard(result)
 
-        
+    print()
+    print("Agent hit mines at: ", mineHitList)
+
     return result, mineHits
