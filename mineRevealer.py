@@ -9,32 +9,38 @@ def mineSweep(board, boardLen):
 
                 numberHint = board[i,j]
 
-                # Check if agent is at the top of the board
-                if i == 0:
-                    if j == 0: # top left corner
-                        boardCopy = topLeft(i,j, boardCopy, numberHint)
-                    elif j == boardLen-1: # top right corner
-                        boardCopy= topRight(i,j, boardCopy, numberHint)
-                    elif j != 0 and j != boardLen-1: # top, but not in the corner
-                        boardCopy = topEdge(i,j, boardCopy, numberHint)
+                if i == 0 and j == 0:
 
-                # Check if agent is at the bottom of the board
-                elif i == boardLen-1:
-                    if j == 0: # bottom left corner
-                        boardCopy = botLeft(i,j, boardCopy, numberHint)
-                    elif j == boardLen-1: # bottom right corner
-                        boardCopy = botRight(i,j, boardCopy, numberHint)
-                    elif j != 0 and j != boardLen-1: # bottom, but not in the corner
-                        boardCopy = botEdge(i,j, boardCopy, numberHint)
+                    boardCopy = topLeft(i,j, boardCopy, numberHint)
 
-                # Check if agent is on left/right border of the board
-                elif i != 0 and i != boardLen-1: 
-                    if j == 0: # at the left border
-                        boardCopy = leftEdge(i,j, boardCopy, numberHint)
-                    elif j == boardLen-1: # at the right border
-                        boardCopy = rightEdge(i,j, boardCopy, numberHint)
+                elif i == boardLen-1 and j == 0:
 
-                # The agent is not on the border
+                    boardCopy = botLeft(i,j, boardCopy, numberHint)
+
+                elif i == 0 and j == boardLen-1:
+
+                    boardCopy= topRight(i,j, boardCopy, numberHint)
+
+                elif i == boardLen-1 and j == boardLen-1:
+
+                    boardCopy = botRight(i,j, boardCopy, numberHint)
+
+                elif i == 0 and j != 0 and j != boardLen-1:
+
+                    boardCopy = topEdge(i,j, boardCopy, numberHint)
+
+                elif i != 0 and i != boardLen-1 and j == 0:
+
+                    boardCopy = leftEdge(i,j, boardCopy, numberHint)
+
+                elif i != 0 and i != boardLen-1 and j == boardLen-1:
+
+                    boardCopy = rightEdge(i,j, boardCopy, numberHint)
+
+                elif i == boardLen-1 and j != 0 and j != boardLen-1:
+
+                    boardCopy = botEdge(i,j, boardCopy, numberHint)
+
                 else:   
                     boardCopy = middle(i,j, boardCopy, numberHint)
 
@@ -57,7 +63,7 @@ def topLeft(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]).lower() == 'm':
+        if board[a, b] == ('M' or 'm'):
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
@@ -85,7 +91,7 @@ def topRight(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]).lower() == 'm':
+        if board[a, b] == ('M' or 'm'):
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
@@ -113,7 +119,7 @@ def botLeft(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]).lower() == 'm':
+        if board[a, b] == ('M' or 'm'):
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
@@ -141,7 +147,7 @@ def botRight(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]).lower() == 'm':
+        if board[a, b] == ('M' or 'm'):
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
@@ -169,7 +175,7 @@ def topEdge(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]).lower() == 'm':
+        if board[a, b] == ('M' or 'm'):
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
@@ -197,7 +203,7 @@ def leftEdge(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]).lower() == 'm':
+        if board[a, b] == ('M' or 'm'):
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
@@ -225,7 +231,7 @@ def rightEdge(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]).lower() == 'm':
+        if board[a, b] == ('M' or 'm'):
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
@@ -253,7 +259,7 @@ def botEdge(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]).lower() == 'm':
+        if board[a, b] == ('M' or 'm'):
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
@@ -281,7 +287,7 @@ def middle(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]).lower() == 'm':
+        if board[a, b] == ('M' or 'm'):
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:

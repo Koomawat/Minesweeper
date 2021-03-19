@@ -9,33 +9,40 @@ def safeSweep(board, minesweeper, boardLen):
 
                 numberHint = board[i,j]
 
-                # Check if agent is at the top of the board
-                if i == 0:
-                    if j == 0: # top left corner
-                        boardCopy = topLeft(i,j, boardCopy, minesweeper, numberHint)
-                    elif j == boardLen-1: # top right corner
-                        boardCopy = topRight(i,j, boardCopy, minesweeper, numberHint)
-                    elif j != 0 and j != boardLen-1: # top, but not in the corner
-                        boardCopy = topEdge(i,j, boardCopy, minesweeper, numberHint)
+                if i == 0 and j == 0:
 
-                # Check if agent is at the bottom of the board
-                elif i == boardLen-1:
-                    if j == 0: # bottom left corner
-                        boardCopy = botLeft(i,j, boardCopy, minesweeper, numberHint)
-                    elif j == boardLen-1: # bottom right corner
-                        boardCopy = botRight(i,j, boardCopy, minesweeper, numberHint)
-                    elif j != 0 and j != boardLen-1: # bottom, but not in the corner
-                        boardCopy = botEdge(i,j, boardCopy, minesweeper, numberHint)
+                    boardCopy = topLeft(i,j, boardCopy, minesweeper, numberHint)
 
-                # Check if agent is on left/right border of the board
-                elif i != 0 and i != boardLen-1: 
-                    if j == 0: # at the left border
-                        boardCopy = leftEdge(i,j, boardCopy, minesweeper, numberHint)
-                    elif j == boardLen-1: # at the right border
-                        boardCopy = rightEdge(i,j, boardCopy, minesweeper, numberHint)
+                elif i == boardLen-1 and j == 0:
 
-                # The agent is not on the border
+                    boardCopy = botLeft(i,j, boardCopy, minesweeper, numberHint)
+
+                elif i == 0 and j == boardLen-1:
+
+                    boardCopy = topRight(i,j, boardCopy, minesweeper, numberHint)
+
+                elif i == boardLen-1 and j == boardLen-1:
+
+                    boardCopy = botRight(i,j, boardCopy, minesweeper, numberHint)
+
+                elif i == 0 and j != 0 and j != boardLen-1:
+
+                    boardCopy = topEdge(i,j, boardCopy, minesweeper, numberHint)
+
+                elif i != 0 and i != boardLen-1 and j == 0:
+
+                    boardCopy = leftEdge(i,j, boardCopy, minesweeper, numberHint)
+
+                elif i != 0 and i != boardLen-1 and j == boardLen-1:
+
+                    boardCopy = rightEdge(i,j, boardCopy, minesweeper, numberHint)
+
+                elif i == boardLen-1 and j != 0 and j != boardLen-1:
+
+                    boardCopy = botEdge(i,j, boardCopy, minesweeper, numberHint)
+
                 else:   
+
                     boardCopy = middle(i,j, boardCopy, minesweeper, numberHint)
 
     return boardCopy
@@ -59,7 +66,7 @@ def topLeft(i,j, board, answers, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]) not in notHintChars:
+        if board[a, b] not in notHintChars:
             safeCount += 1
 
     if ((len(topLeftCoords) - hint) - safeCount) == hiddenCount:
@@ -88,7 +95,7 @@ def topRight(i,j, board, answers, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]) not in notHintChars:
+        if board[a, b] not in notHintChars:
             safeCount += 1
 
     if ((len(topRightCoords) - hint) - safeCount) == hiddenCount:
@@ -117,7 +124,7 @@ def botLeft(i,j, board, answers, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]) not in notHintChars:
+        if board[a, b] not in notHintChars:
             safeCount += 1
 
     if ((len(botLeftCoords) - hint) - safeCount) == hiddenCount:
@@ -146,7 +153,7 @@ def botRight(i,j, board, answers, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]) not in notHintChars:
+        if board[a, b] not in notHintChars:
             safeCount += 1
 
     if ((len(botRightCoords) - hint) - safeCount) == hiddenCount:
@@ -175,7 +182,7 @@ def topEdge(i,j, board, answers, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]) not in notHintChars:
+        if board[a, b] not in notHintChars:
             safeCount += 1
 
     if ((len(topEdgeCoords) - hint) - safeCount) == hiddenCount:
@@ -204,7 +211,7 @@ def leftEdge(i,j, board, answers, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]) not in notHintChars:
+        if board[a, b] not in notHintChars:
             safeCount += 1
 
     if ((len(leftEdgeCoords) - hint) - safeCount) == hiddenCount:
@@ -233,7 +240,7 @@ def rightEdge(i,j, board, answers, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]) not in notHintChars:
+        if board[a, b] not in notHintChars:
             safeCount += 1
 
     if ((len(rightEdgeCoords) - hint) - safeCount) == hiddenCount:
@@ -262,7 +269,7 @@ def botEdge(i,j, board, answers, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]) not in notHintChars:
+        if board[a, b] not in notHintChars:
             safeCount += 1
 
     if ((len(botEdgeCoords) - hint) - safeCount) == hiddenCount:
@@ -291,7 +298,7 @@ def middle(i,j, board, answers, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if str(board[a, b]) not in notHintChars:
+        if board[a, b] not in notHintChars:
             safeCount += 1
 
     if ((len(midCoords) - hint) - safeCount) == hiddenCount:
