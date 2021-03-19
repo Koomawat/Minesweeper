@@ -512,7 +512,7 @@ def search(minesweeper, dim):
         if str(hint) == 'M':
             print("******CLICKED A MINE******")
             result[x,y] = 'm'
-            mineHitList.append((x,y))
+            mineHitList.append((y,x))
             print('Agent knowledge updated!\n')
             continue
 
@@ -531,9 +531,9 @@ def search(minesweeper, dim):
                     for j in range(dim):
                         if moreSafe == True:
                             if result[i,j] == 0:
-                                print((i, j))
+                                # print((i, j))
                                 result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
-                                printBoard(result)
+                                # printBoard(result)
 
 
         printBoard(result)
