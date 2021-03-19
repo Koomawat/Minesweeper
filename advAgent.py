@@ -5,12 +5,22 @@ import random
 from more_termcolor.colors import brightred, brightgreen, brightyellow, brightblue, brightmagenta, brightcyan
 
 def printAdvBoard(board):
+    n = len(board)
+    print(" "*(len(str(n))+1), end='')
+    for i in range(n):
+        if i >= 10: 
+            i = i-(10*(int(i/10)))
+        print(str(i) + "  ", end='')
+    print()
 
     for i in range(len(board)):
         row = ""
+        print(str(i).zfill(len(str(n))) + "|", end='')
         for j in range(len(board)):
             current = str(board[i,j])
-            if (current) == 'M':
+            if (current) == 'm':
+                row += brightred(current) + "  "
+            elif (current) == 'M':
                 row += brightred(current) + "  "
             elif (current) == '1':
                 row += brightblue(current) + "  "
@@ -31,12 +41,12 @@ def printAdvBoard(board):
             else:
                 row += current + "  "
         print(row)
+    print()
 
     return 
 
-
-def hiddenScan(board, dim):
-
+def hiddenScan(board, dim): 
+    
     hidden = False
 
     hiddenList = []
@@ -693,7 +703,7 @@ def exposeSafe(i,j, result, minesweeper, dim):
 
 
 def advSearch(minesweeper, dim):
-
+    
     result = board(dim)
 
     for i in range(dim):
@@ -709,6 +719,7 @@ def advSearch(minesweeper, dim):
     mineHits = 0
 
     #print(x, y)
+    
 
     #while (hiddenCells is True):
     if 1 == 1:

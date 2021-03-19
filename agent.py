@@ -5,12 +5,22 @@ import random
 from more_termcolor.colors import brightred, brightgreen, brightyellow, brightblue, brightmagenta, brightcyan
 
 def printBoard(board):
+    n = len(board)
+    print(" "*(len(str(n))+1), end='')
+    for i in range(n):
+        if i >= 10: 
+            i = i-(10*(int(i/10)))
+        print(str(i) + "  ", end='')
+    print()
 
     for i in range(len(board)):
         row = ""
+        print(str(i).zfill(len(str(n))) + "|", end='')
         for j in range(len(board)):
             current = str(board[i,j])
-            if (current) == 'M':
+            if (current) == 'm':
+                row += brightred(current) + "  "
+            elif (current) == 'M':
                 row += brightred(current) + "  "
             elif (current) == '1':
                 row += brightblue(current) + "  "
@@ -31,9 +41,9 @@ def printBoard(board):
             else:
                 row += current + "  "
         print(row)
+    print()
 
-    return 
-
+    return
 
 def hiddenScan(board, dim):
 
@@ -49,7 +59,7 @@ def hiddenScan(board, dim):
 
     return hidden, hiddenList
 
-
+#?
 def mineScan(board, dim):
 
     bigM = 0
@@ -68,150 +78,27 @@ def mineScan(board, dim):
 def safeCheck(boardLen, board):
 
     moreSafe = False
-
+    surroundingCoords = [(x,y) for x in range(-1,2) 
+                            for y in range(-1,2)]
+        # creates coordinates to add onto x,y coordinates:
+        # [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 0), (0, 1), (1, -1), (1, 0), (1, 1)]
+    
     for i in range(boardLen):
         for j in range(boardLen):
+            a, b = i, j # reset to next iteration of i, j
+            for x, y in surroundingCoords:
+                a += x
+                b += y
 
-            if i == 0 and j == 0:
-
-                #if board[i+1,j+1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-                    
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-            elif i == boardLen-1 and j == 0:
-
-                #if board[i-1,j+1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-            elif i == 0 and j == boardLen-1:
-
-                #if board[i+1,j-1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-            elif i == boardLen-1 and j == boardLen-1:
-
-                #if board[i-1,j-1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-            elif i == 0 and j != 0 and j != boardLen-1:
-
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                #if board[i+1,j-1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                #if board[i+1,j+1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-            elif i != 0 and i != boardLen-1 and j == 0:
-
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                #if board[i+1,j+1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                #if board[i-1,j+1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-            elif i != 0 and i != boardLen-1 and j == boardLen-1:
-
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                #if board[i+1,j-1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                #if board[i-1,j-1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-            elif i == boardLen-1 and j != 0 and j != boardLen-1:
-
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                #if board[i-1,j-1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                #if board[i-1,j+1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-            else:   
-                
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                #if board[i-1,j-1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                #if board[i-1,j+1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                #if board[i+1,j-1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                #if board[i+1,j+1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
+                if (a >= 0) and (a < boardLen) and (b >= 0) and (b < boardLen) and (str(board[a,b]) == '-') and (board[i,j] == 0):
+                    if x==0 or y==0 or (abs(x)==1 and abs(y)==1):
+                        continue
+                    else:
+                        moreSafe = True
 
     return moreSafe
 
+###############################################################
 
 def topLeft(i,j, board, minesweeper, boardLen):
 
@@ -493,49 +380,40 @@ def middle(i,j, board, minesweeper, boardLen):
 
     return board, moreSafe
 
+###############################################################
 
-def exposeSafe(i,j, result, minesweeper, dim):
+def exposeSafe(i,j, result, minesweeper, boardLen):
 
     boardCopy = result
-
-    compare = minesweeper
-
-    boardLen = dim
-
     moreSafe = True
 
-    if i == 0 and j == 0:
+    # Check if agent is at the top of the board
+    if i == 0:
+        if j == 0: # top left corner
+            boardCopy, moreSafe = topLeft(i,j, boardCopy, minesweeper, boardLen)
+        elif j == boardLen-1: # top right corner
+            boardCopy, moreSafe = topRight(i,j, boardCopy, minesweeper, boardLen)
+        elif j != 0 and j != boardLen-1: # top, but not in the corner
+            boardCopy, moreSafe = topEdge(i,j, boardCopy, minesweeper, boardLen)
 
-        boardCopy, moreSafe = topLeft(i,j, boardCopy, minesweeper, boardLen)
+    # Check if agent is at the bottom of the board
+    elif i == boardLen-1:
+        if j == 0: # bottom left corner
+            boardCopy, moreSafe = botLeft(i,j, boardCopy, minesweeper, boardLen)
+        elif j == boardLen-1: # bottom right corner
+            boardCopy, moreSafe = botRight(i,j, boardCopy, minesweeper, boardLen)
+        elif j != 0 and j != boardLen-1: # bottom, but not in the corner
+            boardCopy, moreSafe = botEdge(i,j, boardCopy, minesweeper, boardLen)
 
-    elif i == boardLen-1 and j == 0:
+    # Check if agent is on left/right border of the board
+    elif i != 0 and i != boardLen-1: 
+        if j == 0: # at the left border
+            boardCopy, moreSafe = leftEdge(i,j, boardCopy, minesweeper, boardLen)
+        elif j == boardLen-1: # at the right border
+            boardCopy, moreSafe = rightEdge(i,j, boardCopy, minesweeper, boardLen)
 
-        boardCopy, moreSafe = botLeft(i,j, boardCopy, minesweeper, boardLen)
 
-    elif i == 0 and j == boardLen-1:
-
-        boardCopy, moreSafe = topRight(i,j, boardCopy, minesweeper, boardLen)
-
-    elif i == boardLen-1 and j == boardLen-1:
-
-        boardCopy, moreSafe = botRight(i,j, boardCopy, minesweeper, boardLen)
-
-    elif i == 0 and j != 0 and j != boardLen-1:
-
-        boardCopy, moreSafe = topEdge(i,j, boardCopy, minesweeper, boardLen)
-
-    elif i != 0 and i != boardLen-1 and j == 0:
-
-        boardCopy, moreSafe = leftEdge(i,j, boardCopy, minesweeper, boardLen)
-
-    elif i != 0 and i != boardLen-1 and j == boardLen-1:
-
-        boardCopy, moreSafe = rightEdge(i,j, boardCopy, minesweeper, boardLen)
-
-    elif i == boardLen-1 and j != 0 and j != boardLen-1:
-
-        boardCopy, moreSafe = botEdge(i,j, boardCopy, minesweeper, boardLen)
-
+    # The agent is not on the border
     else:   
         boardCopy, moreSafe = middle(i,j, boardCopy, minesweeper, boardLen)
 
@@ -550,45 +428,43 @@ def search(minesweeper, dim):
         for j in range(dim):
             result[i,j] = '-'
 
+    mineHitList = []
 
     hiddenCells = True
-
-    x = random.randint(0,dim-1)
-    y = random.randint(0,dim-1)
-
-    mineHits = 0
-
-
-    #print(x, y)
-
-    mineHitList = []
     while (hiddenCells is True):
+        x = random.randint(0,dim-1)
+        y = random.randint(0,dim-1)
+        #print(x, y)
+
+        # Avoid clicking already-exploded mine again
+        if (x,y) in mineHitList:
+            # print('Agent already knows that there is a mine at ', 'x: ' + str(y), 'y: ' + str(x), '... SKIP')
+            continue
+        if result[x,y] != '-':
+            continue
 
 
-        hint = minesweeper[x,y]
+        hint = result[x,y] = minesweeper[x,y]
+        print("Clicked on cell - ", 'x: ' + str(y), 'y: ' + str(x), 'hint: ' + str(hint))
 
-        print()
-        print("Clicked on cell", x, y)
 
-        result[x,y] = minesweeper[x,y]
-        
-        
-
-        if result[x,y] == 'M':
-            mineHits += 1
+        # If clicked on mine, append in mineHitList to update the knowledge of the agent
+        if str(hint) == 'M':
+            print("******CLICKED A MINE******")
+            result[x,y] = 'm'
             mineHitList.append((x,y))
+            print('Agent knowledge updated!')
+            continue
 
-
+        # Expand neighboring/adjacent safe cells once a safe cell is clicked
         if hint == 0: 
-
+            print("Safe cell 0 clicked, expanding adjacent 0 cells.")
             moreSafe = True
 
             while(moreSafe == True):
-                
                 for i in range(dim):
                     for j in range(dim):
                         if result[i,j] == 0:
-
                             #print((i, j))
                             result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
 
@@ -608,19 +484,15 @@ def search(minesweeper, dim):
                     result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
 
                     while(moreSafe == True):
-                
                         for i in range(dim):
                             for j in range(dim):
                                 if result[i,j] == 0:
-
-                                    #print((i, j))
                                     result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
             
         
         hiddenCells, hidden = hiddenScan(result, dim)
-
+        
         if hiddenCells == True:
-
             randomCell = random.choice(hidden)
 
             x = randomCell[0]
@@ -628,8 +500,10 @@ def search(minesweeper, dim):
 
 
         printBoard(result)
+        print()
 
     print()
     print("Agent hit mines at: ", mineHitList)
+    print("Total mines clicked: " + str(len(mineHitList)))
 
-    return result, mineHits
+    return result, len(mineHitList)

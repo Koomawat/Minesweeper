@@ -1,48 +1,39 @@
-def mineSweep(board, dim):
+def mineSweep(board, boardLen):
 
     boardCopy = board
 
-    for i in range(dim):
-        for j in range(dim):
-            if (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 or 
-                board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+    for i in range(boardLen):
+        for j in range(boardLen):
+            if str(board[i,j]).isnumeric() and 1 <= board[i,j] <= 8:
 
                 numberHint = board[i,j]
 
-                boardLen = dim
+                # Check if agent is at the top of the board
+                if i == 0:
+                    if j == 0: # top left corner
+                        boardCopy = topLeft(i,j, boardCopy, numberHint)
+                    elif j == boardLen-1: # top right corner
+                        boardCopy= topRight(i,j, boardCopy, numberHint)
+                    elif j != 0 and j != boardLen-1: # top, but not in the corner
+                        boardCopy = topEdge(i,j, boardCopy, numberHint)
 
-                if i == 0 and j == 0:
+                # Check if agent is at the bottom of the board
+                elif i == boardLen-1:
+                    if j == 0: # bottom left corner
+                        boardCopy = botLeft(i,j, boardCopy, numberHint)
+                    elif j == boardLen-1: # bottom right corner
+                        boardCopy = botRight(i,j, boardCopy, numberHint)
+                    elif j != 0 and j != boardLen-1: # bottom, but not in the corner
+                        boardCopy = botEdge(i,j, boardCopy, numberHint)
 
-                    boardCopy = topLeft(i,j, boardCopy, numberHint)
+                # Check if agent is on left/right border of the board
+                elif i != 0 and i != boardLen-1: 
+                    if j == 0: # at the left border
+                        boardCopy = leftEdge(i,j, boardCopy, numberHint)
+                    elif j == boardLen-1: # at the right border
+                        boardCopy = rightEdge(i,j, boardCopy, numberHint)
 
-                elif i == boardLen-1 and j == 0:
-
-                    boardCopy = botLeft(i,j, boardCopy, numberHint)
-
-                elif i == 0 and j == boardLen-1:
-
-                    boardCopy= topRight(i,j, boardCopy, numberHint)
-
-                elif i == boardLen-1 and j == boardLen-1:
-
-                    boardCopy = botRight(i,j, boardCopy, numberHint)
-
-                elif i == 0 and j != 0 and j != boardLen-1:
-
-                    boardCopy = topEdge(i,j, boardCopy, numberHint)
-
-                elif i != 0 and i != boardLen-1 and j == 0:
-
-                    boardCopy = leftEdge(i,j, boardCopy, numberHint)
-
-                elif i != 0 and i != boardLen-1 and j == boardLen-1:
-
-                    boardCopy = rightEdge(i,j, boardCopy, numberHint)
-
-                elif i == boardLen-1 and j != 0 and j != boardLen-1:
-
-                    boardCopy = botEdge(i,j, boardCopy, numberHint)
-
+                # The agent is not on the border
                 else:   
                     boardCopy = middle(i,j, boardCopy, numberHint)
 
@@ -55,39 +46,21 @@ def topLeft(i,j, board, hint):
     hiddenTuples = []
     mineCount = 0
 
-    # South East
-    if board[i+1,j+1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i+1, j+1))
-            
-    # South
-    if board[i+1,j] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i+1, j))
+    topLeftCoords = [(1,1), (1,0), (0,1)]
+                    #  SE,    S,     E
 
-    # East
-    if board[i, j+1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i, j+1))
-
-
-    # South East
-    if board[i+1,j+1] == 'M':
-        mineCount += 1
-            
-    # South
-    if board[i+1,j] == 'M':
-        mineCount += 1
-
-    # East
-    if board[i, j+1] == 'M':
-        mineCount += 1
+    for x,y in topLeftCoords:
+        a, b = i, j # reset to original i,j
+        a += x
+        b += y
+        if board[a, b] == '-':
+            hiddenCount += 1
+            hiddenTuples.append((a,b))
+        if str(board[a, b]).lower() == 'm':
+            mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
-        
-        hiddenTuplesLen = len(hiddenTuples)
-
-        for i in range(hiddenTuplesLen):
+        for i in range(len(hiddenTuples)):
             x = hiddenTuples[i][0]
             y = hiddenTuples[i][1]
             board[x,y] = 'M'
@@ -97,42 +70,25 @@ def topLeft(i,j, board, hint):
 
 def topRight(i,j, board, hint):
 
-    hiddenCount = 0
     hiddenTuples = []
+    hiddenCount = 0
     mineCount = 0
 
-    # South West 
-    if board[i+1,j-1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i+1,j-1))
+    topRightCoords = [(1,-1), (1,0), (0,-1)]
+                    #   SW,     S,      W
 
-    # South
-    if board[i+1,j] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i+1,j))
-
-    # West
-    if board[i,j-1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i,j-1))
-
-    # South West 
-    if board[i+1,j-1] == 'M':
-        mineCount += 1
-
-    # South
-    if board[i+1,j] == 'M':
-        mineCount += 1
-
-    # West
-    if board[i,j-1] == 'M':
-        mineCount += 1
+    for x,y in topRightCoords:
+        a, b = i, j # reset to original i,j
+        a += x
+        b += y
+        if board[a, b] == '-':
+            hiddenCount += 1
+            hiddenTuples.append((a,b))
+        if str(board[a, b]).lower() == 'm':
+            mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
-        
-        hiddenTuplesLen = len(hiddenTuples)
-
-        for i in range(hiddenTuplesLen):
+        for i in range(len(hiddenTuples)):
             x = hiddenTuples[i][0]
             y = hiddenTuples[i][1]
             board[x,y] = 'M'
@@ -146,38 +102,21 @@ def botLeft(i,j, board, hint):
     hiddenTuples = []
     mineCount = 0
 
-    # North East
-    if board[i-1,j+1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i-1,j+1))
+    botLeftCoords = [(-1,1), (-1,0), (0,1)]
+                    #   NE,     N,      E
 
-    # North
-    if board[i-1,j] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i-1,j))
-
-    # East
-    if board[i, j+1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i,j+1))
-
-    # North East
-    if board[i-1,j+1] == 'M':
-        mineCount += 1
-
-    # North
-    if board[i-1,j] == 'M':
-        mineCount += 1
-
-    # East
-    if board[i, j+1] == 'M':
-        mineCount += 1
+    for x,y in botLeftCoords:
+        a, b = i, j # reset to original i,j
+        a += x
+        b += y
+        if board[a, b] == '-':
+            hiddenCount += 1
+            hiddenTuples.append((a,b))
+        if str(board[a, b]).lower() == 'm':
+            mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
-        
-        hiddenTuplesLen = len(hiddenTuples)
-
-        for i in range(hiddenTuplesLen):
+        for i in range(len(hiddenTuples)):
             x = hiddenTuples[i][0]
             y = hiddenTuples[i][1]
             board[x,y] = 'M'
@@ -191,38 +130,21 @@ def botRight(i,j, board, hint):
     hiddenTuples = []
     mineCount = 0
 
-    # North West 
-    if board[i-1,j-1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i-1,j-1))
+    botRightCoords = [(-1,-1), (-1,0), (0,-1)]
+                    #    NW,      N,      W
 
-    # North
-    if board[i-1,j] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i-1,j))
-
-    # West
-    if board[i,j-1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i,j-1))
-
-    # North West 
-    if board[i-1,j-1] == 'M':
-        mineCount += 1
-
-    # North
-    if board[i-1,j] == 'M':
-        mineCount += 1
-
-    # West
-    if board[i,j-1] == 'M':
-        mineCount += 1
+    for x,y in botRightCoords:
+        a, b = i, j # reset to original i,j
+        a += x
+        b += y
+        if board[a, b] == '-':
+            hiddenCount += 1
+            hiddenTuples.append((a,b))
+        if str(board[a, b]).lower() == 'm':
+            mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
-        
-        hiddenTuplesLen = len(hiddenTuples)
-
-        for i in range(hiddenTuplesLen):
+        for i in range(len(hiddenTuples)):
             x = hiddenTuples[i][0]
             y = hiddenTuples[i][1]
             board[x,y] = 'M'
@@ -236,56 +158,21 @@ def topEdge(i,j, board, hint):
     hiddenTuples = []
     mineCount = 0
 
-    # West
-    if board[i,j-1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i,j-1))
+    topEdgeCoords = [(0,-1), (0,1), (1,0), (1,-1), (1,1)]
+                    #   W,     E,     S,     SW,    SE
 
-    # East
-    if board[i, j+1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i,j+1))
-
-    # South
-    if board[i+1,j] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i+1,j))
-
-    # South West 
-    if board[i+1,j-1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i+1,j-1))
-
-    # South East
-    if board[i+1,j+1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i+1,j+1))
-
-    # West
-    if board[i,j-1] == 'M':
-        mineCount += 1
-
-    # East
-    if board[i, j+1] == 'M':
-        mineCount += 1
-
-    # South
-    if board[i+1,j] == 'M':
-        mineCount += 1
-
-    # South West 
-    if board[i+1,j-1] == 'M':
-        mineCount += 1
-
-    # South East
-    if board[i+1,j+1] == 'M':
-        mineCount += 1
+    for x,y in topEdgeCoords:
+        a, b = i, j # reset to original i,j
+        a += x
+        b += y
+        if board[a, b] == '-':
+            hiddenCount += 1
+            hiddenTuples.append((a,b))
+        if str(board[a, b]).lower() == 'm':
+            mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
-        
-        hiddenTuplesLen = len(hiddenTuples)
-
-        for i in range(hiddenTuplesLen):
+        for i in range(len(hiddenTuples)):
             x = hiddenTuples[i][0]
             y = hiddenTuples[i][1]
             board[x,y] = 'M'
@@ -299,56 +186,21 @@ def leftEdge(i,j, board, hint):
     hiddenTuples = []
     mineCount = 0
 
-    # East
-    if board[i, j+1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i,j+1))
+    leftEdgeCoords = [(0,1), (1,0), (1,1), (-1,0), (-1,1)]
+                    #   E,     S,    SE,      N      NE
 
-    # South
-    if board[i+1,j] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i+1,j))
-
-    # South East
-    if board[i+1,j+1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i+1,j+1))
-
-    # North
-    if board[i-1,j] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i-1,j))
-
-    # North East
-    if board[i-1,j+1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i-1,j+1))
-
-    # East
-    if board[i, j+1] == 'M':
-        mineCount += 1
-
-    # South
-    if board[i+1,j] == 'M':
-        mineCount += 1
-
-    # South East
-    if board[i+1,j+1] == 'M':
-        mineCount += 1
-
-    # North
-    if board[i-1,j] == 'M':
-        mineCount += 1
-
-    # North East
-    if board[i-1,j+1] == 'M':
-        mineCount += 1
+    for x,y in leftEdgeCoords:
+        a, b = i, j # reset to original i,j
+        a += x
+        b += y
+        if board[a, b] == '-':
+            hiddenCount += 1
+            hiddenTuples.append((a,b))
+        if str(board[a, b]).lower() == 'm':
+            mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
-        
-        hiddenTuplesLen = len(hiddenTuples)
-
-        for i in range(hiddenTuplesLen):
+        for i in range(len(hiddenTuples)):
             x = hiddenTuples[i][0]
             y = hiddenTuples[i][1]
             board[x,y] = 'M'
@@ -362,56 +214,21 @@ def rightEdge(i,j, board, hint):
     hiddenTuples = []
     mineCount = 0
 
-    # West
-    if board[i,j-1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i,j-1))
+    rightEdgeCoords = [(0,-1), (1,0), (1,-1), (-1,0), (-1,-1)]
+                    #   W,      S,     SW,      N,      NW
 
-    # South
-    if board[i+1,j] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i+1,j))
-
-    # South West 
-    if board[i+1,j-1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i+1,j-1))
-
-    # North
-    if board[i-1,j] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i-1,j))
-
-    # North West 
-    if board[i-1,j-1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i-1,j-1))
-
-    # West
-    if board[i,j-1] == 'M':
-        mineCount += 1
-
-    # South
-    if board[i+1,j] == 'M':
-        mineCount += 1
-
-    # South West 
-    if board[i+1,j-1] == 'M':
-        mineCount += 1
-
-    # North
-    if board[i-1,j] == 'M':
-        mineCount += 1
-
-    # North West 
-    if board[i-1,j-1] == 'M':
-        mineCount += 1
+    for x,y in rightEdgeCoords:
+        a, b = i, j # reset to original i,j
+        a += x
+        b += y
+        if board[a, b] == '-':
+            hiddenCount += 1
+            hiddenTuples.append((a,b))
+        if str(board[a, b]).lower() == 'm':
+            mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
-        
-        hiddenTuplesLen = len(hiddenTuples)
-
-        for i in range(hiddenTuplesLen):
+        for i in range(len(hiddenTuples)):
             x = hiddenTuples[i][0]
             y = hiddenTuples[i][1]
             board[x,y] = 'M'
@@ -425,56 +242,21 @@ def botEdge(i,j, board, hint):
     hiddenTuples = []
     mineCount = 0
 
-    # North
-    if board[i-1,j] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i-1,j))
+    botEdgeCoords = [(0,-1), (-1,1), (0,1), (-1,0), (-1,-1)]
+                    #   W,     NE,     E,     N,      NW
 
-    # North West 
-    if board[i-1,j-1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i-1,j-1))
-    
-    # North East
-    if board[i-1,j+1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i-1,j+1))
-
-    # West
-    if board[i,j-1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i,j-1))
-
-    # East
-    if board[i, j+1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i,j+1))
-
-    # North
-    if board[i-1,j] == 'M':
-        mineCount += 1
-
-    # North West 
-    if board[i-1,j-1] == 'M':
-        mineCount += 1
-    
-    # North East
-    if board[i-1,j+1] == 'M':
-        mineCount += 1
-
-    # West
-    if board[i,j-1] == 'M':
-        mineCount += 1
-
-    # East
-    if board[i, j+1] == 'M':
-        mineCount += 1
+    for x,y in botEdgeCoords:
+        a, b = i, j # reset to original i,j
+        a += x
+        b += y
+        if board[a, b] == '-':
+            hiddenCount += 1
+            hiddenTuples.append((a,b))
+        if str(board[a, b]).lower() == 'm':
+            mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
-        
-        hiddenTuplesLen = len(hiddenTuples)
-
-        for i in range(hiddenTuplesLen):
+        for i in range(len(hiddenTuples)):
             x = hiddenTuples[i][0]
             y = hiddenTuples[i][1]
             board[x,y] = 'M'
@@ -488,83 +270,21 @@ def middle(i,j, board, hint):
     hiddenTuples = []
     mineCount = 0
 
-    # North
-    if board[i-1,j] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i-1,j))
+    midCoords = [(0,-1), (-1,1), (0,1), (-1,0), (-1,-1), (1,0), (1,-1), (1,1)]
+                #   W,     NE,     E,     N,      NW      S,     SW,     SE
 
-    # North West 
-    if board[i-1,j-1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i-1,j-1))
-
-    # North East
-    if board[i-1,j+1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i-1,j+1))
-
-    # South
-    if board[i+1,j] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i+1,j))
-
-    # South West 
-    if board[i+1,j-1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i+1,j-1))
-
-    # South East
-    if board[i+1,j+1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i+1,j+1))
-
-    # West
-    if board[i,j-1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i,j-1))
-
-    # East
-    if board[i, j+1] == '-':
-        hiddenCount += 1
-        hiddenTuples.append((i,j+1))
-
-    # North
-    if board[i-1,j] == 'M':
-        mineCount += 1
-
-    # North West 
-    if board[i-1,j-1] == 'M':
-        mineCount += 1
-
-    # North East
-    if board[i-1,j+1] == 'M':
-        mineCount += 1
-
-    # South
-    if board[i+1,j] == 'M':
-        mineCount += 1
-
-    # South West 
-    if board[i+1,j-1] == 'M':
-        mineCount += 1
-
-    # South East
-    if board[i+1,j+1] == 'M':
-        mineCount += 1
-
-    # West
-    if board[i,j-1] == 'M':
-        mineCount += 1
-
-    # East
-    if board[i, j+1] == 'M':
-        mineCount += 1
+    for x,y in midCoords:
+        a, b = i, j # reset to original i,j
+        a += x
+        b += y
+        if board[a, b] == '-':
+            hiddenCount += 1
+            hiddenTuples.append((a,b))
+        if str(board[a, b]).lower() == 'm':
+            mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
-        
-        hiddenTuplesLen = len(hiddenTuples)
-
-        for i in range(hiddenTuplesLen):
+        for i in range(len(hiddenTuples)):
             x = hiddenTuples[i][0]
             y = hiddenTuples[i][1]
             board[x,y] = 'M'
