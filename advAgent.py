@@ -45,6 +45,7 @@ def printAdvBoard(board):
 
     return 
 
+
 def hiddenScan(board, dim): 
     
     hidden = False
@@ -221,6 +222,7 @@ def safeCheck(boardLen, board):
                     moreSafe = True
 
     return moreSafe
+
 
 def constraintsCheck(boardLen, board):
 
@@ -700,8 +702,14 @@ def exposeSafe(i,j, result, minesweeper, dim):
 
     return boardCopy, moreSafe
 
-def guessCheck(boardCopy, constraints):
+def guessCheck(boardCopy, consDict):
 
+    # test mine placements in unkown cells until there's an invalid placement
+    # backtrack with different placements -> replace with safes
+    # if a mine is found, call mineSweep and safeSweep in order to get other unknown cells that may be disoverable with the new info collected
+        #copy the board and return -> run again
+    # compare boards where there is always a mine which must mean there has to be a mine
+    # if no mine is consistent across copy boards means we gotta guess a random tile and then repeat
     return
 
 

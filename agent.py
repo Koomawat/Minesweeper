@@ -491,9 +491,9 @@ def search(minesweeper, dim):
         hint = minesweeper[x,y]
 
         # Avoid clicking already-exploded mine again
-        if (x,y) in mineHitList:
-            # print('Agent already knows that there is a mine at ', 'x: ' + str(y), 'y: ' + str(x), '... SKIP')
-            continue
+        #if (x,y) in mineHitList:
+        #    # print('Agent already knows that there is a mine at ', 'x: ' + str(y), 'y: ' + str(x), '... SKIP')
+        #    continue
 
 
         # Avoid going through revealed cells

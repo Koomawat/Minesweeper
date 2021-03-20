@@ -14,30 +14,35 @@ def main():
 
     mines = int(input("Enter the number of mines: "))
 
+    
+    if mines >= boardDimension * boardDimension:
+        print("Mine limit exceeded")
+        exit()
+
     minesweeper = minePlacer(mines, initial)
 
     # printBoard(minesweeper)
 
     minesweeperHints = hintsCalculator(minesweeper)
 
-    printBoard(minesweeperHints)
-    # # printAdvBoard(minesweeperHints)
+    #printBoard(minesweeperHints)
+    printAdvBoard(minesweeperHints)
 
     result, mineHits = search(minesweeperHints, boardDimension)
-    # # result, mineHits = advSearch(minesweeperHints, boardDimension)
+    #result, mineHits = advSearch(minesweeperHints, boardDimension)
 
     print('result: ')
     printBoard(result)
-    # # printAdvBoard(result)
+    #printAdvBoard(result)
 
     print()
 
     # M,m = mineScan(result, boardDimension)
 
-    # percent = (mines-mineHits) / mines
-    # percent *= 100
+    percent = (mines-mineHits) / mines
+    percent *= 100
 
-    # print("Found", percent, "percent of mines without hitting a mine")
+    print("Found", percent, "percent of mines without hitting a mine")
 
     print('End of program.')
 
