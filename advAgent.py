@@ -784,37 +784,38 @@ def constraintsCheck(boardLen, board):
     return constraints
 
 
-def permute(numList):
+def permuteConstraints(numList):
 
-        #here we need a global wise list, each time we just append to the result
-        permutationsList = []
+    permutationsList = []
         
-        def dfsBacktrack(currPermutation, elems):
+    def dfsBacktrack(currPermutation, elems):
 
-            #gather rslt
+        elemLen = len(elems)
 
-            elemLen = len(elems)
+        if elemLen == 0:
+            permutationsList.append(currPermutation[:]) 
 
-            if elemLen == 0:
-                permutationsList.append(currPermutation[:]) 
+        # Only unique permutations
+        unique = list(set(elems))
 
-            for number in elems:
+        for number in unique:
                 
-                currPermutation.append(number)
+            currPermutation.append(number)
 
-                nextElem = elems[:]
+            nextElem = elems[:]
 
-                nextElem.remove(number)
+            nextElem.remove(number)
                 
-                #backtracking
-                dfsBacktrack(currPermutation, nextElem)
+            #backtracking
+            dfsBacktrack(currPermutation, nextElem)
 
-                currPermutation.pop()
+            currPermutation.pop()
                 
                 
-        dfsBacktrack( [], numList) 
+    dfsBacktrack( [], numList) 
 
-        return permutationsList
+
+    return permutationsList
 
 
 def guessCheck(boardCopy, constraints):
