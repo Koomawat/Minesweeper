@@ -25,8 +25,8 @@ def main():
 
     minesweeperHints = hintsCalculator(minesweeper)
 
-    #printBoard(minesweeperHints)
-    printAdvBoard(minesweeperHints)
+    printBoard(minesweeperHints)
+    #printAdvBoard(minesweeperHints)
 
     result, mineHits = search(minesweeperHints, boardDimension)
     #result, mineHits = advSearch(minesweeperHints, boardDimension)
@@ -43,6 +43,10 @@ def main():
     percent *= 100
 
     print("Found", percent, "percent of mines without hitting a mine")
+
+    # Need to calculate the final score represented by the total number of mines - the mines exploded by the player
+    finalscore = mines - mineHits
+    print("Final Score:", finalscore, " out of ", mines)
 
     print('End of program.')
 
