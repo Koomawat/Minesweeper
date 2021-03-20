@@ -63,7 +63,7 @@ def topLeft(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if board[a, b] == ('M' or 'm'):
+        if str(board[a, b]).lower() == 'm':
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
@@ -91,7 +91,7 @@ def topRight(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if board[a, b] == ('M' or 'm'):
+        if str(board[a, b]).lower() == 'm':
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
@@ -119,7 +119,7 @@ def botLeft(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if board[a, b] == ('M' or 'm'):
+        if str(board[a, b]).lower() == 'm':
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
@@ -147,7 +147,7 @@ def botRight(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if board[a, b] == ('M' or 'm'):
+        if str(board[a, b]).lower() == 'm':
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
@@ -175,7 +175,7 @@ def topEdge(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if board[a, b] == ('M' or 'm'):
+        if str(board[a, b]).lower() == 'm':
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
@@ -203,7 +203,7 @@ def leftEdge(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if board[a, b] == ('M' or 'm'):
+        if str(board[a, b]).lower() == 'm':
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
@@ -231,7 +231,7 @@ def rightEdge(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if board[a, b] == ('M' or 'm'):
+        if str(board[a, b]).lower() == 'm':
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
@@ -259,7 +259,7 @@ def botEdge(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if board[a, b] == ('M' or 'm'):
+        if str(board[a, b]).lower() == 'm':
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
@@ -287,7 +287,7 @@ def middle(i,j, board, hint):
         if board[a, b] == '-':
             hiddenCount += 1
             hiddenTuples.append((a,b))
-        if board[a, b] == ('M' or 'm'):
+        if str(board[a, b]).lower() == 'm':
             mineCount += 1
 
     if (hint - mineCount) == hiddenCount:
