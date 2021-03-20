@@ -1,6 +1,7 @@
 from createboard import *
 from mineRevealer import *
 from safeHiddenRevealer import *
+from test import *
 import random
 from more_termcolor.colors import brightred, brightgreen, brightyellow, brightblue, brightmagenta, brightcyan
 
@@ -222,239 +223,6 @@ def safeCheck(boardLen, board):
                     moreSafe = True
 
     return moreSafe
-
-
-def constraintsCheck(boardLen, board):
-
-    constraints = {(i,j) :
-    [] for i in range(boardLen)
-            for j in range(boardLen)
-                if (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8)}
-
-    for i,j in constraints.keys():
-        
-        if i == 0 and j == 0:
-
-            # E
-            if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i,j+1))
-
-            # S     
-            if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i+1,j))
-
-            # SE
-            if board[i+1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i+1,j+1))
-
-        elif i == boardLen-1 and j == 0:
-
-            # N
-            if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i-1,j))
-
-            # NE
-            if board[i-1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i-1,j+1))
-
-            # E
-            if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-               constraints[(i,j)].append((i,j+1))
-
-        elif i == 0 and j == boardLen-1:
-
-            # W
-            if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i,j-1))
-
-            # SW
-            if board[i+1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i+1,j-1))
-
-            # S
-            if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i+1,j))
-
-        elif i == boardLen-1 and j == boardLen-1:
-
-            # NW
-            if board[i-1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i-1,j-1))
-
-            # N
-            if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i-1,j))
-
-            # W
-            if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i,j-1))
-
-        elif i == 0 and j != 0 and j != boardLen-1:
-
-            # W
-            if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i,j-1))
-
-            # E
-            if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i,j+1))
-
-            # SW
-            if board[i+1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i+1,j-1))
-
-            # S
-            if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i+1,j))
-
-            # SE
-            if board[i+1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i+1,j+1))
-
-        elif i != 0 and i != boardLen-1 and j == 0:
-
-            # N
-            if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i-1,j))
-
-            # NE
-            if board[i-1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i-1,j+1))
-
-            # E
-            if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i,j+1))
-
-            # S
-            if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i+1,j))
-
-            # SE
-            if board[i+1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i+1,j+1))
-
-        elif i != 0 and i != boardLen-1 and j == boardLen-1:
-
-            # NW
-            if board[i-1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i-1,j-1))
-
-            # N
-            if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i-1,j))
-
-            # W
-            if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i,j-1))
-
-            # SW
-            if board[i+1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i+1,j-1))
-
-            # S
-            if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i+1,j))
-
-        elif i == boardLen-1 and j != 0 and j != boardLen-1:
-
-            # NW
-            if board[i-1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i-1,j-1))
-
-            # N
-            if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i-1,j))
-
-            # NE
-            if board[i-1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i-1,j+1))
-
-            # W
-            if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i,j-1))
-
-            # E
-            if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i,j+1))
-
-        else:   
-                
-            # NW
-            if board[i-1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i-1,j-1))
-
-            # N
-            if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i-1,j))
-
-            # NE
-            if board[i-1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i-1,j+1))
-
-            # W
-            if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i,j-1))
-
-            # E
-            if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i,j+1))
-
-            # SW
-            if board[i+1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i+1,j-1))
-
-            # S
-            if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i+1,j))
-            
-            # SE
-            if board[i+1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
-                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
-                constraints[(i,j)].append((i+1,j+1))
-
-            
-    
-    return constraints
 
 
 def topLeft(i,j, board, minesweeper, boardLen):
@@ -737,15 +505,6 @@ def middle(i,j, board, minesweeper, boardLen):
 
     return board, moreSafe
 
-def guessCheck(boardCopy, consDict):
-
-    # test mine placements in unkown cells until there's an invalid placement
-    # backtrack with different placements -> replace with safes
-    # if a mine is found, call mineSweep and safeSweep in order to get other unknown cells that may be disoverable with the new info collected
-        #copy the board and return -> run again
-    # compare boards where there is always a mine which must mean there has to be a mine
-    # if no mine is consistent across copy boards means we gotta guess a random tile and then repeat
-    return
 
 def exposeSafe(i,j, result, minesweeper, dim):
 
@@ -795,7 +554,256 @@ def exposeSafe(i,j, result, minesweeper, dim):
     return boardCopy, moreSafe
 
 
+def constraintsCheck(boardLen, board):
+
+    constraints = {(i,j) :
+    [] for i in range(boardLen)
+            for j in range(boardLen)
+                if (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8)}
+
+    for i,j in constraints.keys():
+        
+        if i == 0 and j == 0:
+
+            # E
+            if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i,j+1))
+
+            # S     
+            if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i+1,j))
+
+            # SE
+            if board[i+1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i+1,j+1))
+
+        elif i == boardLen-1 and j == 0:
+
+            # N
+            if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i-1,j))
+
+            # NE
+            if board[i-1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i-1,j+1))
+
+            # E
+            if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+               constraints[(i,j)].append((i,j+1))
+
+        elif i == 0 and j == boardLen-1:
+
+            # W
+            if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i,j-1))
+
+            # SW
+            if board[i+1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i+1,j-1))
+
+            # S
+            if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i+1,j))
+
+        elif i == boardLen-1 and j == boardLen-1:
+
+            # NW
+            if board[i-1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i-1,j-1))
+
+            # N
+            if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i-1,j))
+
+            # W
+            if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i,j-1))
+
+        elif i == 0 and j != 0 and j != boardLen-1:
+
+            # W
+            if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i,j-1))
+
+            # E
+            if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i,j+1))
+
+            # SW
+            if board[i+1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i+1,j-1))
+
+            # S
+            if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i+1,j))
+
+            # SE
+            if board[i+1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i+1,j+1))
+
+        elif i != 0 and i != boardLen-1 and j == 0:
+
+            # N
+            if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i-1,j))
+
+            # NE
+            if board[i-1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i-1,j+1))
+
+            # E
+            if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i,j+1))
+
+            # S
+            if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i+1,j))
+
+            # SE
+            if board[i+1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i+1,j+1))
+
+        elif i != 0 and i != boardLen-1 and j == boardLen-1:
+
+            # NW
+            if board[i-1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i-1,j-1))
+
+            # N
+            if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i-1,j))
+
+            # W
+            if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i,j-1))
+
+            # SW
+            if board[i+1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i+1,j-1))
+
+            # S
+            if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i+1,j))
+
+        elif i == boardLen-1 and j != 0 and j != boardLen-1:
+
+            # NW
+            if board[i-1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i-1,j-1))
+
+            # N
+            if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i-1,j))
+
+            # NE
+            if board[i-1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i-1,j+1))
+
+            # W
+            if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i,j-1))
+
+            # E
+            if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i,j+1))
+
+        else:   
+                
+            # NW
+            if board[i-1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i-1,j-1))
+
+            # N
+            if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i-1,j))
+
+            # NE
+            if board[i-1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i-1,j+1))
+
+            # W
+            if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i,j-1))
+
+            # E
+            if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i,j+1))
+
+            # SW
+            if board[i+1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i+1,j-1))
+
+            # S
+            if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i+1,j))
+            
+            # SE
+            if board[i+1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                constraints[(i,j)].append((i+1,j+1))
+
+    return constraints
+
+
 def guessCheck(boardCopy, constraints):
+
+    key = list(constraints.keys())[0]
+
+    print(key)
+
+    list2 = constraints.get(key)
+
+    print(list2)
+
+    hint = boardCopy[key]
+
+    print(hint)
+
+    list2Len = len(list2)
+    print(list2Len)
+
+
+
 
     return
 
@@ -870,8 +878,17 @@ def advSearch(minesweeper, dim):
 
         consDict = constraintsCheck(dim, result)
 
+        # remove empty keys
+        for k in list(consDict):
+            if not consDict[k]:
+                del consDict[k]
+
         print(consDict)
         print()
+
+        if len(consDict) >= 1:
+            guessCheck(result, consDict)
+
 
         #hiddenCells, hidden = hiddenScan(result, dim)
 
