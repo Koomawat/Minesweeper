@@ -1,7 +1,6 @@
 from createboard import *
 from mineRevealer import *
 from safeHiddenRevealer import *
-from test import *
 import random
 from more_termcolor.colors import brightred, brightgreen, brightyellow, brightblue, brightmagenta, brightcyan
 
@@ -783,6 +782,39 @@ def constraintsCheck(boardLen, board):
                 constraints[(i,j)].append((i+1,j+1))
 
     return constraints
+
+
+def permute(numList):
+
+        #here we need a global wise list, each time we just append to the result
+        permutationsList = []
+        
+        def dfsBacktrack(currPermutation, elems):
+
+            #gather rslt
+
+            elemLen = len(elems)
+
+            if elemLen == 0:
+                permutationsList.append(currPermutation[:]) 
+
+            for number in elems:
+                
+                currPermutation.append(number)
+
+                nextElem = elems[:]
+
+                nextElem.remove(number)
+                
+                #backtracking
+                dfsBacktrack(currPermutation, nextElem)
+
+                currPermutation.pop()
+                
+                
+        dfsBacktrack( [], numList) 
+
+        return permutationsList
 
 
 def guessCheck(boardCopy, constraints):
