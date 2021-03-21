@@ -27,7 +27,7 @@ def plotting():
         exit()
 
     # Do minesweeper runs for each density being tested
-    for x in range(1, 21):
+    for x in range(1, len(mineDensity)+1):
         # Get the amount of mines needed for the current density
         mines = (boardDimension * boardDimension) * 0.05 * x
         # if for some reason it exceeds the limit (which it shouldnt)
@@ -60,19 +60,19 @@ def plotting():
             percent = ((mines-mineHits) / mines)*100
             basicAgentScore += percent
             # Advanced agent
-            #result, mineHits = advSearch(finalBoard, boardDimension)
-            #advScore = mines - mineHits
-            #advAgentScore += advScore
+            result, mineHits = advSearch(finalBoard, boardDimension)
+            advScore = ((mines - mineHits) / mines)*100
+            advAgentScore += advScore
 
         #put averages to be plotted here
-        basicAgentScoreAvg = basicAgentScore/(1*100) #Change according to board amount here
+        basicAgentScoreAvg = basicAgentScore/(len(boards)) #Change according to board amount here
         basicAgentAvgList.append(basicAgentScoreAvg)
-        #advAgentScoreAvg = advAgentScore/10
-        #advAgentAvgList.append(advAgentScoreAvg)
+        advAgentScoreAvg = advAgentScore/(len(boards))
+        advAgentAvgList.append(advAgentScoreAvg)
 
     #Begin plotting
     plt.plot(mineDensity, basicAgentAvgList, label = "Basic Agent")
-    #plt.plot(mineDensity, advAgentAvgList, label = "Advanced Agent")
+    plt.plot(mineDensity, advAgentAvgList, label = "Advanced Agent")
 
     plt.xlabel('Mine Density')
     plt.ylabel('Average Final Score')
