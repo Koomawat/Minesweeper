@@ -1009,6 +1009,30 @@ def surroundingMines(board, tuple):
     return count
 
 
+def checks(result, answers, dim):
+
+    for i in range(dim):
+            for j in range(dim):
+
+                result = mineSweep(result, dim)
+
+                result = safeSweep(result, answers, dim)
+
+                if result[i,j] == 0:
+
+                    result, moreSafe = exposeSafe(i,j, result, answers, dim)
+
+                    while(moreSafe == True):
+                
+                        for i in range(dim):
+                            for j in range(dim):
+                                if result[i,j] == 0:
+
+                                    #print((i, j))
+                                    result, moreSafe = exposeSafe(i,j, result, answers, dim)
+
+    return result
+
 def guessCheck(boardCopy, constraints):
 
     consLen = len(constraints)
@@ -1031,8 +1055,8 @@ def guessCheck(boardCopy, constraints):
 
         equations.append((keyList,hint))
 
-        print(keyList," = ", hint)
-        print()
+        #print(keyList," = ", hint)
+        #print()
 
 
     return equations
@@ -1043,9 +1067,11 @@ def listDifference(l1, l2):
     return (list(list(set(l1) - set(l2)) + list(set(l2) - set (l1))))
 
 
-def equationIterate(equations):
+def equationIterate(equations, result, answers):
 
     eqLen = len(equations)
+
+    safeTuplesList = []
 
     for i in range(eqLen):
 
@@ -1053,9 +1079,26 @@ def equationIterate(equations):
 
             if i != j:
 
-                return
+                primaryList = equations[i][0]
+                primaryHint = equations[i][1]
+                comparedList = equations[j][0]
+                comparedHint = equations[j][1]
 
-    return
+                listDiff = listDifference(primaryList, comparedList)
+
+                if len(listDiff) == 1:
+                    
+                    if primaryHint - comparedHint == 0:
+                        
+                        result[listDiff[0]] = answers[listDiff[0]]
+
+                    if primaryHint - comparedHint == 1:
+
+                        result[listDiff[0]] = 'M'
+
+    
+
+    return result
 
 
 def advSearch(minesweeper, dim):
@@ -1073,23 +1116,25 @@ def advSearch(minesweeper, dim):
     x = random.randint(0,dim-1)
     y = random.randint(0,dim-1)
 
-    mineHits = 0
+    mineHitList = []
 
     #print(x, y)
-    
 
-    #while (hiddenCells is True):
-    if 1 == 1:
+    while (hiddenCells is True):
+    #if 1 == 1:
 
         hint = minesweeper[x,y]
 
         print()
-        print("Clicked on cell", x, y)
+        print("Clicked on cell - ", 'x: ' + str(y), 'y: ' + str(x), 'hint: ' + str(hint))
 
         result[x,y] = minesweeper[x,y]
 
-        if result[x,y] == 'M':
-            mineHits += 1
+        if hint == 'M':
+            print("******CLICKED A MINE******")
+            result[y,x] = 'm'
+            mineHitList.append((y,x))
+            print('Agent knowledge updated!\n')
 
         if hint == 0:
 
@@ -1125,36 +1170,52 @@ def advSearch(minesweeper, dim):
                                     #print((i, j))
                                     result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
                                     
+        boardChange = True
 
-        consDict = constraintsCheck(dim, result)
+        while(boardChange == True):
 
-        # remove empty keys
-        for k in list(consDict):
-            if not consDict[k]:
-                del consDict[k]
+            consDict = constraintsCheck(dim, result)
 
-        print(consDict)
+            # remove empty keys
+            for k in list(consDict):
+                if not consDict[k]:
+                    del consDict[k]
+
+            #print(consDict)
+            #print()
+
+            eqs = []
+
+            if len(consDict) >= 1:
+                eqs = guessCheck(result, consDict)
+
+            #print(eqs)
+            #print()
+
+            oldResult = result
+
+            result = equationIterate(eqs, result, minesweeper)
+
+            result = checks(result, minesweeper, dim)
+
+            if oldResult.all() == result.all():
+                boardChange = False
+
+
+        hiddenCells, hidden = hiddenScan(result, dim)
+
+        if hiddenCells == True:
+
+            randomCell = random.choice(hidden)
+
+            x = randomCell[0]
+            y = randomCell[1]
+
+
         print()
-
-        eqs = []
-
-        if len(consDict) >= 1:
-            eqs = guessCheck(result, consDict)
-
-        print(eqs)
-        print()
-
-        #hiddenCells, hidden = hiddenScan(result, dim)
-
-        #if hiddenCells == True:
-
-            #randomCell = random.choice(hidden)
-
-            #x = randomCell[0]
-            #y = randomCell[1]
-
-
-        
         printAdvBoard(result)
 
-    return result, mineHits
+    print("Agent hit mines at: ", mineHitList)
+    print("Total mines clicked: " + str(len(mineHitList)))
+
+    return result, len(mineHitList)
