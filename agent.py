@@ -475,11 +475,14 @@ def search(minesweeper, dim):
 
     hiddenCells = True
     rowUnrevealCheck = False
+
+
+    x = random.randint(0,dim-1)
+    y = random.randint(0,dim-1)
+
     while (hiddenCells):
         resultList = result.tolist()
 
-        x = random.randint(0,dim-1)
-        y = random.randint(0,dim-1)
 
         if rowUnrevealCheck:
             for a in range(dim):
@@ -489,11 +492,6 @@ def search(minesweeper, dim):
         print(y, x)
         
         hint = minesweeper[x,y]
-
-        # Avoid clicking already-exploded mine again
-        #if (x,y) in mineHitList:
-        #    # print('Agent already knows that there is a mine at ', 'x: ' + str(y), 'y: ' + str(x), '... SKIP')
-        #    continue
 
 
         # Avoid going through revealed cells
@@ -555,7 +553,6 @@ def search(minesweeper, dim):
                 # print('After safesweep: ')
                 # printBoard(result)
                 # print()
-
 
                 if result[i,j] == 0:
 

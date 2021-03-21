@@ -1013,6 +1013,8 @@ def guessCheck(boardCopy, constraints):
 
     consLen = len(constraints)
 
+    equations = []
+
     for i in range(consLen):
 
         constraintKey = list(constraints.keys())[i]
@@ -1027,29 +1029,31 @@ def guessCheck(boardCopy, constraints):
 
         keyListLen = len(keyList)
 
-        count = 0
-
-        permutationList = []
+        equations.append((keyList,hint))
 
         print(keyList," = ", hint)
         print()
 
-        #for i in range(hint):
-            #permutationList.append(1)
 
-        #for i in range(list2Len-hint):
-            #permutationList.append(0)
+    return equations
 
 
-    #lists = permuteConstraints(permutationList)
+def listDifference(l1, l2):
+    
+    return (list(list(set(l1) - set(l2)) + list(set(l2) - set (l1))))
 
-    #print(lists)
 
-    #listsLen = len(lists)
+def equationIterate(equations):
 
-    #testBoard = copy.deepcopy(boardCopy)
+    eqLen = len(equations)
 
-    #isValid = False
+    for i in range(eqLen):
+
+        for j in range(eqLen):
+
+            if i != j:
+
+                return
 
     return
 
@@ -1132,12 +1136,15 @@ def advSearch(minesweeper, dim):
         print(consDict)
         print()
 
-        if len(consDict) >= 1:
-            guessCheck(result, consDict)
+        eqs = []
 
+        if len(consDict) >= 1:
+            eqs = guessCheck(result, consDict)
+
+        print(eqs)
+        print()
 
         #hiddenCells, hidden = hiddenScan(result, dim)
-
 
         #if hiddenCells == True:
 
