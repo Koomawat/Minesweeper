@@ -1073,30 +1073,79 @@ def equationIterate(equations, result, answers):
 
     safeTuplesList = []
 
-    for i in range(eqLen):
+    madeChanges = True
 
-        for j in range(eqLen):
+    while madeChanges == True:
 
-            if i != j:
+        pastResult = result
+    #if 1 == 1:
+        #print("looping")
 
-                primaryList = equations[i][0]
-                primaryHint = equations[i][1]
-                comparedList = equations[j][0]
-                comparedHint = equations[j][1]
 
-                listDiff = listDifference(primaryList, comparedList)
+        for i in range(eqLen):
+
+            for j in range(eqLen):
+
+                listDiff = []
+
+                if len(equations[i][0]) == 1:
+
+                    if equations[i][1] == 1:
+
+                        result[equations[i][0][0]] = 'M'
+
+                        safeTuplesList.append((equations[i][0][0],1))
+
+                    elif equations[i][1] == 0:   
+
+                        result[equations[i][0][0]] = answers[equations[i][0][0]]
+
+                        safeTuplesList.append((equations[i][0][0],0))
+
+                if i != j:
+
+                    primaryList = equations[i][0]
+                    primaryHint = equations[i][1]
+                    comparedList = equations[j][0]
+                    comparedHint = equations[j][1]
+
+                    listDiff = listDifference(primaryList, comparedList)
 
                 if len(listDiff) == 1:
-                    
-                    if primaryHint - comparedHint == 0:
                         
-                        result[listDiff[0]] = answers[listDiff[0]]
+                        if primaryHint - comparedHint == 0:
+                            
+                            result[listDiff[0]] = answers[listDiff[0]]
 
-                    if primaryHint - comparedHint == 1:
+                            safeTuplesList.append((listDiff[0],0))
 
-                        result[listDiff[0]] = 'M'
 
-    
+                        if primaryHint - comparedHint == 1:
+
+                            result[listDiff[0]] = 'M'
+
+                            safeTuplesList.append((listDiff[0],1))
+                            
+
+        for i in range(eqLen):
+
+                for j in range(len(safeTuplesList)):
+
+                    truth = safeTuplesList[j][0][0] in equations[i][0]
+
+                    if truth == True:
+
+                        newHint = equations[i][1] - safeTuplesList[j][1]
+
+                        newList = equations[i][0].remove(safeTuplesList[j][0])
+
+                        equations[i] = (newList, newHint)
+
+        
+        if (pastResult.all() == result.all()):
+            madeChanges = False
+        else:
+            madeChanges = True
 
     return result
 
@@ -1125,16 +1174,16 @@ def advSearch(minesweeper, dim):
 
         hint = minesweeper[x,y]
 
-        print()
-        print("Clicked on cell - ", 'x: ' + str(y), 'y: ' + str(x), 'hint: ' + str(hint))
+        #print()
+        #print("Clicked on cell - ", 'x: ' + str(y), 'y: ' + str(x), 'hint: ' + str(hint))
 
         result[x,y] = minesweeper[x,y]
 
         if hint == 'M':
-            print("******CLICKED A MINE******")
+            #print("******CLICKED A MINE******")
             result[x,y] = 'm'
             mineHitList.append((x,y))
-            print('Agent knowledge updated!\n')
+            #print('Agent knowledge updated!\n')
 
         if hint == 0:
 
@@ -1169,9 +1218,11 @@ def advSearch(minesweeper, dim):
 
                                     #print((i, j))
                                     result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
+           
                                     
         boardChange = True
 
+        
         while(boardChange == True):
 
             consDict = constraintsCheck(dim, result)
@@ -1200,7 +1251,7 @@ def advSearch(minesweeper, dim):
 
             if oldResult.all() == result.all():
                 boardChange = False
-
+        
 
         hiddenCells, hidden = hiddenScan(result, dim)
 
@@ -1212,8 +1263,8 @@ def advSearch(minesweeper, dim):
             y = randomCell[1]
 
 
-        print()
-        printAdvBoard(result)
+        #print()
+        #printAdvBoard(result)
 
     print("Agent hit mines at: ", mineHitList)
     print("Total mines clicked: " + str(len(mineHitList)))
