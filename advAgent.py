@@ -3,6 +3,7 @@ from mineRevealer import *
 from safeHiddenRevealer import *
 import random
 from more_termcolor.colors import brightred, brightgreen, brightyellow, brightblue, brightmagenta, brightcyan
+import copy
 
 def printAdvBoard(board):
     n = len(board)
@@ -818,25 +819,237 @@ def permuteConstraints(numList):
     return permutationsList
 
 
+def surroundingMines(board, tuple):
+
+    count = 0
+
+    boardLen = len(board)
+
+    i = tuple[0]
+    j = tuple[1]
+
+    if i == 0 and j == 0:
+
+            # E
+            if board[i, j+1] == 'M' or board[i, j+1] == 'm':
+                count+=1
+
+            # S     
+            if board[i+1,j] == 'M' or board[i+1,j] == 'm':
+                count+=1
+
+            # SE
+            if board[i+1,j+1] == 'M' or board[i+1,j+1] == 'm':
+                count+=1
+
+    elif i == boardLen-1 and j == 0:
+
+            # N
+            if board[i-1,j] == 'M' or board[i-1,j] == 'm':
+                count+=1
+
+            # NE
+            if board[i-1,j+1] == 'M' or board[i-1,j+1] == 'm':
+                count+=1
+
+            # E
+            if board[i, j+1] == 'M' or board[i, j+1] == 'm':
+               count+=1
+
+    elif i == 0 and j == boardLen-1:
+
+            # W
+            if board[i,j-1] == 'M' or board[i,j-1] == 'm':
+                count+=1
+
+            # SW
+            if board[i+1,j-1] == 'M' or board[i+1,j-1] == 'm':
+                count+=1
+
+            # S
+            if board[i+1,j] == 'M' or board[i+1,j] == 'm':
+                count+=1
+
+    elif i == boardLen-1 and j == boardLen-1:
+
+            # NW
+            if board[i-1,j-1] == 'M' or board[i-1,j-1] == 'm':
+                count+=1
+
+            # N
+            if board[i-1,j] == 'M' or board[i-1,j] == 'm':
+                count+=1
+
+            # W
+            if board[i,j-1] == 'M' or board[i,j-1] == 'm':
+                count+=1
+
+    elif i == 0 and j != 0 and j != boardLen-1:
+
+            # W
+            if board[i,j-1] == 'M' or board[i,j-1] == 'm':
+                count+=1
+
+            # E
+            if board[i, j+1] == 'M' or board[i, j+1] == 'm':
+                count+=1
+
+            # SW
+            if board[i+1,j-1] == 'M' or board[i+1,j-1] == 'm':
+                count+=1
+
+            # S
+            if board[i+1,j] == 'M' or board[i+1,j] == 'm':
+                count+=1
+
+            # SE
+            if board[i+1,j+1] == 'M' or board[i+1,j+1] == 'm':
+                count+=1
+
+    elif i != 0 and i != boardLen-1 and j == 0:
+
+            # N
+            if board[i-1,j] == 'M' or board[i-1,j] == 'm':
+                count+=1
+
+            # NE
+            if board[i-1,j+1] == 'M' or board[i-1,j+1] == 'm':
+                count+=1
+
+            # E
+            if board[i, j+1] == 'M' or board[i, j+1] == 'm':
+                count+=1
+
+            # S
+            if board[i+1,j] == 'M' or board[i+1,j] == 'm':
+                count+=1
+
+            # SE
+            if board[i+1,j+1] == 'M' or board[i+1,j+1] == 'm':
+                count+=1
+
+    elif i != 0 and i != boardLen-1 and j == boardLen-1:
+
+            # NW
+            if board[i-1,j-1] == 'M' or board[i-1,j-1] == 'm':
+                count+=1
+
+            # N
+            if board[i-1,j] == 'M' or board[i-1,j] == 'm':
+                count+=1
+
+            # W
+            if board[i,j-1] == 'M' or board[i,j-1] == 'm':
+                count+=1
+
+            # SW
+            if board[i+1,j-1] == 'M' or board[i+1,j-1] == 'm':
+                count+=1
+
+            # S
+            if board[i+1,j] == 'M' or board[i+1,j] == 'm':
+                count+=1
+
+    elif i == boardLen-1 and j != 0 and j != boardLen-1:
+
+            # NW
+            if board[i-1,j-1] == 'M' or board[i-1,j-1] == 'm':
+                count+=1
+
+            # N
+            if board[i-1,j] == 'M' or board[i-1,j] == 'm':
+                count+=1
+
+            # NE
+            if board[i-1,j+1] == 'M' or board[i-1,j+1] == 'm':
+                count+=1
+
+            # W
+            if board[i,j-1] == 'M' or board[i,j-1] == 'm':
+                count+=1
+
+            # E
+            if board[i, j+1] == 'M' or board[i, j+1] == 'm':
+                count+=1
+
+    else:   
+                
+            # NW
+            if board[i-1,j-1] == 'M' or board[i-1,j-1] == 'm':
+                count+=1
+
+            # N
+            if board[i-1,j] == 'M' or board[i-1,j] == 'm':
+                count+=1
+
+            # NE
+            if board[i-1,j+1] == 'M' or board[i-1,j+1] == 'm':
+                count+=1
+
+            # W
+            if board[i,j-1] == 'M' or board[i,j-1] == 'm':
+                count+=1
+
+            # E
+            if board[i, j+1] == 'M' or board[i, j+1] == 'm':
+                count+=1
+
+            # SW
+            if board[i+1,j-1] == 'M' or board[i+1,j-1] == 'm':
+                count+=1
+
+            # S
+            if board[i+1,j] == 'M' or board[i+1,j] == 'm':
+                count+=1
+            
+            # SE
+            if board[i+1,j+1] == 'M' or board[i+1,j+1] == 'm':
+                count+=1
+
+    return count
+
+
 def guessCheck(boardCopy, constraints):
 
-    key = list(constraints.keys())[0]
+    consLen = len(constraints)
 
-    print(key)
+    for i in range(consLen):
 
-    list2 = constraints.get(key)
+        constraintKey = list(constraints.keys())[i]
 
-    print(list2)
+        keyList = constraints.get(constraintKey)
 
-    hint = boardCopy[key]
+        hint = boardCopy[constraintKey]
 
-    print(hint)
+        surroundingM = surroundingMines(boardCopy, constraintKey)
 
-    list2Len = len(list2)
-    print(list2Len)
+        hint = hint - surroundingM
+
+        keyListLen = len(keyList)
+
+        count = 0
+
+        permutationList = []
+
+        print(keyList," = ", hint)
+        print()
+
+        #for i in range(hint):
+            #permutationList.append(1)
+
+        #for i in range(list2Len-hint):
+            #permutationList.append(0)
 
 
+    #lists = permuteConstraints(permutationList)
 
+    #print(lists)
+
+    #listsLen = len(lists)
+
+    #testBoard = copy.deepcopy(boardCopy)
+
+    #isValid = False
 
     return
 
