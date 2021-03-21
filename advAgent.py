@@ -1132,8 +1132,8 @@ def advSearch(minesweeper, dim):
 
         if hint == 'M':
             print("******CLICKED A MINE******")
-            result[y,x] = 'm'
-            mineHitList.append((y,x))
+            result[x,y] = 'm'
+            mineHitList.append((x,y))
             print('Agent knowledge updated!\n')
 
         if hint == 0:

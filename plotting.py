@@ -39,7 +39,7 @@ def plotting():
         boards = []
 
         # Create this many boards
-        for y in range(0, 1): # change this back to 10 later
+        for y in range(0, 10): # change this back to 10 later
             # Create the board
             initial = board(boardDimension)
             # Add mines to the board
