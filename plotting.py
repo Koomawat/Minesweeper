@@ -17,7 +17,7 @@ def plotting():
     # Initialize the averages for the basic and advanced agents
     basicAgentAvgList, advAgentAvgList = [], []
     # Mine density testing
-    mineDensity = [x * 0.05 for x in range(1, 7)] #change to 20
+    mineDensity = [x * 0.05 for x in range(1, 20)] #change to 20
 
 
     # Get the desired board size => can change it to just 1 fixed size if neeeded
@@ -27,7 +27,7 @@ def plotting():
         exit()
 
     # Do minesweeper runs for each density being tested
-    for x in range(1, 7):
+    for x in range(1, 20):
         # Get the amount of mines needed for the current density
         mines = (boardDimension * boardDimension) * 0.05 * x
         # if for some reason it exceeds the limit (which it shouldnt)
@@ -39,7 +39,7 @@ def plotting():
         boards = []
 
         # Create this many boards
-        for y in range(0, 1): # change this back to 10 later
+        for y in range(0, 20): # change this back to 10 later
             # Create the board
             initial = board(boardDimension)
             # Add mines to the board
@@ -57,15 +57,15 @@ def plotting():
         for currBoard in boards:
             # Basic agent
             result, mineHits = search(finalBoard, boardDimension)
-            basicScore = mines - mineHits
-            basicAgentScore += basicScore
+            percent = ((mines-mineHits) / mines)*100
+            basicAgentScore += percent
             # Advanced agent
             #result, mineHits = advSearch(finalBoard, boardDimension)
             #advScore = mines - mineHits
             #advAgentScore += advScore
 
         #put averages to be plotted here
-        basicAgentScoreAvg = basicAgentScore/1 # change to divide by 10
+        basicAgentScoreAvg = basicAgentScore/(20*100) #Change according to board amount here
         basicAgentAvgList.append(basicAgentScoreAvg)
         #advAgentScoreAvg = advAgentScore/10
         #advAgentAvgList.append(advAgentScoreAvg)
