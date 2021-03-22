@@ -786,6 +786,284 @@ def constraintsCheck(boardLen, board):
 
     return constraints
 
+
+def advHiddenScan(board, dim):
+
+    hidden = False
+
+    hiddenList = []
+
+    boardLen = dim
+
+    for i in range(boardLen):
+
+        for j in range(boardLen):
+        
+            if i == 0 and j == 0:
+
+                # E
+                if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i,j+1))
+                    hidden = True
+
+                # S     
+                if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i+1,j))
+                    hidden = True
+
+                # SE
+                if board[i+1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i+1,j+1))
+                    hidden = True
+
+            elif i == boardLen-1 and j == 0:
+
+                # N
+                if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i-1,j))
+                    hidden = True
+
+                # NE
+                if board[i-1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i-1,j+1))
+                    hidden = True
+
+                # E
+                if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i,j+1))
+                    hidden = True
+
+            elif i == 0 and j == boardLen-1:
+
+                # W
+                if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i,j-1))
+                    hidden = True
+
+                # SW
+                if board[i+1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i+1,j-1))
+                    hidden = True
+
+                # S
+                if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i+1,j))
+                    hidden = True
+
+            elif i == boardLen-1 and j == boardLen-1:
+
+                # NW
+                if board[i-1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i-1,j-1))
+                    hidden = True
+
+                # N
+                if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i-1,j))
+                    hidden = True
+
+                # W
+                if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i,j-1))
+                    hidden = True
+
+            elif i == 0 and j != 0 and j != boardLen-1:
+
+                # W
+                if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i,j-1))
+                    hidden = True
+
+                # E
+                if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i,j+1))
+                    hidden = True
+
+                # SW
+                if board[i+1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i+1,j-1))
+                    hidden = True
+
+                # S
+                if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i+1,j))
+                    hidden = True
+
+                # SE
+                if board[i+1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i+1,j+1))
+                    hidden = True
+
+            elif i != 0 and i != boardLen-1 and j == 0:
+
+                # N
+                if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i-1,j))
+                    hidden = True
+
+                # NE
+                if board[i-1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i-1,j+1))
+                    hidden = True
+
+                # E
+                if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i,j+1))
+                    hidden = True
+
+                # S
+                if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i+1,j))
+                    hidden = True
+
+                # SE
+                if board[i+1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i+1,j+1))
+                    hidden = True
+
+            elif i != 0 and i != boardLen-1 and j == boardLen-1:
+
+                # NW
+                if board[i-1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i-1,j-1))
+                    hidden = True
+
+                # N
+                if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i-1,j))
+                    hidden = True
+
+                # W
+                if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i,j-1))
+                    hidden = True
+
+                # SW
+                if board[i+1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i+1,j-1))
+                    hidden = True
+
+                # S
+                if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i+1,j))
+                    hidden = True
+
+            elif i == boardLen-1 and j != 0 and j != boardLen-1:
+
+                # NW
+                if board[i-1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i-1,j-1))
+                    hidden = True
+
+                # N
+                if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i-1,j))
+                    hidden = True
+
+                # NE
+                if board[i-1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i-1,j+1))
+                    hidden = True
+
+                # W
+                if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i,j-1))
+                    hidden = True
+
+                # E
+                if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i,j+1))
+                    hidden = True
+
+            else:   
+                    
+                # NW
+                if board[i-1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i-1,j-1))
+                    hidden = True
+
+                # N
+                if board[i-1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i-1,j))
+                    hidden = True
+
+                # NE
+                if board[i-1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i-1,j+1))
+                    hidden = True
+
+                # W
+                if board[i,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i,j-1))
+                    hidden = True
+
+                # E
+                if board[i, j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i,j+1))
+                    hidden = True
+
+                # SW
+                if board[i+1,j-1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i+1,j-1))
+                    hidden = True
+
+                # S
+                if board[i+1,j] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i+1,j))
+                    hidden = True
+                
+                # SE
+                if board[i+1,j+1] == '-' and (board[i,j] == 1 or board[i,j] == 2 or board[i,j] == 3 or board[i,j] == 4 
+                    or board[i,j] == 5 or board[i,j] == 6 or board[i,j] == 7 or board[i,j] == 8):
+                    hiddenList.append((i+1,j+1))
+                    hidden = True
+
+    for k in list(hiddenList):
+        if not hiddenList[k]:
+            del hiddenList[k]
+
+    return hidden, hiddenList
+
+
 # Surrounding mine function which counts the number of mines a hint already has
 def surroundingMines(board, tuple):
 
