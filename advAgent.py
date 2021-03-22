@@ -1196,6 +1196,8 @@ def advSearch(minesweeper, dim):
                         if result[i,j] == 0:
                             #print((i, j))
                             result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
+            
+        printAdvBoard(result)
                             
         copyboard = result
 
@@ -1205,6 +1207,8 @@ def advSearch(minesweeper, dim):
                 result = mineSweep(result, dim)
 
                 result = safeSweep(result, minesweeper, dim)
+
+                printAdvBoard(result)
 
                 if result[i,j] == 0:
 
@@ -1218,7 +1222,10 @@ def advSearch(minesweeper, dim):
 
                                     #print((i, j))
                                     result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
-           
+
+                    printAdvBoard(result)
+
+        printAdvBoard(result)
                                     
         boardChange = True
 
@@ -1247,11 +1254,16 @@ def advSearch(minesweeper, dim):
 
             result = equationIterate(eqs, result, minesweeper)
 
+            printAdvBoard(result)
+
             result = checks(result, minesweeper, dim)
+
+            printAdvBoard(result)
 
             if oldResult.all() == result.all():
                 boardChange = False
         
+        printAdvBoard(result)
 
         hiddenCells, hidden = hiddenScan(result, dim)
 
