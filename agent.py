@@ -60,8 +60,7 @@ def search(minesweeper, dim):
 
     # Initially sets the random x,y coordinate to reveal.
     # After the initial hit, the next coordinate will always be from unrevealed cells as it updates hidden cell lists.
-    x = random.randint(0,dim-1)
-    y = random.randint(0,dim-1)
+    x, y = 0, 0
     #print(x, y)
 
     # The coordinates of exploded mines taht the agent hit.
@@ -87,7 +86,7 @@ def search(minesweeper, dim):
             printBoard(result)
 
         # If the agent hits 0, expand until it encounters either the border or a non-zero number.
-        elif hint == 0:
+        elif int(hint) == 0:
 
             print("Safe cell 0 clicked, exposing adjacent 0 cells.")
             print('\nBefore exposing:')
@@ -162,7 +161,7 @@ def search(minesweeper, dim):
         # If there are no more hidden cells, then break out.
         hiddenCells, hidden = hiddenScan(result, dim)
         if hiddenCells == True:
-            randomCell = random.choice(hidden)
+            randomCell = hidden[0]
             x = randomCell[0]
             y = randomCell[1]
 

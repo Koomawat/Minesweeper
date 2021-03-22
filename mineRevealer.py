@@ -5,9 +5,9 @@ def mineSweep(board, boardLen):
 
     for i in range(boardLen):
         for j in range(boardLen):
-            if str(board[i,j]).isnumeric() and 1 <= board[i,j] <= 8:
+            if str(board[i,j]).isnumeric() and 1 <= int(board[i,j]) <= 8:
 
-                numberHint = board[i,j]
+                numberHint = int(board[i,j])
 
                 if i == 0 and j == 0:
 
@@ -178,7 +178,7 @@ def topEdge(i,j, board, hint):
         if str(board[a, b]).lower() == 'm':
             mineCount += 1
 
-    if (hint - mineCount) == hiddenCount:
+    if (int(hint) - mineCount) == hiddenCount:
         for i in range(len(hiddenTuples)):
             x = hiddenTuples[i][0]
             y = hiddenTuples[i][1]

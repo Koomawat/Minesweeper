@@ -918,6 +918,8 @@ def equationIterate(equations, result, answers):
 
 # Advanced search function that does the basic checks first then calls the inferences functions
 def advSearch(minesweeper, dim):
+
+    loopNum = 0
     
     # Fill in cells as unknown
     result = board(dim)
@@ -926,8 +928,7 @@ def advSearch(minesweeper, dim):
             result[i,j] = '-'
 
     # Getting a starter random cell to start the game
-    x = random.randint(0,dim-1)
-    y = random.randint(0,dim-1)
+    x, y = 0, 0
     #print(x, y)
 
     # Keeping track of when the agent hits a mine 
@@ -1063,16 +1064,18 @@ def advSearch(minesweeper, dim):
             hiddenCells, hidden = hiddenScan(result, dim)
 
         if hiddenCells == True:
-            randomCell = random.choice(hidden)
+            randomCell = hidden[0]
             x = randomCell[0]
             y = randomCell[1]
 
         print('Updated before click: ')
         printAdvBoard(result)
+        loopNum += 1
         print('******************************************************')
         print('******************************************************')
         print('******************************************************')
 
+    print('Loop Num: ' + str(loopNum))
     print("Agent hit mines at: ", mineHitList)
     print("Total mines clicked: " + str(len(mineHitList)))
 

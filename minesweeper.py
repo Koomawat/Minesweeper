@@ -17,20 +17,29 @@ def main():
         print("Mine limit exceeded")
         exit()
     minesweeper = minePlacer(mines, initial)
-
     # printBoard(minesweeper)
 
-    minesweeperHints = hintsCalculator(minesweeper)
 
+
+    minesweeperHints = hintsCalculator(minesweeper)
     # printBoard(minesweeperHints)
     printAdvBoard(minesweeperHints)
 
-    # result, mineHits = search(minesweeperHints, boardDimension)
-    result, mineHits = advSearch(minesweeperHints, boardDimension)
 
-    print('result: ')
-    # printBoard(result)
-    printAdvBoard(result)
+
+    basicResult, mineHits = search(minesweeperHints, boardDimension)
+
+    print('*\n*\n*\n')
+
+    advResult, mineHits = advSearch(minesweeperHints, boardDimension)
+
+    print('Basic result: ')
+    printBoard(basicResult)
+
+    print('*\n*\n*\n')
+
+    print('Advanced result: ')
+    printAdvBoard(advResult)
     print()
 
     # M,m = mineScan(result, boardDimension)

@@ -5,9 +5,9 @@ def safeSweep(board, minesweeper, boardLen):
 
     for i in range(boardLen):
         for j in range(boardLen):
-            if str(board[i,j]).isnumeric() and 1 <= board[i,j] <= 8:
+            if str(board[i,j]).isnumeric() and 1 <= int(board[i,j]) <= 8:
 
-                numberHint = board[i,j]
+                numberHint = int(board[i,j])
 
                 if i == 0 and j == 0:
 
