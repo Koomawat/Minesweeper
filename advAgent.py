@@ -943,21 +943,21 @@ def advSearch(minesweeper, dim):
 
         # Adding the click to our knowledge base
         result[x,y] = minesweeper[x,y]
-        print(f"Clicked on cell\t\tx: {str(y)},\ty: {str(x)},\thint: {str(hint)}")
+        # print(f"Clicked on cell\t\tx: {str(y)},\ty: {str(x)},\thint: {str(hint)}")
 
         # If the cell we clicked on was a mine we update our knowledge base
         if hint == 'M':
-            print("******CLICKED A MINE******")
+            # print("******CLICKED A MINE******")
             result[x,y] = 'm'
             mineHitList.append((x,y))
-            printAdvBoard(result)
+            # printAdvBoard(result)
 
         # If the clicked cell was a 0 cell we expose the surrounding safe cells
         elif hint == 0:
 
-            print("Safe cell 0 clicked, exposing adjacent 0 cells.")
-            print('\nBefore exposing:')
-            printAdvBoard(result)
+            # print("Safe cell 0 clicked, exposing adjacent 0 cells.")
+            # print('\nBefore exposing:')
+            # printAdvBoard(result)
 
             # If we can expand on adjacent 0's, expand as much as possible
             moreSafe = True
@@ -969,10 +969,10 @@ def advSearch(minesweeper, dim):
                             # Calling exposeSafe function to add those safe cells to the knowledge base
                             result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
                             
-            print('\nAfter exposing:')
-            printBoard(result)
+            # print('\nAfter exposing:')
+            # printBoard(result)
         
-        print('=======================================================')
+        # print('=======================================================')
 
         # Loop through to reveal mines/safe cells and expand only if there is a zero cell revealed on the board:
         if checkIfValueExists(result, 0):
@@ -994,8 +994,8 @@ def advSearch(minesweeper, dim):
                     # Only print the result if there is a difference
                     if not compareBoards(expanded, sweeped):
                         print()
-                        print('After sweeps: ')
-                        printAdvBoard(sweeped)
+                        # print('After sweeps: ')
+                        # printAdvBoard(sweeped)
 
                     expanded = result
                     # If the current cell is 0, expand through its adjacent 0's
@@ -1007,17 +1007,17 @@ def advSearch(minesweeper, dim):
                                     if result[i,j] == 0:
                                         #print((i, j))
                                         result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
-                            print('After expansion loops:')
-                            printAdvBoard(result)
+                            # print('After expansion loops:')
+                            # printAdvBoard(result)
 
                     # Only print hte result if there is a difference
                     if not compareBoards(expanded, sweeped):
                         print()
-                        print('After expansion:')
-                        printAdvBoard(result)
+                        # print('After expansion:')
+                        # printAdvBoard(result)
         
-        print('Before board changes:')
-        printAdvBoard(result)
+        # print('Before board changes:')
+        # printAdvBoard(result)
                                     
         boardChange = True
         # Looping through our equations and going through inferences until no more inferences are possible and we need a random cell click in the remaining cells
@@ -1052,8 +1052,8 @@ def advSearch(minesweeper, dim):
             if oldResult.all() != result.all():
                 boardChange = True
 
-        print('After board changes:')
-        printAdvBoard(result)
+        # print('After board changes:')
+        # printAdvBoard(result)
         
         # Scanning for remaining hidden cells to click our next random cell
         hiddenCells, hidden = advHiddenScan(result, dim)
@@ -1065,13 +1065,13 @@ def advSearch(minesweeper, dim):
             x = randomCell[0]
             y = randomCell[1]
 
-        print('Updated before click: ')
-        printAdvBoard(result)
-        print('******************************************************')
-        print('******************************************************')
-        print('******************************************************')
+    #     print('Updated before click: ')
+    #     printAdvBoard(result)
+    #     print('******************************************************')
+    #     print('******************************************************')
+    #     print('******************************************************')
 
-    print("Agent hit mines at: ", mineHitList)
-    print("Total mines clicked: " + str(len(mineHitList)))
+    # print("Agent hit mines at: ", mineHitList)
+    # print("Total mines clicked: " + str(len(mineHitList)))
 
     return result, len(mineHitList)
