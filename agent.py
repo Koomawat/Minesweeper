@@ -44,39 +44,13 @@ def printBoard(board):
         print(row)
     print()
 
-
     return 
 
-def hiddenScan(board, dim):
 
-    hidden = False
-
-    hiddenList = []
-
-    for i in range(dim):
-        for j in range(dim):
-            if board[i,j] == '-':
-                hiddenList.append((i,j))
-                hidden = True
-
-    return hidden, hiddenList
-
-def mineScan(board, dim):
-
-    bigM = 0
-    smallM = 0
-
-    for i in range(dim):
-        for j in range(dim):
-            if board[i,j] == 'M':
-                bigM += 1
-            if board[i,j] == 'm':
-                smallM += 1
-
-    return bigM, smallM
-
+# Bsic search function that updates the status as it traverse through the board
 def search(minesweeper, dim):
 
+    # Fill in cells as unknown
     result = board(dim)
     for i in range(dim):
         for j in range(dim):
@@ -89,9 +63,10 @@ def search(minesweeper, dim):
     y = random.randint(0,dim-1)
     #print(x, y)
 
-
+    # The coordinates of exploded mines taht the agent hit.
     mineHitList = []
 
+    # While there are unrevealed cells, repeat until all cells are revealed.
     hiddenCells = True
     while hiddenCells:
         # The x,y coordinates to hit next unrevealed cell is randomly chosen  before looping.
