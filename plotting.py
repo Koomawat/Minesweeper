@@ -5,8 +5,6 @@ from matplotlib import pyplot as plt
 from matplotlib import colors
 from decimal import Decimal
 
-# x = mine density
-# y = average final score
 def main():
     plotting()
     print("End of the program.")
@@ -39,7 +37,7 @@ def plotting():
         boards = []
 
         # Create this many boards
-        for y in range(0, 10): # change this back to 10 later
+        for y in range(0, 10): # change this value based on the amount of boards desired
             # Create the board
             initial = board(boardDimension)
             # Add mines to the board
@@ -51,22 +49,22 @@ def plotting():
         
         # the total score of the agent in the 10 runs
         basicAgentScore, advAgentScore = 0, 0
-        # Since we are calculating for the average final score => 
-        # total up the finalScores and divide by the # of mines * the amount of boards made
-        # now for each maze, run the basic and advanced agents
+        # now for each maze, run the basic and advanced agents and total up their scores
         for currBoard in boards:
-            # Basic agent
+            # Basic agent ##################################################################################################################################################################
             result, mineHits = search(finalBoard, boardDimension)
-            percent = ((mines-mineHits) / mines)*100
-            basicAgentScore += percent
-            # Advanced agent
+            basicScore = ((mines-mineHits) / mines)*100
+            basicAgentScore += basicScore
+            # Advanced agent ###############################################################################################################################################################
             result, mineHits = advSearch(finalBoard, boardDimension)
             advScore = ((mines - mineHits) / mines)*100
             advAgentScore += advScore
 
         #put averages to be plotted here
+        # Basic Agent
         basicAgentScoreAvg = basicAgentScore/(len(boards)) #Change according to board amount here
         basicAgentAvgList.append(basicAgentScoreAvg)
+        # Advanced Agent
         advAgentScoreAvg = advAgentScore/(len(boards))
         advAgentAvgList.append(advAgentScoreAvg)
 
@@ -74,8 +72,9 @@ def plotting():
     plt.plot(mineDensity, basicAgentAvgList, label = "Basic Agent")
     plt.plot(mineDensity, advAgentAvgList, label = "Advanced Agent")
 
+    # Axis labeling and other plot display features
     plt.xlabel('Mine Density')
-    plt.ylabel('Average Final Score')
+    plt.ylabel('Average Final Score (Percent)')
     plt.title(f"Basic and Advanced Agent Final Score Comparisons\n Board size: {boardDimension} x {boardDimension}")
     plt.legend(loc = "upper right")
     plt.show()            
