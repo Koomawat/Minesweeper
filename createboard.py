@@ -1,158 +1,6 @@
 import numpy as np
 import random
 
-# The following functions search nearby neighbours based on the location of the selected cell to create the clue/hint #
-def topLeft(i,j, board):
-
-    tempHint = 0
-
-    topLeftCoords = [(1,1), (1,0), (0,1)]
-                    #  SE,    S,     E
-
-    for x,y in topLeftCoords:
-        a, b = i, j # reset to original i,j
-        a += x
-        b += y
-        if str(board[a, b]).lower() == 'm':
-            tempHint += 1
-
-    return tempHint
-
-
-def topRight(i,j, board):
-
-    tempHint = 0
-
-    topRightCoords = [(1,-1), (1,0), (0,-1)]
-                    #   SW,     S,      W
-
-    for x,y in topRightCoords:
-        a, b = i, j # reset to original i,j
-        a += x
-        b += y
-        if str(board[a, b]).lower() == 'm':
-            tempHint += 1
-
-    return tempHint
-
-
-def botLeft(i,j, board):
-
-    tempHint = 0
-
-    botLeftCoords = [(-1,1), (-1,0), (0,1)]
-                    #   NE,     N,      E
-
-    for x,y in botLeftCoords:
-        a, b = i, j # reset to original i,j
-        a += x
-        b += y
-        if str(board[a, b]).lower() == 'm':
-            tempHint += 1
-
-    return tempHint
-
-
-def botRight(i,j, board):
-
-    tempHint = 0
-
-    botRightCoords = [(-1,-1), (-1,0), (0,-1)]
-                    #    NW,      N,      W
-
-    for x,y in botRightCoords:
-        a, b = i, j # reset to original i,j
-        a += x
-        b += y
-        if str(board[a, b]).lower() == 'm':
-            tempHint += 1
-
-    return tempHint
-
-
-def topEdge(i,j, board):
-
-    tempHint = 0
-
-    topEdgeCoords = [(0,-1), (0,1), (1,0), (1,-1), (1,1)]
-                    #   W,     E,     S,     SW,    SE
-
-    for x,y in topEdgeCoords:
-        a, b = i, j # reset to original i,j
-        a += x
-        b += y
-        if str(board[a, b]).lower() == 'm':
-            tempHint += 1
-
-    return tempHint
-    
-
-def leftEdge(i,j, board):
-
-    tempHint = 0
-
-    leftEdgeCoords = [(0,1), (1,0), (1,1), (-1,0), (-1,1)]
-                    #   E,     S,    SE,      N      NE
-
-    for x,y in leftEdgeCoords:
-        a, b = i, j # reset to original i,j
-        a += x
-        b += y
-        if str(board[a, b]).lower() == 'm':
-            tempHint += 1
-
-    return tempHint
-
-
-def rightEdge(i,j, board):
-
-    tempHint = 0
-
-    rightEdgeCoords = [(0,-1), (1,0), (1,-1), (-1,0), (-1,-1)]
-                    #   W,      S,     SW,      N,      NW
-    
-    for x,y in rightEdgeCoords:
-        a, b = i, j # reset to original i,j
-        a += x
-        b += y
-        if str(board[a, b]).lower() == 'm':
-            tempHint += 1
-
-    return tempHint
-
-
-def botEdge(i,j, board):
-
-    tempHint = 0
-
-    botEdgeCoords = [(0,-1), (-1,1), (0,1), (-1,0), (-1,-1)]
-                    #   W,     NE,     E,     N,      NW
-
-    for x,y in botEdgeCoords:
-        a, b = i, j # reset to original i,j
-        a += x
-        b += y
-        if str(board[a, b]).lower() == 'm':
-            tempHint += 1
-
-    return tempHint
-
-
-def middle(i,j, board):
-
-    tempHint = 0
-
-    midCoords = [(0,-1), (-1,1), (0,1), (-1,0), (-1,-1), (1,0), (1,-1), (1,1)]
-
-    for x,y in midCoords:
-        a, b = i, j # reset to original i,j
-        a += x
-        b += y
-        if str(board[a, b]).lower() == 'm':
-            tempHint += 1
-
-    return tempHint
-
 ###############################################################
 
 def board(dim):
@@ -220,4 +68,13 @@ def hintsCalculator(board):
                 boardCopy[i,j] = tempHint
     
     return boardCopy
-                    
+
+# Returns true if all elements in both numpy arrays are equal
+def compareBoards(original, result):
+    originalConvert = np.where(original == 'm', 'M', original)
+    resultConvert = np.where(result == 'm', 'M', result)
+    if (originalConvert == resultConvert).all():
+        return True
+    else:
+        return False
+
