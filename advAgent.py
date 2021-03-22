@@ -1,3 +1,4 @@
+from agent import printBoard
 from createboard import *
 from mineRevealer import *
 from safeHiddenRevealer import *
@@ -5,6 +6,7 @@ import random
 from more_termcolor.colors import brightred, brightgreen, brightyellow, brightblue, brightmagenta, brightcyan
 import copy
 
+# Printing function to print out the minesweeper board on the terminal
 def printAdvBoard(board):
     n = len(board)
     print(" "*(len(str(n))+1), end='')
@@ -46,7 +48,7 @@ def printAdvBoard(board):
 
     return 
 
-
+# Scanning function to find location of hidden cells, used for the next random move call
 def hiddenScan(board, dim): 
     
     hidden = False
@@ -61,7 +63,7 @@ def hiddenScan(board, dim):
 
     return hidden, hiddenList
 
-
+# Scanning function to scan known mine locations and get a mine count
 def mineScan(board, dim):
 
     bigM = 0
@@ -76,7 +78,7 @@ def mineScan(board, dim):
 
     return bigM, smallM
 
-
+# Safe check function that sees if theres a safe cell next to hidden cell, if so a True is returned so we know to expose those safe cells
 def safeCheck(boardLen, board):
 
     moreSafe = False
@@ -224,7 +226,7 @@ def safeCheck(boardLen, board):
 
     return moreSafe
 
-
+# Exposes top left safe cells
 def topLeft(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
@@ -248,7 +250,7 @@ def topLeft(i,j, board, minesweeper, boardLen):
 
     return board, moreSafe
 
-
+# Exposes top right safe cells
 def topRight(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
@@ -272,7 +274,7 @@ def topRight(i,j, board, minesweeper, boardLen):
 
     return board, moreSafe
 
-
+# Exposes bottom left safe cells
 def botLeft(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
@@ -296,7 +298,7 @@ def botLeft(i,j, board, minesweeper, boardLen):
 
     return board, moreSafe
 
-
+# Exposes bottom right safe cells
 def botRight(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
@@ -320,7 +322,7 @@ def botRight(i,j, board, minesweeper, boardLen):
 
     return board, moreSafe
 
-
+# Exposes top edge safe cells
 def topEdge(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
@@ -354,7 +356,7 @@ def topEdge(i,j, board, minesweeper, boardLen):
 
     return board, moreSafe
     
-
+# Exposes left edge safe cells
 def leftEdge(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
@@ -388,7 +390,7 @@ def leftEdge(i,j, board, minesweeper, boardLen):
 
     return board, moreSafe
 
-
+# Exposes right edge safe cells
 def rightEdge(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
@@ -422,7 +424,7 @@ def rightEdge(i,j, board, minesweeper, boardLen):
 
     return board, moreSafe
 
-
+# Exposes bottom edge safe cells
 def botEdge(i,j, board, minesweeper, boardLen):
 
     moreSafe = False
@@ -456,7 +458,7 @@ def botEdge(i,j, board, minesweeper, boardLen):
 
     return board, moreSafe
 
-
+# Exposes safe cells found in the middle (not a corner or edge)
 def middle(i,j, board, minesweeper, boardLen):
     
     moreSafe = False
@@ -505,7 +507,7 @@ def middle(i,j, board, minesweeper, boardLen):
 
     return board, moreSafe
 
-
+# Function that calls the relevant board location function to expose safe cells 
 def exposeSafe(i,j, result, minesweeper, dim):
 
     boardCopy = result
@@ -553,7 +555,7 @@ def exposeSafe(i,j, result, minesweeper, dim):
 
     return boardCopy, moreSafe
 
-
+# Constraints function which appends hidden neighbors of hints next to a hidden cell 
 def constraintsCheck(boardLen, board):
 
     constraints = {(i,j) :
@@ -784,41 +786,7 @@ def constraintsCheck(boardLen, board):
 
     return constraints
 
-
-def permuteConstraints(numList):
-
-    permutationsList = []
-        
-    def dfsBacktrack(currPermutation, elems):
-
-        elemLen = len(elems)
-
-        if elemLen == 0:
-            permutationsList.append(currPermutation[:]) 
-
-        # Only unique permutations
-        unique = list(set(elems))
-
-        for number in unique:
-                
-            currPermutation.append(number)
-
-            nextElem = elems[:]
-
-            nextElem.remove(number)
-                
-            #backtracking
-            dfsBacktrack(currPermutation, nextElem)
-
-            currPermutation.pop()
-                
-                
-    dfsBacktrack( [], numList) 
-
-
-    return permutationsList
-
-
+# Surrounding mine function which counts the number of mines a hint already has
 def surroundingMines(board, tuple):
 
     count = 0
@@ -1008,7 +976,7 @@ def surroundingMines(board, tuple):
 
     return count
 
-
+# Checks function that calls the basic agent's neighbor calculations to get information to add to the knowledge base and exposing safe cells if needed
 def checks(result, answers, dim):
 
     for i in range(dim):
@@ -1033,6 +1001,7 @@ def checks(result, answers, dim):
 
     return result
 
+# Constraints calculator function which take in each hint's neighbors as values and creates a formula equal to the number of remaining mines of that hint
 def guessCheck(boardCopy, constraints):
 
     consLen = len(constraints)
@@ -1040,6 +1009,8 @@ def guessCheck(boardCopy, constraints):
     equations = []
 
     for i in range(consLen):
+
+        # Placing the constraints in a list and then appending them with the relevant hint into a list of tuples e.g. [(variable, hint), (variable2, hint2)...]
 
         constraintKey = list(constraints.keys())[i]
 
@@ -1061,25 +1032,33 @@ def guessCheck(boardCopy, constraints):
 
     return equations
 
-
+# Function to get the difference between 2 lists
 def listDifference(l1, l2):
     
     return (list(list(set(l1) - set(l2)) + list(set(l2) - set (l1))))
 
-
+# Equation iterator to go through every equation and make inferences with the given equations
 def equationIterate(equations, result, answers):
 
     eqLen = len(equations)
 
+    # Safe tuple list that will be used for the actual knowledge base
     safeTuplesList = []
 
     madeChanges = True
 
+    # Looping until no more inferences can be made
     while madeChanges == True:
 
-        pastResult = result
+        pastResult = copy.deepcopy(result)
+
+        #print("past")
+        #printBoard(pastResult)
+
     #if 1 == 1:
         #print("looping")
+        
+        madeChanges = False
 
 
         for i in range(eqLen):
@@ -1088,20 +1067,24 @@ def equationIterate(equations, result, answers):
 
                 listDiff = []
 
+                # If an equation is only 1 length it means it's either a mine or safe which is determined by the hint it has
                 if len(equations[i][0]) == 1:
 
+                    # Hint of 1 means a mine
                     if equations[i][1] == 1:
 
                         result[equations[i][0][0]] = 'M'
 
                         safeTuplesList.append((equations[i][0][0],1))
 
+                    # Hint of 0 means safe
                     elif equations[i][1] == 0:   
 
                         result[equations[i][0][0]] = answers[equations[i][0][0]]
 
                         safeTuplesList.append((equations[i][0][0],0))
 
+                # Avoiding comparing an equation with it self
                 if i != j:
 
                     primaryList = equations[i][0]
@@ -1109,52 +1092,68 @@ def equationIterate(equations, result, answers):
                     comparedList = equations[j][0]
                     comparedHint = equations[j][1]
 
+                    # Getting the list difference between the current equation and the equation being compared
                     listDiff = listDifference(primaryList, comparedList)
 
+                # If the difference is 1 we can assume based on the hint it's either a mine or safe
                 if len(listDiff) == 1:
                         
+                        # Hint difference of 0 means the variable not present in both equations is a safe cell tuple
                         if primaryHint - comparedHint == 0:
                             
                             result[listDiff[0]] = answers[listDiff[0]]
 
                             safeTuplesList.append((listDiff[0],0))
 
-
+                        # Hint difference of 1 means the variable that was not present must be a mine
                         if primaryHint - comparedHint == 1:
 
                             result[listDiff[0]] = 'M'
 
                             safeTuplesList.append((listDiff[0],1))
-                            
 
+        tempList = []
+        #print(safeTuplesList)
+
+        # Looping through our safe tuples list and changing our previous equations by removing the safe ones
         for i in range(eqLen):
 
                 for j in range(len(safeTuplesList)):
 
-                    truth = safeTuplesList[j][0][0] in equations[i][0]
+                    tuple1 = safeTuplesList[j][0]
+                    tupleList = equations[i][0]
+
+                    truth = str(tuple1) in str(tupleList)
 
                     if truth == True:
-
+                        
                         newHint = equations[i][1] - safeTuplesList[j][1]
 
-                        newList = equations[i][0].remove(safeTuplesList[j][0])
+                        newList = equations[i][0]
+                        newList.remove(safeTuplesList[j][0])
 
+                        # Updating the equation with the safe variables subtracted which leaves us with new equations to re-iterate through
                         equations[i] = (newList, newHint)
+                        #print(equations[i])
 
+        #print(equations)
         
-        if (pastResult.all() == result.all()):
-            madeChanges = False
-        else:
+        # If there were changes made we loop through the inference process again, if not we continue in our advanced search
+        if (pastResult.all() != result.all()):
             madeChanges = True
+
+        #print("madeChange = ", madeChanges)
+        #print("new")
+        #printBoard(result)
 
     return result
 
-
+# Advanced search function that does the basic checks first then calls the inferences functions
 def advSearch(minesweeper, dim):
     
     result = board(dim)
 
-    # fill in cells as unknown
+    # Fill in cells as unknown
     for i in range(dim):
         for j in range(dim):
             result[i,j] = '-'
@@ -1162,29 +1161,34 @@ def advSearch(minesweeper, dim):
 
     hiddenCells = True
 
+    # Getting a starter random cell to start the game
     x = random.randint(0,dim-1)
     y = random.randint(0,dim-1)
 
+    # Keeping track of when the agent hits a mine 
     mineHitList = []
 
     #print(x, y)
 
     while (hiddenCells is True):
-    #if 1 == 1:
 
+        # Storing the click as a hint
         hint = minesweeper[x,y]
 
         #print()
         #print("Clicked on cell - ", 'x: ' + str(y), 'y: ' + str(x), 'hint: ' + str(hint))
 
+        # Adding the click to our knowledge base
         result[x,y] = minesweeper[x,y]
 
+        # If the cell we clicked on was a mine we update our knowledge base
         if hint == 'M':
             #print("******CLICKED A MINE******")
             result[x,y] = 'm'
             mineHitList.append((x,y))
             #print('Agent knowledge updated!\n')
 
+        # If the clicked cell was a 0 cell we expose the surrounding safe cells
         if hint == 0:
 
             moreSafe = True
@@ -1195,6 +1199,7 @@ def advSearch(minesweeper, dim):
                     for j in range(dim):
                         if result[i,j] == 0:
                             #print((i, j))
+                            # Calling exposeSafe function to add those safe cells to the knowledge base
                             result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
                             
         copyboard = result
@@ -1202,6 +1207,7 @@ def advSearch(minesweeper, dim):
         for i in range(dim):
             for j in range(dim):
 
+                # Calling mineSweep and safeSweep (basic agent checks of guaranteed mines or safe cells)
                 result = mineSweep(result, dim)
 
                 result = safeSweep(result, minesweeper, dim)
@@ -1222,8 +1228,10 @@ def advSearch(minesweeper, dim):
                                     
         boardChange = True
 
-        
+        # Looping through our equations and going through inferences until no more inferences are possible and we need a random cell click in the remaining cells
         while(boardChange == True):
+
+            boardChange = False
 
             consDict = constraintsCheck(dim, result)
 
@@ -1243,16 +1251,17 @@ def advSearch(minesweeper, dim):
             #print(eqs)
             #print()
 
-            oldResult = result
+            oldResult = copy.deepcopy(result)
 
             result = equationIterate(eqs, result, minesweeper)
 
             result = checks(result, minesweeper, dim)
 
-            if oldResult.all() == result.all():
-                boardChange = False
+            # Keeping track of the old state of the board so we know to keep looping this process until board changes are no longer made
+            if oldResult.all() != result.all():
+                boardChange = True
         
-
+        # Scanning for remaining hidden cells to click our next random cell
         hiddenCells, hidden = hiddenScan(result, dim)
 
         if hiddenCells == True:
@@ -1266,7 +1275,7 @@ def advSearch(minesweeper, dim):
         #print()
         #printAdvBoard(result)
 
-    print("Agent hit mines at: ", mineHitList)
-    print("Total mines clicked: " + str(len(mineHitList)))
+    #print("Agent hit mines at: ", mineHitList)
+    #print("Total mines clicked: " + str(len(mineHitList)))
 
     return result, len(mineHitList)
