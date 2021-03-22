@@ -75,7 +75,6 @@ def mineScan(board, dim):
 
     return bigM, smallM
 
-
 def search(minesweeper, dim):
 
     result = board(dim)
@@ -102,21 +101,21 @@ def search(minesweeper, dim):
 
         # Reveal the content on the board
         result[x,y] = minesweeper[x,y]
-        print(f"Clicked on cell\t\tx: {str(y)},\ty: {str(x)},\thint: {str(hint)}")
+        # print(f"Clicked on cell\t\tx: {str(y)},\ty: {str(x)},\thint: {str(hint)}")
 
         # If the agent hit the unrevealed mine, update exploded mine list
         if hint == 'M':
-            print("******CLICKED A MINE******")
+            # print("******CLICKED A MINE******")
             result[x,y] = 'm'
             mineHitList.append((x,y))
-            printBoard(result)
+            # printBoard(result)
 
         # If the agent hits 0, expand until it encounters either the border or a non-zero number.
         elif hint == 0:
 
-            print("Safe cell 0 clicked, exposing adjacent 0 cells.")
-            print('\nBefore exposing:')
-            printBoard(result)
+            # print("Safe cell 0 clicked, exposing adjacent 0 cells.")
+            # print('\nBefore exposing:')
+            # printBoard(result)
 
             # If we can expand on adjacent 0's, expand as much as possible
             moreSafe = True
@@ -127,15 +126,15 @@ def search(minesweeper, dim):
                             #print((i, j))
                             result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
 
-            print('\nAfter exposing:')
-            printBoard(result)
+            # print('\nAfter exposing:')
+            # printBoard(result)
 
             # Flag potential mines                
             result = mineSweep(result, dim)
             # Show neighbors around the mines
             result = safeSweep(result, minesweeper, dim)
 
-        print('=======================================================')
+        # print('=======================================================')
 
         # Loop through to reveal mines/safe cells and expand only if there is a zero cell revealed on the board:
         if checkIfValueExists(result, 0):
@@ -156,8 +155,9 @@ def search(minesweeper, dim):
 
                     # Only print the result if there is a difference
                     if not compareBoards(expanded, sweeped):
-                        print('After sweeps: ')
-                        printBoard(sweeped)
+                        print()
+                        # print('After sweeps: ')
+                        # printBoard(sweeped)
 
                     expanded = result
                     # If the current cell is 0, expand through its adjacent 0's
@@ -174,13 +174,14 @@ def search(minesweeper, dim):
                                         expanded, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
                                         result = expanded
 
-                            print('After expansion loops:')
-                            printBoard(result)
+                            # print('After expansion loops:')
+                            # printBoard(result)
 
                     # Only print hte result if there is a difference
                     if not compareBoards(expanded, sweeped):
-                        print('After expansion:')
-                        printBoard(result)
+                        print()
+                        # print('After expansion:')
+                        # printBoard(result)
 
         # Check to see if there are hidden cells still remaining to reveal
         # If there are no more hidden cells, then break out.
@@ -190,13 +191,13 @@ def search(minesweeper, dim):
             x = randomCell[0]
             y = randomCell[1]
 
-        print('Updated before click: ')
-        printBoard(result)
-        print('******************************************************')
-        print('******************************************************')
-        print('******************************************************')
+        # print('Updated before click: ')
+        # printBoard(result)
+        # print('******************************************************')
+        # print('******************************************************')
+        # print('******************************************************')
 
-    print("Agent hit mines at: ", mineHitList)
-    print("Total mines clicked: " + str(len(mineHitList)))
+    # print("Agent hit mines at: ", mineHitList)
+    # print("Total mines clicked: " + str(len(mineHitList)))
 
     return result, len(mineHitList)
