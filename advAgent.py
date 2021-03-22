@@ -77,483 +77,6 @@ def mineScan(board, dim):
     return bigM, smallM
 
 
-def safeCheck(boardLen, board):
-
-    moreSafe = False
-
-    for i in range(boardLen):
-        for j in range(boardLen):
-
-            if i == 0 and j == 0:
-
-                #if board[i+1,j+1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-                    
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-            elif i == boardLen-1 and j == 0:
-
-                #if board[i-1,j+1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-            elif i == 0 and j == boardLen-1:
-
-                #if board[i+1,j-1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-            elif i == boardLen-1 and j == boardLen-1:
-
-                #if board[i-1,j-1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-            elif i == 0 and j != 0 and j != boardLen-1:
-
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                #if board[i+1,j-1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                #if board[i+1,j+1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-            elif i != 0 and i != boardLen-1 and j == 0:
-
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                #if board[i+1,j+1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                #if board[i-1,j+1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-            elif i != 0 and i != boardLen-1 and j == boardLen-1:
-
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                #if board[i+1,j-1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                #if board[i-1,j-1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-            elif i == boardLen-1 and j != 0 and j != boardLen-1:
-
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                #if board[i-1,j-1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                #if board[i-1,j+1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-            else:   
-                
-                if board[i-1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                #if board[i-1,j-1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                #if board[i-1,j+1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                if board[i+1,j] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                #if board[i+1,j-1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                #if board[i+1,j+1] == '-' and board[i,j] == 0:
-                    #moreSafe = True
-
-                if board[i,j-1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-                if board[i, j+1] == '-' and board[i,j] == 0:
-                    moreSafe = True
-
-    return moreSafe
-
-
-def topLeft(i,j, board, minesweeper, boardLen):
-
-    moreSafe = False
-
-    # South East
-    board[i+1,j+1] = minesweeper[i+1,j+1]
-    if board[i+1,j+1] == 0:
-        moreSafe = True
-            
-    # South
-    board[i+1,j] = minesweeper[i+1,j]
-    if board[i+1,j] == 0:
-        moreSafe = True
-
-    # East
-    board[i, j+1] = minesweeper[i, j+1]
-    if board[i, j+1] == 0:
-        moreSafe = True
-
-    moreSafe = safeCheck(boardLen, board)
-
-    return board, moreSafe
-
-
-def topRight(i,j, board, minesweeper, boardLen):
-
-    moreSafe = False
-
-    # South West 
-    board[i+1,j-1] = minesweeper[i+1,j-1]
-    if board[i+1,j-1] == 0:
-        moreSafe = True
-
-    # South
-    board[i+1, j] = minesweeper[i+1, j]
-    if board[i+1,j] == 0:
-        moreSafe = True
-
-    # West
-    board[i,j-1] = minesweeper[i,j-1]
-    if board[i,j-1] == 0:
-        moreSafe = True
-
-    moreSafe = safeCheck(boardLen, board)
-
-    return board, moreSafe
-
-
-def botLeft(i,j, board, minesweeper, boardLen):
-
-    moreSafe = False
-
-    # North East
-    board[i-1,j+1] = minesweeper[i-1,j+1]
-    if board[i-1,j+1] == 0:
-        moreSafe = True
-
-    # North
-    board[i-1,j] = minesweeper[i-1,j]
-    if board[i-1,j] == 0:
-        moreSafe = True
-
-    # East
-    board[i, j+1] = minesweeper[i, j+1]
-    if board[i, j+1] == 0:
-        moreSafe = True
-
-    moreSafe = safeCheck(boardLen, board)
-
-    return board, moreSafe
-
-
-def botRight(i,j, board, minesweeper, boardLen):
-
-    moreSafe = False
-
-    # North West 
-    board[i-1,j-1] = minesweeper[i-1,j-1]
-    if board[i-1,j-1] == 0:
-        moreSafe = True
-
-    # North
-    board[i-1, j] = minesweeper[i-1, j]
-    if board[i-1,j] == 0:
-        moreSafe = True
-
-    # West
-    board[i,j-1] = minesweeper[i,j-1]
-    if board[i,j-1] == 0:
-        moreSafe = True
-
-    moreSafe = safeCheck(boardLen, board)
-
-    return board, moreSafe
-
-
-def topEdge(i,j, board, minesweeper, boardLen):
-
-    moreSafe = False
-
-    # West
-    board[i,j-1] = minesweeper[i,j-1]
-    if board[i,j-1] == 0:
-        moreSafe = True
-
-    # East
-    board[i, j+1] = minesweeper[i, j+1]
-    if board[i, j+1] == 0:
-        moreSafe = True
-
-    # South
-    board[i+1, j] = minesweeper[i+1, j]
-    if board[i+1,j] == 0:
-        moreSafe = True
-
-    # South West 
-    board[i+1,j-1] = minesweeper[i+1,j-1]
-    if board[i+1,j-1] == 0:
-        moreSafe = True
-
-    # South East
-    board[i+1,j+1] = minesweeper[i+1,j+1]
-    if board[i+1,j+1] == 0:
-        moreSafe = True
-
-    moreSafe = safeCheck(boardLen, board)
-
-    return board, moreSafe
-    
-
-def leftEdge(i,j, board, minesweeper, boardLen):
-
-    moreSafe = False
-
-    # East
-    board[i, j+1] = minesweeper[i, j+1]
-    if board[i, j+1] == 0:
-        moreSafe = True
-
-    # South
-    board[i+1, j] = minesweeper[i+1, j]
-    if board[i+1,j] == 0:
-        moreSafe = True
-
-    # South East
-    board[i+1,j+1] = minesweeper[i+1,j+1]
-    if board[i+1,j+1] == 0:
-        moreSafe = True
-
-    # North
-    board[i-1, j] = minesweeper[i-1, j]
-    if board[i-1,j] == 0:
-        moreSafe = True
-
-    # North East
-    board[i-1,j+1] = minesweeper[i-1,j+1]
-    if board[i-1,j+1] == 0:
-        moreSafe = True
-
-    moreSafe = safeCheck(boardLen, board)
-
-    return board, moreSafe
-
-
-def rightEdge(i,j, board, minesweeper, boardLen):
-
-    moreSafe = False
-
-    # West
-    board[i,j-1] = minesweeper[i,j-1]
-    if board[i,j-1] == 0:
-        moreSafe = True
-
-    # South
-    board[i+1, j] = minesweeper[i+1, j]
-    if board[i+1,j] == 0:
-        moreSafe = True
-
-    # South West 
-    board[i+1,j-1] = minesweeper[i+1,j-1]
-    if board[i+1,j-1] == 0:
-        moreSafe = True
-
-    # North
-    board[i-1, j] = minesweeper[i-1, j]
-    if board[i-1,j] == 0:
-        moreSafe = True
-
-    # North West 
-    board[i-1,j-1] = minesweeper[i-1,j-1]
-    if board[i-1,j-1] == 0:
-        moreSafe = True
-
-    moreSafe = safeCheck(boardLen, board)
-
-    return board, moreSafe
-
-
-def botEdge(i,j, board, minesweeper, boardLen):
-
-    moreSafe = False
-
-    # North
-    board[i-1, j] = minesweeper[i-1, j]
-    if board[i-1,j] == 0:
-        moreSafe = True
-
-    # North West 
-    board[i-1,j-1] = minesweeper[i-1,j-1]
-    if board[i-1,j-1] == 0:
-        moreSafe = True
-    
-    # North East
-    board[i-1,j+1] = minesweeper[i-1,j+1]
-    if board[i-1,j+1] == 0:
-        moreSafe = True
-
-    # West
-    board[i,j-1] = minesweeper[i,j-1]
-    if board[i,j-1] == 0:
-        moreSafe = True
-
-    # East
-    board[i, j+1] = minesweeper[i, j+1]
-    if board[i, j+1] == 0:
-        moreSafe = True
-
-    moreSafe = safeCheck(boardLen, board)
-
-    return board, moreSafe
-
-
-def middle(i,j, board, minesweeper, boardLen):
-    
-    moreSafe = False
-
-    # North
-    board[i-1, j] = minesweeper[i-1, j]
-    if board[i-1,j] == 0:
-        moreSafe = True
-
-    # North West 
-    board[i-1,j-1] = minesweeper[i-1,j-1]
-    if board[i-1,j-1] == 0:
-        moreSafe = True
-
-    # North East
-    board[i-1,j+1] = minesweeper[i-1,j+1]
-    if board[i-1,j+1] == 0:
-        moreSafe = True
-
-    # South
-    board[i+1, j] = minesweeper[i+1, j]
-    if board[i+1,j] == 0:
-        moreSafe = True
-
-    # South West 
-    board[i+1,j-1] = minesweeper[i+1,j-1]
-    if board[i+1,j-1] == 0:
-        moreSafe = True
-
-    # South East
-    board[i+1,j+1] = minesweeper[i+1,j+1]
-    if board[i+1,j+1] == 0:
-        moreSafe = True
-
-    # West
-    board[i,j-1] = minesweeper[i,j-1]
-    if board[i,j-1] == 0:
-        moreSafe = True
-
-    # East
-    board[i, j+1] = minesweeper[i, j+1]
-    if board[i, j+1] == 0:
-        moreSafe = True
-
-    moreSafe = safeCheck(boardLen, board)
-
-    return board, moreSafe
-
-
-def exposeSafe(i,j, result, minesweeper, dim):
-
-    boardCopy = result
-
-    compare = minesweeper
-
-    boardLen = dim
-
-    moreSafe = True
-
-    if i == 0 and j == 0:
-
-        boardCopy, moreSafe = topLeft(i,j, boardCopy, minesweeper, boardLen)
-
-    elif i == boardLen-1 and j == 0:
-
-        boardCopy, moreSafe = botLeft(i,j, boardCopy, minesweeper, boardLen)
-
-    elif i == 0 and j == boardLen-1:
-
-        boardCopy, moreSafe = topRight(i,j, boardCopy, minesweeper, boardLen)
-
-    elif i == boardLen-1 and j == boardLen-1:
-
-        boardCopy, moreSafe = botRight(i,j, boardCopy, minesweeper, boardLen)
-
-    elif i == 0 and j != 0 and j != boardLen-1:
-
-        boardCopy, moreSafe = topEdge(i,j, boardCopy, minesweeper, boardLen)
-
-    elif i != 0 and i != boardLen-1 and j == 0:
-
-        boardCopy, moreSafe = leftEdge(i,j, boardCopy, minesweeper, boardLen)
-
-    elif i != 0 and i != boardLen-1 and j == boardLen-1:
-
-        boardCopy, moreSafe = rightEdge(i,j, boardCopy, minesweeper, boardLen)
-
-    elif i == boardLen-1 and j != 0 and j != boardLen-1:
-
-        boardCopy, moreSafe = botEdge(i,j, boardCopy, minesweeper, boardLen)
-
-    else:   
-        boardCopy, moreSafe = middle(i,j, boardCopy, minesweeper, boardLen)
-
-    return boardCopy, moreSafe
-
-
 def constraintsCheck(boardLen, board):
 
     constraints = {(i,j) :
@@ -1073,30 +596,79 @@ def equationIterate(equations, result, answers):
 
     safeTuplesList = []
 
-    for i in range(eqLen):
+    madeChanges = True
 
-        for j in range(eqLen):
+    while madeChanges == True:
 
-            if i != j:
+        pastResult = result
+    #if 1 == 1:
+        #print("looping")
 
-                primaryList = equations[i][0]
-                primaryHint = equations[i][1]
-                comparedList = equations[j][0]
-                comparedHint = equations[j][1]
 
-                listDiff = listDifference(primaryList, comparedList)
+        for i in range(eqLen):
+
+            for j in range(eqLen):
+
+                listDiff = []
+
+                if len(equations[i][0]) == 1:
+
+                    if equations[i][1] == 1:
+
+                        result[equations[i][0][0]] = 'M'
+
+                        safeTuplesList.append((equations[i][0][0],1))
+
+                    elif equations[i][1] == 0:   
+
+                        result[equations[i][0][0]] = answers[equations[i][0][0]]
+
+                        safeTuplesList.append((equations[i][0][0],0))
+
+                if i != j:
+
+                    primaryList = equations[i][0]
+                    primaryHint = equations[i][1]
+                    comparedList = equations[j][0]
+                    comparedHint = equations[j][1]
+
+                    listDiff = listDifference(primaryList, comparedList)
 
                 if len(listDiff) == 1:
-                    
-                    if primaryHint - comparedHint == 0:
                         
-                        result[listDiff[0]] = answers[listDiff[0]]
+                        if primaryHint - comparedHint == 0:
+                            
+                            result[listDiff[0]] = answers[listDiff[0]]
 
-                    if primaryHint - comparedHint == 1:
+                            safeTuplesList.append((listDiff[0],0))
 
-                        result[listDiff[0]] = 'M'
 
-    
+                        if primaryHint - comparedHint == 1:
+
+                            result[listDiff[0]] = 'M'
+
+                            safeTuplesList.append((listDiff[0],1))
+                            
+
+        for i in range(eqLen):
+
+                for j in range(len(safeTuplesList)):
+
+                    truth = safeTuplesList[j][0][0] in equations[i][0]
+
+                    if truth == True:
+
+                        newHint = equations[i][1] - safeTuplesList[j][1]
+
+                        newList = equations[i][0].remove(safeTuplesList[j][0])
+
+                        equations[i] = (newList, newHint)
+
+        
+        if (pastResult.all() == result.all()):
+            madeChanges = False
+        else:
+            madeChanges = True
 
     return result
 
@@ -1120,42 +692,50 @@ def advSearch(minesweeper, dim):
 
     #print(x, y)
 
-    while (hiddenCells is True):
-    #if 1 == 1:
+    hiddenCells = True
+    while hiddenCells:
+        # The x,y coordinates to hit next unrevealed cell is randomly chosen  before looping.
 
+        # The content that the agent clicked on
         hint = minesweeper[x,y]
 
-        print()
-        print("Clicked on cell - ", 'x: ' + str(y), 'y: ' + str(x), 'hint: ' + str(hint))
-
+        # Reveal the content on the board
         result[x,y] = minesweeper[x,y]
+        print(f"Clicked on cell\t\tx: {str(y)},\ty: {str(x)},\thint: {str(hint)}")
 
+        # If the agent hit the unrevealed mine, update exploded mine list
         if hint == 'M':
             print("******CLICKED A MINE******")
             result[x,y] = 'm'
             mineHitList.append((x,y))
-            print('Agent knowledge updated!\n')
+            printAdvBoard(result)
 
-        if hint == 0:
+        # If the agent hits 0, expand until it encounters either the border or a non-zero number.
+        elif hint == 0:
+
+            print("Safe cell 0 clicked, exposing adjacent 0 cells.")
+            print('\nBefore exposing:')
+            printAdvBoard(result)
 
             moreSafe = True
-
-            while(moreSafe == True):
-                
+            while moreSafe:
                 for i in range(dim):
                     for j in range(dim):
                         if result[i,j] == 0:
-                            #print((i, j))
                             result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
+            
+            print('\nAfter exposing:')
+            printAdvBoard(result)
                             
-        copyboard = result
-
+        print('=======================================================')
         for i in range(dim):
             for j in range(dim):
 
                 result = mineSweep(result, dim)
 
                 result = safeSweep(result, minesweeper, dim)
+
+                printAdvBoard(result)
 
                 if result[i,j] == 0:
 
@@ -1169,9 +749,14 @@ def advSearch(minesweeper, dim):
 
                                     #print((i, j))
                                     result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
+
+                    printAdvBoard(result)
+
+        printAdvBoard(result)
                                     
         boardChange = True
 
+        
         while(boardChange == True):
 
             consDict = constraintsCheck(dim, result)
@@ -1196,11 +781,16 @@ def advSearch(minesweeper, dim):
 
             result = equationIterate(eqs, result, minesweeper)
 
+            printAdvBoard(result)
+
             result = checks(result, minesweeper, dim)
+
+            printAdvBoard(result)
 
             if oldResult.all() == result.all():
                 boardChange = False
-
+        
+        printAdvBoard(result)
 
         hiddenCells, hidden = hiddenScan(result, dim)
 
@@ -1212,8 +802,8 @@ def advSearch(minesweeper, dim):
             y = randomCell[1]
 
 
-        print()
-        printAdvBoard(result)
+        #print()
+        #printAdvBoard(result)
 
     print("Agent hit mines at: ", mineHitList)
     print("Total mines clicked: " + str(len(mineHitList)))
