@@ -3,7 +3,7 @@
 from createboard import *
 from mineRevealer import *
 from safeHiddenRevealer import *
-import random
+import random, copy
 from more_termcolor.colors import brightred, brightgreen, brightyellow, brightblue, brightmagenta, brightcyan
 
 def printBoard(board):
@@ -46,91 +46,13 @@ def printBoard(board):
         print(row)
     print()
 
-
     return 
 
-def hiddenScan(board, dim):
 
-    hidden = False
-
-    hiddenList = []
-
-    for i in range(dim):
-        for j in range(dim):
-            if board[i,j] == '-':
-                hiddenList.append((i,j))
-                hidden = True
-
-    return hidden, hiddenList
-
-def mineScan(board, dim):
-
-    bigM = 0
-    smallM = 0
-
-    for i in range(dim):
-        for j in range(dim):
-            if board[i,j] == 'M':
-                bigM += 1
-            if board[i,j] == 'm':
-                smallM += 1
-
-    return bigM, smallM
-
-
-# def safeCheck(boardLen, board):
-
-#     surroundingCoords = [(x,y) for x in range(-1,2) 
-#                             for y in range(-1,2)]
-#         # creates coordinates to add onto x,y coordinates:
-#         # [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 0), (0, 1), (1, -1), (1, 0), (1, 1)]
-
-
-#     for i in range(boardLen):
-#         for j in range(boardLen):
-
-#             if str(board[i,j]) != '0':
-#                 continue
-                
-#             for x, y in surroundingCoords:
-#                 a, b = i, j # reset to next iteration of i, j
-#                 a += x
-#                 b += y
-
-#                 if (a < 0) or (boardLen <= a) or (b < 0) or (boardLen <= b):
-#                     continue
-#                 if (abs(x) == 1) and (abs(y) == 1):
-#                     continue
-
-#                 if board[a,b] == '-':
-#                     return True
-
-# def exposeSafe(i,j, boardCopy, minesweeper, boardLen):
-
-#     moreSafe = True
-
-#     surroundingCoords = [(x,y) for x in range(-1,2) 
-#                             for y in range(-1,2)]
-#         # creates coordinates to add onto x,y coordinates:
-#         # [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 0), (0, 1), (1, -1), (1, 0), (1, 1)]
-#     # if (0,0) in surroundingCoords:
-#     #     surroundingCoords.remove((0,0))
-
-#     for x, y in surroundingCoords:
-#         a, b = i, j # reset to next iteration of i, j
-#         a += x
-#         b += y
-
-#         if (a < 0) or (boardLen <= a) or (b < 0) or (boardLen <= b):
-#             continue
-
-#         boardCopy[a,b] = minesweeper[a,b]
-#         moreSafe = safeCheck(boardLen, boardCopy)
-
-#     return boardCopy, moreSafe
-
+# Bsic search function that updates the status as it traverse through the board
 def search(minesweeper, dim):
 
+    # Fill in cells as unknown
     result = board(dim)
     for i in range(dim):
         for j in range(dim):
@@ -142,8 +64,10 @@ def search(minesweeper, dim):
     y = random.randint(0,dim-1)
     #print(x, y)
 
+    # The coordinates of exploded mines taht the agent hit.
     mineHitList = []
 
+    # While there are unrevealed cells, repeat until all cells are revealed.
     hiddenCells = True
     while hiddenCells:
         # The x,y coordinates to hit next unrevealed cell is randomly chosen  before looping.
@@ -157,7 +81,7 @@ def search(minesweeper, dim):
 
         # If the agent hit the unrevealed mine, update exploded mine list
         if hint == 'M':
-            print("******CLICKED A MINE******\n")
+            print("******CLICKED A MINE******")
             result[x,y] = 'm'
             mineHitList.append((x,y))
             printBoard(result)
@@ -169,6 +93,7 @@ def search(minesweeper, dim):
             print('\nBefore exposing:')
             printBoard(result)
 
+            # If we can expand on adjacent 0's, expand as much as possible
             moreSafe = True
             while moreSafe:
                 for i in range(dim):
@@ -179,177 +104,73 @@ def search(minesweeper, dim):
             print('\nAfter exposing:')
             printBoard(result)
 
+            # Flag potential mines                
+            result = mineSweep(result, dim)
+            # Show neighbors around the mines
+            result = safeSweep(result, minesweeper, dim)
+
         print('=======================================================')
 
-        sweeped, mineSweeped, expanded, before, after = None, None, None, result, None    
-        afterExpandedSame = False
-        # Update neighboring cells, expand as needed.
-        # moreSafe = result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
-        # while moreSafe:
-        for i in range(dim):
-            for j in range(dim):
+        # Loop through to reveal mines/safe cells and expand only if there is a zero cell revealed on the board:
+        if checkIfValueExists(result, 0):
+            for i in range(dim):
+                for j in range(dim):
 
-                hiddenCells, hidden = hiddenScan(result, dim)
-                if not hiddenCells:
-                    break
+                    # If there are no more hidden cells, then break out.
+                    hiddenCells, hidden = hiddenScan(result, dim)
+                    if not hiddenCells:
+                        break
 
-                if result[i,j] == 0:
+                    # To be compared with previously expanded board and to-be-sweeped board of it
+                    expanded = copy.deepcopy(result)
 
-                    # print(i,j)
+                    # For each cell, reveal mines and safe cells around them
+                    result = mineSweep(result, dim)
+                    result = sweeped = safeSweep(result, minesweeper, dim)
 
-                    print('---------------------------------------------')
+                    # Only print the result if there is a difference
+                    if not compareBoards(expanded, sweeped):
+                        print()
+                        print('After sweeps: ')
+                        printBoard(sweeped)
 
-                    sameResult = compareBoards(before, after)
-                    if sameResult and afterExpandedSame:
-                        print('Before and after two sweeps are same')
-                        # printBoard(result)
-                        continue
+                    expanded = result
+                    # If the current cell is 0, expand through its adjacent 0's
+                    if result[i,j] == 0:
+                        result = mineSweep(result, dim)
+                        result = sweeped = safeSweep(result, minesweeper, dim)
+                        result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
 
-                    mineSweeped = mineSweep(result, dim)
-                    print('\nMine sweeped:')
-                    printBoard(mineSweeped)
+                        # If we can expand on the adjacent 0's more, expand as much as possible
+                        while moreSafe:
+                            for i in range(dim):
+                                for j in range(dim):
+                                    if result[i,j] == 0:
+                                        expanded, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
+                                        result = expanded
 
-                    before = safeSweep(mineSweeped, minesweeper, dim)
-                    after = safeSweep(before, minesweeper, dim)
-                    print('\nSafe sweeped:')
-                    printBoard(after)
+                            print('After expansion loops:')
+                            printBoard(result)
 
-                    
-                    
-                    result = expanded = after
-                    
-
-                    sameResult = compareBoards(before, after)
-                    if sameResult and afterExpandedSame:
-                        print('Before and after two sweeps are same')
+                    # Only print hte result if there is a difference
+                    if not compareBoards(expanded, sweeped):
+                        print()
+                        print('After expansion:')
                         printBoard(result)
-                        result = sweeped = expanded = after
-                        continue
-                    else:
-                        while sameResult is False:
 
-                            hiddenCells, hidden = hiddenScan(result, dim)
-                            if not hiddenCells:
-                                break
-
-                            print('---------------------------------------------')
-
-                            mineSweeped = mineSweep(after, dim)
-                            print('\nMine sweeped again:')
-                            printBoard(mineSweeped)
-
-                            before = safeSweep(mineSweeped, minesweeper, dim)
-                            # print('\nSafe sweeped again before:')
-                            # printBoard(before)
-
-                            after = safeSweep(before, minesweeper, dim)
-                            # print('\nSafe sweeped again after:')
-                            # printBoard(after)
-                            # print('---------------------------------------------')
-
-                            sameResult = compareBoards(before, after)
-                            print(sameResult)
-
-                        result = sweeped = expanded = after
-                        print('\nSafe sweeped again final:')
-                        printBoard(after)
-                        print('---------------------------------------------')
-                    
-                    # print('---------------------------------------------')
-                    
-                    sameResult = False
-                    moreSafe = True
-                    while moreSafe:
-
-                        for i in range(dim):
-                            for j in range(dim):
-
-                                if result[i,j] == 0:
-                                    after = expanded
-                                    expanded, moreSafe = exposeSafe(i,j, after, minesweeper, dim)
-                                    
-                                    hiddenCells, hidden = hiddenScan(result, dim)
-                                    if not hiddenCells:
-                                        break
-
-                                    # if expanded is not None:
-                                    #     afterExpandedSame = compareBoards(expanded, after)
-                                    #     if afterExpandedSame:
-                                    #         print('the after is same as previous expanded')
-                                    #         printBoard(expanded)
-                                    #         printBoard(after)
-                                    #         break
-                            
-                        #     if afterExpandedSame:
-                        #         break
-
-                        # if afterExpandedSame:
-                        #     break
-                
-
-                    result = expanded
-                    
-                    if expanded is not None:
-                        afterExpandedSame = compareBoards(expanded, after)
-                        if afterExpandedSame:
-                            print('the after is same as previous expanded2')
-                            printBoard(expanded)
-                            break
-
-                    
-                    sameResult = compareBoards(expanded, after)
-                    if sameResult:
-                        print("Tried to expand 0's, but no improvement could be made.")
-                        printBoard(expanded)
-                        print('---------------------------------------------')
-                        result = expanded
-                        continue
-                    
-                    else:
-                        print("Expanded: ")
-                        printBoard(expanded)
-                        result = expanded 
-                        continue
-
-                    
-                sweepedSame = compareBoards(expanded, sweeped)
-                if sweepedSame and expanded is not None:
-                    print('expanded and sweeped same')
-                    print('---------------------------------------------')
-                    # printBoard(expanded)
-                    break
-            
-            if sweepedSame:
-                continue
-
-            if afterExpandedSame:
-                continue
-            # if sameResult and expanded is not None:
-            #     break
-                # expanded, moreSafe = exposeSafe(i,j, sweeped, minesweeper, dim)
-                # sameResult = compareBoards(sweeped, expanded)
-                # if sameResult:
-                #     break
-        # if sweepedSame:
-        #     break
-
-                    
-                    
-        
-
-        
-        # print('\bExpanded:')
-        # printBoard(result)
-
-
+        # Check to see if there are hidden cells still remaining to reveal
+        # If there are no more hidden cells, then break out.
         hiddenCells, hidden = hiddenScan(result, dim)
         if hiddenCells == True:
             randomCell = random.choice(hidden)
             x = randomCell[0]
             y = randomCell[1]
 
-        # print('Before looping:')
-        # printBoard(result)
+        print('Updated before click: ')
+        printBoard(result)
+        print('******************************************************')
+        print('******************************************************')
+        print('******************************************************')
 
     print("Agent hit mines at: ", mineHitList)
     print("Total mines clicked: " + str(len(mineHitList)))
