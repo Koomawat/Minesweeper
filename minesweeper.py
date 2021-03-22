@@ -22,15 +22,15 @@ def main():
 
     minesweeperHints = hintsCalculator(minesweeper)
 
-    printBoard(minesweeperHints)
-    # printAdvBoard(minesweeperHints)
+    # printBoard(minesweeperHints)
+    printAdvBoard(minesweeperHints)
 
-    result, mineHits = search(minesweeperHints, boardDimension)
-    # result, mineHits = advSearch(minesweeperHints, boardDimension)
+    # result, mineHits = search(minesweeperHints, boardDimension)
+    result, mineHits = advSearch(minesweeperHints, boardDimension)
 
     print('result: ')
-    printBoard(result)
-    # printAdvBoard(result)
+    # printBoard(result)
+    printAdvBoard(result)
     print()
 
     # M,m = mineScan(result, boardDimension)
