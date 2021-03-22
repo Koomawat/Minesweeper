@@ -786,7 +786,7 @@ def constraintsCheck(boardLen, board):
 
     return constraints
 
-
+# Advanced hidden scan selection that chooses a random cell next to hints instead of completely randomly
 def advHiddenScan(board, dim):
 
     hidden = False
@@ -1057,12 +1057,9 @@ def advHiddenScan(board, dim):
                     hiddenList.append((i+1,j+1))
                     hidden = True
 
-    for k in list(hiddenList):
-        if not hiddenList[k]:
-            del hiddenList[k]
+    
 
     return hidden, hiddenList
-
 
 # Surrounding mine function which counts the number of mines a hint already has
 def surroundingMines(board, tuple):
@@ -1479,8 +1476,6 @@ def advSearch(minesweeper, dim):
                             #print((i, j))
                             # Calling exposeSafe function to add those safe cells to the knowledge base
                             result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
-            
-        printAdvBoard(result)
                             
         copyboard = result
 
@@ -1491,8 +1486,6 @@ def advSearch(minesweeper, dim):
                 result = mineSweep(result, dim)
 
                 result = safeSweep(result, minesweeper, dim)
-
-                printAdvBoard(result)
 
                 if result[i,j] == 0:
 
@@ -1506,10 +1499,7 @@ def advSearch(minesweeper, dim):
 
                                     #print((i, j))
                                     result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
-
-                    printAdvBoard(result)
-
-        printAdvBoard(result)
+           
                                     
         boardChange = True
 
@@ -1540,8 +1530,6 @@ def advSearch(minesweeper, dim):
 
             result = equationIterate(eqs, result, minesweeper)
 
-            printAdvBoard(result)
-
             result = checks(result, minesweeper, dim)
 
             # Keeping track of the old state of the board so we know to keep looping this process until board changes are no longer made
@@ -1549,7 +1537,11 @@ def advSearch(minesweeper, dim):
                 boardChange = True
         
         # Scanning for remaining hidden cells to click our next random cell
-        hiddenCells, hidden = hiddenScan(result, dim)
+
+        hiddenCells, hidden = advHiddenScan(result, dim)
+        if hiddenCells == False:
+            hiddenCells, hidden = hiddenScan(result, dim)
+
 
         if hiddenCells == True:
 
