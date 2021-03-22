@@ -97,7 +97,7 @@ def search(minesweeper, dim):
             while moreSafe:
                 for i in range(dim):
                     for j in range(dim):
-                        if result[i,j] == 0:
+                        if str(result[i,j]).isnumeric() and int(result[i,j]) == 0:
                             result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
 
             print('\nAfter exposing:')
