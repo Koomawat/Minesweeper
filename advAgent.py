@@ -954,7 +954,7 @@ def advSearch(minesweeper, dim):
             printAdvBoard(result)
 
         # If the clicked cell was a 0 cell we expose the surrounding safe cells
-        elif hint == 0:
+        elif int(hint) == 0:
 
             print("Safe cell 0 clicked, exposing adjacent 0 cells.")
             print('\nBefore exposing:')
@@ -965,7 +965,7 @@ def advSearch(minesweeper, dim):
             while(moreSafe == True):
                 for i in range(dim):
                     for j in range(dim):
-                        if result[i,j] == 0:
+                        if str(result[i,j]).isnumeric() and int(result[i,j]) == 0:
                             #print((i, j))
                             # Calling exposeSafe function to add those safe cells to the knowledge base
                             result, moreSafe = exposeSafe(i,j, result, minesweeper, dim)
@@ -1058,10 +1058,10 @@ def advSearch(minesweeper, dim):
         print('After board changes:')
         printAdvBoard(result)
         
-        # Scanning for remaining hidden cells to click our next random cell
-        hiddenCells, hidden = advHiddenScan(result, dim)
-        if hiddenCells == False:
-            hiddenCells, hidden = hiddenScan(result, dim)
+        # Scanning for remaining hidden cells to click our next random cell (Improved adv agent stuff)
+        # hiddenCells, hidden = advHiddenScan(result, dim)
+        # if hiddenCells == False:
+        hiddenCells, hidden = hiddenScan(result, dim)
 
         if hiddenCells == True:
             randomCell = hidden[0]

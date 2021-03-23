@@ -6,23 +6,25 @@ from advAgent import *
 
 def main():
 
+    print()
     board = theBoard()
     board = np.array(board)
+    printBoard(board)
 
-    basicResult, mineHits = search(board, len(board))
+    # basicResult, mineHits = search(board, len(board))
 
-    print('*\n*\n*\n')
+    # print('*\n*\n*\n')
 
-    advResult, mineHits = advSearch(board, len(board))
+    # advResult, mineHits = advSearch(board, len(board))
 
-    print('Basic result: ')
-    printBoard(basicResult)
+    # print('Basic result: ')
+    # printBoard(basicResult)
 
-    print('*\n*\n*\n')
+    # print('*\n*\n*\n')
 
-    print('Advanced result: ')
-    printAdvBoard(advResult)
-    print()
+    # print('Advanced result: ')
+    # printAdvBoard(advResult)
+    # print()
 
 
 
@@ -65,7 +67,14 @@ def theBoard():
             [0,   1, 'M', 1, 2,   'M', 2, 0, 0, 0]
         ]
     
-    return daBoard
+    rep = [
+        ['-',   'm', 'M', '-'],
+        [0,   1, 2, '-'],
+        [3,   4, 5, '-'],
+        [6,   7, 8, '-']
+    ]
+
+    return rep
     
 
 def decisionTest():
